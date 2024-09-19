@@ -30,9 +30,11 @@ let sunY = 70;
 let sunSize = 100;
 
 let sun = {
+  fill: {
     red:255,
     green: 255,
     blue:0,
+  },
     x: 500,
     y: 70,
     size: 100
@@ -64,7 +66,7 @@ function draw() {
 
     // The sun
     push();
-    fill(sun.red, sun.green, sun.blue);
+    fill(sun.fill.red, sun.fill.green, sun.fill.blue);
     noStroke();
     ellipse(sun.x, sun.y, sun.size);
     pop();
