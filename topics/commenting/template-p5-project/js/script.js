@@ -1,24 +1,32 @@
 /**
- * Title of Project
- * Author Name
+ * The Blank Page
+ * Emma Beldick
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * exploration of the existential angst of a novelist
+ * who must sit down at their pink desk and confront the
+ * abyss that is a blank page of paper.
+ * 
+ * the program is non-interactive to convey the inability 
+ * to get started on the project. Try typing! just try it!
  */
 
 "use strict";
 
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * creates the canvas for our masterpiece
 */
 function setup() {
-
+// Create a canvas at a standard resolution
+createCanvas(640,480);
 }
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * draws thw writer's desktop and a blank piece of paper
 */
 function draw() {
-
+// the pink desktop
+background(255,100,100);
+//the blank piece of paper
+rect(200,80,240,320);
 }
