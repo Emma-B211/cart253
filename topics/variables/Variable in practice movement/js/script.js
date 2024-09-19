@@ -1,9 +1,8 @@
 /**
- * Title of Project
- * Author Name
+ * Variable in practice: Movement
+ * Emma Beldick
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * experimenting with movement
  */
 
 "use strict";
