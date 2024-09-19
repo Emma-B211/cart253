@@ -1,6 +1,11 @@
 /**
+<<<<<<< HEAD
  * Title of Project 
  * Author Name
+=======
+ * Lovely Pyramid
+ * Emma Beldick
+>>>>>>> a6b623cdc02babcee86f18db32f6fb69a2b3fc09
  * 
  * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
  * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
@@ -21,11 +26,18 @@ function setup() {
 */
 function draw() {
 background("#0000ff");
+<<<<<<< HEAD
   
   sand();
   pyramid2();
 pyramid();
 
+=======
+
+  sand()
+pyramid()
+pyramid2()
+>>>>>>> a6b623cdc02babcee86f18db32f6fb69a2b3fc09
 }
 
 function sand(){
@@ -44,6 +56,7 @@ function sand(){
 }
 
 function pyramid(){
+<<<<<<< HEAD
   push();
   noStroke();
   fill("#fee12b");
@@ -58,3 +71,18 @@ function pyramid2(){
   triangle(230,375,320,220,386,375);
   pop();
 }
+=======
+    push();
+  noStroke();
+  fill("#fee12b");
+  triangle(175,120,108,230,236,225);
+  pop();
+}
+function pyramid2(){
+    push();
+    noStroke();
+    fill("#ffffc5")
+    triangle(175,120,108,230,145,235);
+    pop();
+}
+>>>>>>> a6b623cdc02babcee86f18db32f6fb69a2b3fc09
