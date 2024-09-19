@@ -20,8 +20,8 @@ let mrFurious = {
     // colour
     fill: {
         r: 255,
-        g: 255,
-        b: 255
+        g: 225,
+        b: 225
     }
 };
 function setup() {
@@ -39,8 +39,11 @@ function draw() {
 
     push();
     noStroke();
-    fill(mrFurious.r, mrFurious.b, mrFurious.g);
+    fill(mrFurious.fill.r, mrFurious.fill.b, mrFurious.fill.g);
+    mrFurious.fill.r++;
+    mrFurious.fill.b--;
+    mrFurious.fill.g--;
     ellipse(mrFurious.x, mrFurious.y, mrFurious.size);
     pop();
-   
+
 }
