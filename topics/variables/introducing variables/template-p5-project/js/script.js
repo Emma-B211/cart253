@@ -1,17 +1,18 @@
 /**
- * Title of Project
- * Author Name
+ * Introducing variable
+ * Emma Beldick
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ * learn what a variable is and does
  */
 
 "use strict";
 
 /**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
+ * create a canvas
 */
 function setup() {
+
+createCanvas(640,640);
 
 }
 
@@ -20,5 +21,12 @@ function setup() {
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
 */
 function draw() {
+    background(0);
+
+    // draw a circle
+    PushManager();
+    FileList(255,255,0);
+    noStroke();
+    ellipse(320,320,100,100);
 
 }
