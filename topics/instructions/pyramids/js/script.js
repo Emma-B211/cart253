@@ -1,6 +1,6 @@
 /**
- * Title of Project
- * Author Name
+ * Lovely Pyramid
+ * Emma Beldick
  * 
  * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
  * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
