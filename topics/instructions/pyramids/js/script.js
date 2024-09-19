@@ -24,9 +24,9 @@ function setup() {
 */
 function draw() {
   background("#0000ff");
-  sand();
-  pyramid2();
+  sand()
   pyramid();
+  pyramid2();
 
 }
 
@@ -46,32 +46,24 @@ function sand() {
 }
 
 function pyramid() {
-
   push();
   noStroke();
   fill("#fee12b");
   triangle(130, 275, 220, 120, 286, 275);
   pop();
 }
-
-function pyramid2() {
-  push();
-  noStroke();
-  fill("#effd5f");
-  triangle(230, 375, 320, 220, 386, 375);
-  pop();
-}
-push();
-noStroke();
-fill("#fee12b");
-triangle(175, 120, 108, 230, 236, 225);
-pop();
-
+// function pyramid() {
+//   push();
+//   noStroke();
+//   fill("#effd5f");
+//   triangle(230, 375, 320, 220, 386, 375);
+//   pop();
+//}
 function pyramid2() {
   push();
   noStroke();
   fill("#ffffc5")
-  triangle(175, 120, 108, 230, 145, 235);
+  triangle(130, 275, 220, 120, 216, 275);
   pop();
 }
 
