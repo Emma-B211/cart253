@@ -1,32 +1,43 @@
 /**
- * The Blank Page
+ * The greatest record of all time
  * Emma Beldick
  * 
- * exploration of the existential angst of a novelist
- * who must sit down at their pink desk and confront the
- * abyss that is a blank page of paper.
- * 
- * the program is non-interactive to convey the inability 
- * to get started on the project. Try typing! just try it!
+ * displays the greatest record of all time
  */
 
 "use strict";
 
 /**
- * creates the canvas for our masterpiece
+ * creates a square canvas
 */
 function setup() {
-// Create a canvas at a standard resolution
-createCanvas(640,480);
+createCanvas(640,640);
 }
 
 
 /**
- * draws thw writer's desktop and a blank piece of paper
+ * displays the record
 */
 function draw() {
-// the pink desktop
-background(255,100,100);
-//the blank piece of paper
-rect(200,80,240,320);
+    // grey background
+background(150,150,150);
+// the main part of the record
+push();
+fill(255,0,0);
+stroke(255);
+ellipse(320,320,480);
+pop();
+// the label of the record
+push();
+fill("white");
+noStroke();
+ellipse(320,320,140,140);
+pop();
+// the hole in the record
+push();
+fill("#000000");
+noStroke();
+ellipse(320,320,140);
+pop();
 }
+
