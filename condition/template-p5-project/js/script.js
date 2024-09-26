@@ -14,10 +14,11 @@ const puck = {
 };
 
 const user = {
-    x: undefined, // will be mouseX
-    y: undefined, // will be mouseY
+    x: 200, // will be mouseX
+    y: 200, // will be mouseY
     size: 75,
-    fill: "000000"
+    fill: "000000",
+    mouseThreshold: 5,
 };
 
 /**
@@ -37,6 +38,8 @@ function draw() {
     // draw the user and pack
     drawUser();
     drawPuck();
+    moveTarget();
+    drawTarget();
 }
 /**
  * sets the user position to the mouse position
@@ -45,6 +48,11 @@ function moveUser() {
     user.x = mouseX;
     user.y = mouseY;
 
+    const mouseMovedDistance = dist(pmouseX, mouseY, mouseX, mouseY);
+    const puckscared = (mouseMovedDistance >= puck.mouseThreshold);
+    if (puckscared) {
+        puck.velocity.y = 200;
+    }
 }
 /**
  * display the user circle
@@ -52,7 +60,7 @@ function moveUser() {
 function drawUser() {
     push();
     noStroke();
-    fill(puck.fill);
+    fill(user.fill);
     ellipse(user.x, user.y, user.size);
     pop();
 }
