@@ -48,7 +48,7 @@ function moveUser() {
     user.x = mouseX;
     user.y = mouseY;
 
-    const mouseMovedDistance = dist(pmouseX, mouseY, mouseX, mouseY);
+    const mouseMovedDistance = dist(mouseX, mouseY, mouseX, mouseY);
     const puckscared = (mouseMovedDistance >= puck.mouseThreshold);
     if (puckscared) {
         puck.velocity.y = 200;
