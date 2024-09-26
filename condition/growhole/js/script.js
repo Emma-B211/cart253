@@ -51,9 +51,9 @@ function growHole() {
  */
 function checkHoleSize() {
     // We can *store* the condition we care about in a variable
-    const holeAtMaximum = (hole.size >= hole.maxSize);
+    const holeIsAtMaximum = (hole.size >= hole.maxSize);
     // This makes the conditional even easier to read!
-    if (holeAtMaximum) {
+    if (holeIsAtMaximum) {
         // Stop the hole's growth! It's big enough!
         hole.growthRate = 0;
     }
