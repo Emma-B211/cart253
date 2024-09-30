@@ -11,23 +11,29 @@
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
-// const cloud = {
+// const sun = {
 //     x: 100,
 //     y: 100,
 //     size: 50,
-//     fills: ("#ffffff")
+//     fills:("#ffff01");
 
 // }
+
+let mouseX = 50
 function setup() {
     createCanvas(600, 600);
+
 }
 
+//let accelerationX = 30
 
 /**
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
 */
 function draw() {
     background(0, 150, 155);
+
+    sun();
     cloud();
     clouds2();
     clouds3();
@@ -108,12 +114,22 @@ function clouds3() {
     push();
     noStroke();
     fill("#d3d3d3");
-    ellipse(400,90,50);
+    ellipse(400, 90, 50);
     pop();
 
     push();
     noStroke();
     fill("#ffffff");
-    ellipse(420,100,50);
+    ellipse(420, 100, 50);
     pop();
 }
+
+function sun() {
+    push();
+    noStroke();
+    fill("#ffff01");
+    ellipse(50, 50, 60);
+    pop();
+}
+
+
