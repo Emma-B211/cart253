@@ -1,10 +1,7 @@
 /**
  * Growing Flower
  * Emma Beldick
- * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
- */
+ 
 
 "use strict";
 
@@ -19,20 +16,27 @@
 
 // }
 
-let mouseX = 50
-function setup() {
-    createCanvas(600, 600);
-
+const flower = {
+    x: 300,
+    y: 250,
+    size: 50,
+    maxSize: 150,
+    growRate: 1
 }
+
+let growFlower =
+
+    //let mouseX
+    function setup() {
+        createCanvas(600, 600);
+
+    }
 
 //let accelerationX = 30
 
-/**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
-*/
+
 function draw() {
     background(0, 150, 155);
-
     sun();
     cloud();
     clouds2();
@@ -40,7 +44,24 @@ function draw() {
     field();
     field2();
     field3();
+    // checkFlowerSize();
+    flower();
+    growFlower();
+    stem();
 }
+// grow the flower code
+function growFlower() {
+    flower.size += flower.growRate;
+}
+
+// function checkFlowerSize() {
+//     const holeIsAtMaximum = (flower.size >= flower.maxSize);
+
+//     if (holeIsAtMaximum) {
+//         // Stop the hole's growth! It's big enough!
+//         flower.growthRate = 0;
+//     }
+// }
 function field() {
     push();
     noStroke()
@@ -123,13 +144,51 @@ function clouds3() {
     ellipse(420, 100, 50);
     pop();
 }
-
+// interactive sun moves on the x axis.
 function sun() {
     push();
     noStroke();
     fill("#ffff01");
-    ellipse(50, 50, 60);
+    ellipse(mouseX, 50, 60);
     pop();
 }
 
 
+// growing flower
+function flower() {
+    push();
+    noStroke();
+    fill("#ff0000");
+    circle(300, 250, flower.size);
+    pop();
+
+}
+
+// stem of the flower
+function stem() {
+    push();
+    noStroke();
+    fill("#06402B");
+    line(30, 20, 85, 75, 20, -10);
+    pop();
+}
+// // grow the flower code
+// function growFlower(); {
+//     flower.size += flower.growRate;
+
+//     // if (sun){
+//     //     growRate = 1;
+//     // } else {
+//     //     stop;
+//     // }
+
+// }
+
+// function checkHoleSize() {
+//     const holeIsAtMaximum = (flower.size >= flower.maxSize);
+
+//     if (holeIsAtMaximum) {
+//         // Stop the hole's growth! It's big enough!
+//         flower.growthRate = 0;
+//     }
+// }
