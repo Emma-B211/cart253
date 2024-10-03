@@ -1,4 +1,4 @@
-# Art Jam
+# Template p5 Project
 
 Emma Beldick
 
