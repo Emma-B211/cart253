@@ -18,6 +18,14 @@ let gameOver = false;
  */
 function setup() {
   createCanvas(400, 400);
+  document.addEventListener("keydown", endGame);
+    document.addEventListener("keyup", endGame);
+    document.addEventListener("mousedown", endGame);
+    document.addEventListener("mouseup", endGame);
+    document.addEventListener("mousemove", endGame);
+    document.addEventListener("wheel", endGame);
+    window.addEventListener("online", endGame);
+    window.addEventListener("offline", endGame);
 }
 
 /**
@@ -60,3 +68,7 @@ function displayScore() {
   text(floor(score), width/2, height/2);
   pop();
 }
+function endGame(){
+    gameOver = true;
+}
+
