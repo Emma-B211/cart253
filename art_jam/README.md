@@ -2,7 +2,7 @@
 
 Emma Beldick
 
-[View this project online](http://127.0.0.1:5500/art_jam/)
+[View this project online](https://emma-b211.github.io/cart253/art_jam/)
 
 ## Description
 
