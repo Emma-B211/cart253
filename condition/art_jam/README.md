@@ -6,7 +6,7 @@ Author Name
 
 ## Description
 
-This description should help the reader understand what the program is, what any controls do, and perhaps what the desired experience it.
+This is a time simulator. The user can interact with the mouse to move the sun along the x and y axis to simulate day turn into night.
 
 ## Credits
 

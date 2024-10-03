@@ -104,7 +104,7 @@ function cloud() {
     ellipse(150, 100, 50);
     pop();
 }
-
+// draw the second cloud
 function clouds2() {
     push();
     noStroke();
@@ -124,7 +124,7 @@ function clouds2() {
     ellipse(290, 100, 50);
     pop()
 }
-
+// draw the third cloud
 function clouds3() {
     push();
     noStroke();
@@ -160,7 +160,7 @@ function flower() {
     ellipse(200, 350, 10);
     pop();
 }
-
+// second flower drawn
 function flower2() {
     push();
     noStroke();
@@ -173,7 +173,7 @@ function flower2() {
     fill("#ffff01");
     ellipse(350, 350, 10)
 }
-
+// third flower drawn
 function flower3() {
     push();
     noStroke();
@@ -187,7 +187,7 @@ function flower3() {
     ellipse(400, 400, 5);
     pop();
 }
-
+// fourth flower drawn
 function flower4() {
     push();
     noStroke();
@@ -201,7 +201,7 @@ function flower4() {
     ellipse(50, 500, 20);
     pop();
 }
-
+// fifth flower drawn
 function flower5() {
     push();
     noStroke();
@@ -215,6 +215,23 @@ function flower5() {
     ellipse(520, 500, 20);
     pop();
 }
+
+// sixth flower drawn
+function flower6(){
+    push();
+    noStroke();
+    fill("#ffffff");
+    ellipse(300,500,50);
+    pop();
+
+    //flower centre
+    push();
+    noStroke();
+    fill("#ffff01");
+    ellipse(300,500,20);
+    pop();
+}
+
 // condition that would change from day to night by moving the sun on the y axis
 function nightTime() {
     if (mouseY < horizon) {
@@ -231,17 +248,3 @@ function nightTime() {
     line(0, horizon, 600, horizon);
 }
 
-function flower6(){
-    push();
-    noStroke();
-    fill("#ffffff");
-    ellipse(300,500,50);
-    pop();
-
-    //flower centre
-    push();
-    noStroke();
-    fill("#ffff01");
-    ellipse(300,500,20);
-    pop();
-}
