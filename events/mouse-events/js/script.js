@@ -17,7 +17,8 @@ const ball = {
     // Velocity so it can move
     velocity: {
         x: 0,
-        y: 0
+        y: 0,
+
     },
     // Speed when it moves
     speed: 5
@@ -37,11 +38,35 @@ function draw() {
     background(0);
 
     // Move the ball
-    ball.x += ball.velocity.x
+    ball.x += ball.velocity.x;
     ball.y += ball.velocity.y;
 
     // Draw the ball
     push();
     ellipse(ball.x, ball.y, ball.size);
     pop();
+}
+/**
+ * starts the ball moving right
+ */
+function mousePressed() {
+    ball.velocity.x = ball.speed;
+}
+/**
+ * stops the ball from moving
+ */
+function mouseReleased() {
+    ball.velocity.x = 0;
+}
+/**
+ * resizes the ball
+ */
+function mouseWheel(event) {
+    if (event.delta > 0) {
+        ball.size += 2;
+    }
+    else {
+        ball.size -= 2;
+    }
+
 }
