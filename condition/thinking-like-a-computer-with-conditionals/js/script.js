@@ -11,7 +11,18 @@
  * Create the canvas
 */
 function setup() {
-    createCanvas(600, 400);
+    createCanvas(500, 500);
+    document.addEventListener("mousedown", makeItPink);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    frameRate(1);
+}
+function handelMouseDown(){
+    mouseIsPressed = true;
+} 
+
+function handleMouseUp(){
+    mouseIsPressed = false;
 }
 
 
@@ -56,4 +67,10 @@ function drawCircle() {
     noStroke();
     ellipse(width * 0.8333, height * 0.5, width * 0.33);
     pop();
+}
+
+function makeItPink(){
+    if (mouseIsPressed){
+        background("pink");
+    }
 }
