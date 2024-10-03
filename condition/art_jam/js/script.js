@@ -1,13 +1,10 @@
 /**
- * Growing Flower
+ * Day to Night
  * Emma Beldick
  
 
 "use strict";
 
-/**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
-*/
 // const sun = {
 //     x: 100,
 //     y: 100,
@@ -16,75 +13,76 @@
 
 // }
 
-const flower = {
-    x: 300,
-    y: 250,
-    size: 50,
-    maxSize: 150,
-    growRate: 1
+// const flower = {
+//     x: 300,
+//     y: 250,
+//     size: 50,
+//     maxSize: 150,
+//     growRate: 1
+// }
+
+// controls
+// move mouse left and right to move the sun
+
+/**
+ * p5.js
+ * https://p5.js.org
+ */
+let sunHeight;
+let horizon = 350;
+let y = mouseY;
+var mouseY;
+//let mouseX
+function setup() {
+    createCanvas(600, 600);
+    sunHeight = mouseY;
+    noCursor;
 }
-
-let growFlower =
-
-    //let mouseX
-    function setup() {
-        createCanvas(600, 600);
-
-    }
 
 //let accelerationX = 30
 
 
 function draw() {
-    background(0, 150, 155);
-    sun();
+    // background("lightblue");
+    nightTime();
+    //sun();
     cloud();
     clouds2();
     clouds3();
     field();
     field2();
     field3();
-    // checkFlowerSize();
     flower();
-    growFlower();
-    stem();
+    flower2();
+    flower3();
+    flower4();
+    flower5();
+    // let y = map(0, mouseY, 100, 0, 50);
 }
-// grow the flower code
-function growFlower() {
-    flower.size += flower.growRate;
-}
-
-// function checkFlowerSize() {
-//     const holeIsAtMaximum = (flower.size >= flower.maxSize);
-
-//     if (holeIsAtMaximum) {
-//         // Stop the hole's growth! It's big enough!
-//         flower.growthRate = 0;
-//     }
-// }
+// draw the field
 function field() {
     push();
     noStroke()
     fill(0, 105, 30);
-    ellipse(500, 500, 400);
+    ellipse(500, 550, 450);
     pop();
 }
 function field2() {
     push();
     noStroke();
     fill(0, 125, 50);
-    ellipse(300, 500, 400);
+    ellipse(300, 550, 450);
     pop();
 }
 function field3() {
     push();
     noStroke();
     fill(0, 105, 30);
-    ellipse(100, 500, 400);
+    ellipse(100, 550, 450);
     pop();
 
 }
-
+// draws the clouds
 function cloud() {
     push();
     noStroke();
@@ -144,51 +142,89 @@ function clouds3() {
     ellipse(420, 100, 50);
     pop();
 }
-// interactive sun moves on the x axis.
-function sun() {
-    push();
-    noStroke();
-    fill("#ffff01");
-    ellipse(mouseX, 50, 60);
-    pop();
-}
 
-
-// growing flower
+//draws the flowers on the field
 function flower() {
     push();
     noStroke();
     fill("#ff0000");
-    circle(300, 250, flower.size);
+    circle(200, 350, 50);
     pop();
 
-}
 
-// stem of the flower
-function stem() {
     push();
     noStroke();
-    fill("#06402B");
-    line(30, 20, 85, 75, 20, -10);
+    fill("#ffff01");
+    ellipse(200, 350, 10);
     pop();
 }
-// // grow the flower code
-// function growFlower(); {
-//     flower.size += flower.growRate;
 
-//     // if (sun){
-//     //     growRate = 1;
-//     // } else {
-//     //     stop;
-//     // }
+function flower2() {
+    push();
+    noStroke();
+    fill("#9F2B68");
+    ellipse(350, 350, 50);
+    pop();
 
-// }
+    push();
+    noStroke();
+    fill("#ffff01");
+    ellipse(350, 350, 10)
+}
 
-// function checkHoleSize() {
-//     const holeIsAtMaximum = (flower.size >= flower.maxSize);
+function flower3() {
+    push();
+    noStroke();
+    fill("#5D3FD3");
+    ellipse(400, 400, 20);
+    pop();
 
-//     if (holeIsAtMaximum) {
-//         // Stop the hole's growth! It's big enough!
-//         flower.growthRate = 0;
-//     }
-// }
+    push();
+    noStroke();
+    fill("#ffff01");
+    ellipse(400, 400, 5);
+    pop();
+}
+
+function flower4() {
+    push();
+    noStroke();
+    fill("#FADBD8");
+    ellipse(50, 500, 35);
+    pop();
+
+    push();
+    noStroke();
+    fill("#ffff01");
+    ellipse(50, 500, 20);
+    pop();
+}
+
+function flower5() {
+    push();
+    noStroke();
+    fill("#F0B27A");
+    ellipse(520, 500, 60);
+    pop();
+
+    push();
+    noStroke();
+    fill("#ffff01")
+    ellipse(520, 500, 20);
+    pop();
+}
+// condition that would change from day to night by moving the sun on the y axis
+function nightTime() {
+    if (mouseY < horizon) {
+        background("lightblue")
+    } else if (mouseY > horizon) {
+        background(0);
+    }
+    // sun
+    fill("#ffff01");
+    circle(300, mouseY, 140);
+
+    //horizon
+    stroke("#06402B");
+    line(0, horizon, 600, horizon);
+}
