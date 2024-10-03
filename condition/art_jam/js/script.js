@@ -5,22 +5,6 @@
 
 "use strict";
 
-// const sun = {
-//     x: 100,
-//     y: 100,
-//     size: 50,
-//     fills:("#ffff01");
-
-// }
-
-// const flower = {
-//     x: 300,
-//     y: 250,
-//     size: 50,
-//     maxSize: 150,
-//     growRate: 1
-// }
-
 // controls
 // move mouse left and right to move the sun
 
@@ -40,11 +24,11 @@ function setup() {
     noCursor;
 }
 
-//let accelerationX = 30
+
 
 
 function draw() {
-    // background("lightblue");
+    //background("lightblue");
     nightTime();
     //sun();
     cloud();
@@ -247,4 +231,3 @@ function nightTime() {
     stroke("#06402B");
     line(0, horizon, 600, horizon);
 }
-
