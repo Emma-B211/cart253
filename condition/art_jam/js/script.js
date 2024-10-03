@@ -30,6 +30,7 @@
  */
 let sunHeight;
 let horizon = 350;
+var mouseX;
 let y = mouseY;
 var mouseY;
 //let mouseX
@@ -58,7 +59,7 @@ function draw() {
     flower4();
     flower5();
     flower6();
-    let n = map(0, mouseY, 100, 0, 255);
+    let n = map(mouseX, mouseY, 100, 0, 255);
 }
 // draw the field
 function field() {
