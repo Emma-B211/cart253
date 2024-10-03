@@ -68,7 +68,7 @@ function drawCircle() {
     ellipse(width * 0.8333, height * 0.5, width * 0.33);
     pop();
 }
-
+// make a background pink when mouse is pressed
 function makeItPink(){
     if (mouseIsPressed){
         background("pink");
