@@ -1,4 +1,4 @@
-# Template p5 Project
+# Art Jam Day to Night
 
 Emma Beldick
 
