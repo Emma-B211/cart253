@@ -1,8 +1,8 @@
-# Template p5 Project
+# Art Jam
 
-Author Name
+Emma Beldick
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online](condition/art_jam/js/script.js)
 
 ## Description
 
