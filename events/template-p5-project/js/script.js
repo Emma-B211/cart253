@@ -1,24 +1,21 @@
-/**
- * Title of Project
- * Author Name
- * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
- */
+const ball = {
+    x:0,
+    y:200,
+    size:50
+};
 
-"use strict";
-
-/**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
-*/
-function setup() {
+function setup(){
+    createCanvas(400,400);
 
 }
 
+function draw(){
+    background(0);
+    ball.x += 1;
 
-/**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
-*/
-function draw() {
-
+    push();
+    noStroke();
+    ellipse(ball.x,ball.y,ball.size);
+    pop();
 }
+
