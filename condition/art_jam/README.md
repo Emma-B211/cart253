@@ -2,7 +2,7 @@
 
 Emma Beldick
 
-[View this project online](condition/art_jam/js/script.js)
+[View this project online](http://127.0.0.1:5500/condition/art_jam/)
 
 ## Description
 
