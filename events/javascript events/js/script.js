@@ -1,9 +1,8 @@
 /**
- * Title of Project
+ * plain javascript events
  * Author Name
  * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ *Experimenting with event handling in Plain Javascript
  */
 
 "use strict";
