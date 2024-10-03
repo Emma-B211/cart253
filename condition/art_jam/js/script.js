@@ -57,6 +57,7 @@ function draw() {
     flower3();
     flower4();
     flower5();
+    flower6();
     // let y = map(0, mouseY, 100, 0, 50);
 }
 // draw the field
@@ -227,4 +228,19 @@ function nightTime() {
     //horizon
     stroke("#06402B");
     line(0, horizon, 600, horizon);
+}
+
+function flower6(){
+    push();
+    noStroke();
+    fill("#ffffff");
+    ellipse(300,500,50);
+    pop();
+
+    //flower centre
+    push();
+    noStroke();
+    fill("#ffff01");
+    ellipse(300,500,20);
+    pop();
 }
