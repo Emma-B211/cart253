@@ -11,18 +11,39 @@
  * 
  * Made with p5
  * https://p5js.org/
+ * 
+ * idea:
+ * add a score
+ *  
+ * plan:
+ * every time you catch a fly a number goes up by 1 (it's a counter)
+ * show the score on the screen as a number (top right corner)
+ * (other ideas: you could lose points for escaped flies, movement, missing)
+ * 
+ * pseudocode:
+ * score = 0
+ * 
+ * if(the frog catches a fly)
+ *      score = score + 1
+ * 
+ * drawScore()
+ *      display the score in the top right corner
+ * 
  */
 
 "use strict";
 
 // Our frog
 const frog = {
+    
     // The frog's body has a position and size
     body: {
         x: 320,
         y: 520,
         size: 150
     },
+   
+    
     // The frog's tongue has a position, size, speed, and state
     tongue: {
         x: undefined,
@@ -31,8 +52,14 @@ const frog = {
         speed: 20,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
-    }
+    },
+   
 };
+ // the current score
+ let score = 0
+
+ // the current state
+let state = "title"; // can be "title" or "game"
 
 // Our fly
 // Has a position, size, and speed of horizontal movement
@@ -52,15 +79,31 @@ function setup() {
     // Give the fly its first random position
     resetFly();
 }
+function draw(){
+    if(state ==="title"){
+        title();
+    }
+    else if (state === "game"){
+        game();
+    }
+}
 
-function draw() {
+function title(){
+background("pink");
+
+text("FrogFrogFrog", 100, 100);
+}
+function game() {
     background("#87ceeb");
     moveFly();
     drawFly();
+    checkTongueFlyOverlap();
     moveFrog();
+    
     moveTongue();
     drawFrog();
-    checkTongueFlyOverlap();
+    
+    drawScore();
 }
 
 /**
@@ -165,6 +208,8 @@ function checkTongueFlyOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size/2 + fly.size/2);
     if (eaten) {
+        // increase the score
+        score = score + 1;
         // Reset the fly
         resetFly();
         // Bring back the tongue
@@ -176,7 +221,33 @@ function checkTongueFlyOverlap() {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-    if (frog.tongue.state === "idle") {
+    if (state === "title"){
+        state = "game";
+    } else if (state === "game"){
+         if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
     }
+   
+    }
+}
+function keyPressed(){
+    state = "title";
+}
+
+function drawScore(){
+    // push();
+    // textAlign(RIGHT,TOP);
+    // textSize(128);
+    // textStyle(BOLD);
+    // fill("#00ff00");
+    // text(score, width,0)
+    // pop();
+
+    //const scoreShade = map(score,0,10,0,255);
+
+    frog.body.size = map(score,0,10,50,500);
+    push();
+    // fill(scoreShade);
+    // rect(100,100,100,100);
+    pop();
 }
