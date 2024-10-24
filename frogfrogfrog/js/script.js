@@ -235,13 +235,13 @@ function keyPressed(){
 }
 
 function drawScore(){
-    // push();
-    // textAlign(RIGHT,TOP);
-    // textSize(128);
-    // textStyle(BOLD);
-    // fill("#00ff00");
-    // text(score, width,0)
-    // pop();
+    push();
+    textAlign(RIGHT,TOP);
+    textSize(128);
+    textStyle(BOLD);
+    fill("#00ff00");
+    text(score, width,0)
+    pop();
 
     //const scoreShade = map(score,0,10,0,255);
 
