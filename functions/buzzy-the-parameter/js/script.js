@@ -14,7 +14,12 @@ let buzzyTheFly = {
     size: 30,
     buzziness: 4
 };
+let horsey = {
+    name:"Horsey",
+    color:"#7d561d"
+}
 
+cutOffOneLeg(horsey);
 /**
  * Create a canvas
  */
@@ -38,4 +43,21 @@ function draw() {
     fill(0);
     ellipse(buzzyTheFly.x, buzzyTheFly.y, buzzyTheFly.size);
     pop();
+}
+
+function CutOffOneLeg(horsey){
+    horsey.legs-=1;
+}
+
+function moveFly(fly){
+    fly.x+= random(-fly.buzziness,fly.buzziness);
+    fly.y += random(-fly.buzziness, fly.buzziness);
+}
+
+function drawFly(fly){
+push();
+noStroke();
+fill(0);
+ellipse(fly.x,fly.y,fly.size);
+pop();
 }
