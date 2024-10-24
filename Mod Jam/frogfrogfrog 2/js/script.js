@@ -66,6 +66,8 @@ const fly = {
  * score
  */
 let score = 0;
+// current state
+let state = "title"
 /**
  * Creates the canvas and initializes the fly
  */
@@ -75,8 +77,16 @@ function setup() {
     // Give the fly its first random position
     resetFly();
 }
+ function draw(){
+    if (state=== "title"){
+        title();
+    } else if (state === "game"){
+        game();
+    }
+ }
 
-function draw() {
+
+function game() {
     background("#87ceeb");
     
     moveFly();
@@ -186,6 +196,7 @@ function drawFrog() {
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
+    
 }
 
 /**
@@ -199,15 +210,24 @@ function checkTongueFlyOverlap() {
     if (eaten) {
         // increase the score
         score= score + 1;
-
+        // increase the frog body size
+        frog.body.size = frog.body.size++;
         // Reset the fly
         resetFly();
         // Bring back the tongue
         frog.tongue.state = "inbound";
-    } else{
-        // decrease score
-        score = score -1;
-    }
+    } 
+ //   const noteaten = (d > frog.tongue.size/2 + fly.size/2);
+//  if (noteaten){
+//         // decrease score
+//         score = score -1;
+//         // reset fly
+//         resetFly();
+
+//         // bring the tongue back
+//         frog.tongue.state = "inbound";
+        
+//     }
 }
 
 /**
@@ -221,13 +241,64 @@ function mousePressed() {
 // draws the scoreboard
 function drawScore(){
 push();
-textAlign(TOP, RIGHT);
-textSize(110);
+textAlign(RIGHT,TOP);
+textSize(80);
 textStyle(BOLD);
 fill("#800080");
 text(score,width,0);
 pop();
 
-frog.body.size = map(score,0,10,50,500);
+//frog.body.size = map(score,0,10,50,500);
 
+}
+// title screen
+function title(){
+    background("green");
+    textAlign(CENTER, BOTTOM);
+    textSize(88);
+    text("Catch The Fly",300, 300);
+}
+
+function instruction(){
+    background("lilac");
+    textAlign(LEFT, TOP);
+    textSize(10);
+    text("instructions",100,100);
+
+    textAlign(LEFT, CENTER);
+    textSize(10);
+    text("1. move the frog using the mouse",110,100);
+
+    textAlign(LEFT, BOTTOM);
+    textSize(10);
+    text("2.use the left mouse botton to catch the flies",120,100);
+
+    textAlign(RIGHT,TOP);
+    textSize(10);
+    text("3. if you catch the fly, you get larger", 100,120);
+
+    textAlign(RIGHT,BOTTOM);
+    textSize(10);
+    text("4. if you missed, you'll get smaller",100,130);
+
+    if (mousePressed){
+        instruction();
+    }
+}
+
+
+function keyPressed(){
+    state="title";
+
+}
+function mousePressed(){
+    if (state ==="title"){
+state="game";
+}
+else if (state === "game"){
+    if (frog.tongue.state === "idle") {
+   frog.tongue.state = "outbound";
+}
+
+}
 }
