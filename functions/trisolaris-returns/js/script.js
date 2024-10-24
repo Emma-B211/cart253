@@ -7,12 +7,13 @@
  */
 
 "use strict";
-
 /**
  * Create the canvas
  */
 function setup() {
     createCanvas(600, 400);
+    // slowing down the frame rate to avoid any seizure
+    frameRate(2);
 }
 
 /**
@@ -20,8 +21,11 @@ function setup() {
  */
 function draw() {
     // Sky blue
-    background("#87ceeb");
+    // ask random() for a random number between 0,255
+    //and assign it to a variable
+    let randomBackgroundShade = random(0,255);
 
+   background(randomBackgroundShade);
     drawSun(500, 100, 80);
     drawSun(350, 180, 200);
     drawSun(120, 100, 160);
@@ -31,12 +35,8 @@ function draw() {
  * Draws a Trisolarian sun
  */
 function drawSun(x, y, size) {
-    // Calculate the stroke weight of the sun based on
-    // the distance of the mouse position
-    const minWeight = 20;
-    const maxWeight = 1;
-    let d = dist(mouseX, mouseY, x, y);
-    let weight = map(d, 0, width, minWeight, maxWeight);
+    // get the stroke weight for this sun
+    let weight = weight = calculateStrokeWeight(x,y);
 
     push();
     strokeWeight(weight);
@@ -44,4 +44,14 @@ function drawSun(x, y, size) {
     fill("#f99736");
     ellipse(x, y, size);
     pop();
+}
+function calculateStrokeWeight(x,y){
+    // calculate the stroke weight of a sun based on
+    // the distance of the mouse position
+    const minWeight = 20;
+    const maxWeight = 1;
+
+    let d = dist(mouseX,mouseY,x,y);
+    let result = map(d,0,width,minWeight,maxWeight);
+    return result;
 }
