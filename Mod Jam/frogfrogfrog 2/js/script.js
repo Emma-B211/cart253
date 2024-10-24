@@ -25,11 +25,11 @@
  * score = score + 1
  *  size = size + 5
  * }
- * add a title, instructions and end screen
+ * 1. add a title, instructions and end screen
  * 
- * code tongue bring fly back to the frogs mouth on capture
+ * 2. code tongue bring fly back to the frogs mouth on capture
  * 
- * visual effect when frog catches fly or when it loses fly
+ * 3. visual effect when frog catches fly or when it loses fly
  */
 
 
