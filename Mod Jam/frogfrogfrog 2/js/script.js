@@ -12,10 +12,10 @@
  * Made with p5
  * https://p5js.org/
  * 
- * fly movement
+ * 1.fly movement
  * fly to fly in different directions on x and y
  * 
- * score
+ * 2.score
  * display score on top right corner
  * 
  * if (frogmissesfly){
@@ -25,11 +25,11 @@
  * score = score + 1
  *  size = size + 5
  * }
- * 1. add a title, instructions and end screen
+ * 3. add a title, instructions and end screen
  * 
- * 2. code tongue bring fly back to the frogs mouth on capture
+ * 4. code tongue bring fly back to the frogs mouth on capture
  * 
- * 3. visual effect when frog catches fly or when it loses fly
+ * 5. visual effect when frog catches fly or when it loses fly
  */
 
 
