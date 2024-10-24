@@ -6,9 +6,7 @@
  */
 
 "use strict";
-// we start them undefined now, because we'll create them in setup()
-let buzzyTheFly= undefined;
-let jazzyTheFly = undefined;
+
 // Our flies that will buzz around
 let buzzyTheFly = {
     x: 200,
@@ -24,13 +22,13 @@ let jazzyTheFly = {
     buzziness: 3
 };
 
-let horsey = {
+let horsey: {
     name: "Horsey",
     colour: "#7d561d",
     legs: 3
 };
 
-let horso = {
+let horso : {
     name: "Horso",
     colour: "#7d561d",
     legs: 4
@@ -59,7 +57,7 @@ let buzzyTheFly = undefined;
 let jazzyTheFly = undefined;
 
 function setup() {
-    createCanvas(400);
+    createCanvas(400,400);
     // A pretty calm fly
     buzzyTheFly = createFly(2);
     // A not calm fly
