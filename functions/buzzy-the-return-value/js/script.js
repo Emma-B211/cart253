@@ -22,13 +22,13 @@ let jazzyTheFly = {
     buzziness: 3
 };
 
-let horsey: {
+let horsey = {
     name: "Horsey",
     colour: "#7d561d",
     legs: 3
 };
 
-let horso : {
+let horso = {
     name: "Horso",
     colour: "#7d561d",
     legs: 4
