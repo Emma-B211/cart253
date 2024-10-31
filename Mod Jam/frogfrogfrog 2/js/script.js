@@ -34,7 +34,8 @@
 
 
 "use strict";
-
+let myText;
+let mysecondText;
 // Our frog
 const frog = {
     // The frog's body has a position and size
@@ -60,7 +61,11 @@ const fly = {
     x: 0, // random(0,648);,
     y: 100, //random(0,648);, // Will be random
     size: 10,
-    speed: 1
+    velocity:{
+        x:0,
+        y:0,
+
+    }
 };
 /***
  * score
@@ -73,13 +78,16 @@ let state = "title"
  */
 function setup() {
     createCanvas(640, 480);
-
+myText = "GAME OVER"
+mysecondText="YOU WIN"
     // Give the fly its first random position
     resetFly();
 }
  function draw(){
     if (state=== "title"){
         title();
+    } else if (state === "instruction"){
+       instruction();
     } else if (state === "game"){
         game();
     }
@@ -97,7 +105,7 @@ function game() {
     moveFrog();
     moveTongue();
     drawFrog();
-    
+    gameOver();
     
 
     
@@ -109,13 +117,23 @@ function game() {
  */
 function moveFly() {
     // Move the fly
-    fly.x = fly.x+fly.speed+1;
+    //fly change its mind
+    const r = random(0,200);
+    if(r<20){
+        fly.velocity.x=random(-4,4);
+        fly.velocity.y=random(-4,4);
+    }
+// keep the fly on the canvas
+fly.x=constrain(fly.x,0,width);
+fly.y=constrain(fly.y,0,height);
+
+    fly.x = fly.x + fly.velocity.x;
     //fly.x= random(100);
-    fly.y =fly.y + fly.speed+1;
+    fly.y =fly.y + fly.velocity.y;
     // Handle the fly going off the canvas
     if (fly.x > width) {
-        score -= 1;
-        frog.body.size -= 1;
+        // score -= 1;
+        // frog.body.size -= 1;
         resetFly();
     }
 
@@ -138,7 +156,7 @@ function drawFly() {
  */
 function resetFly() {
     fly.x = random(0,480);
-    fly.y = random(0,480)
+    fly.y = random(0,480);
 }
 /**
  * Moves the frog to the mouse position on x
@@ -172,6 +190,10 @@ function moveTongue() {
         if (frog.tongue.y >= height) {
             frog.tongue.state = "idle";
         }
+    }
+    if(frog.tongue.y < 1){
+        score -= 1;
+        frog.body.size -= 10;
     }
 }
 
@@ -215,7 +237,7 @@ function checkTongueFlyOverlap() {
         // increase the score
         score= score + 1;
         // increase the frog body size
-        frog.body.size = frog.body.size+5;
+        frog.body.size += 10;
         // Reset the fly
         resetFly();
         // Bring back the tongue
@@ -226,7 +248,7 @@ function checkTongueFlyOverlap() {
         // decrease the frogs body size
         //frog.body.size= frog.body.size -5;
         // reset the fly
-        resetFly();
+        //resetFly();
     }
     //frog.tongue.state="inbound";
 
@@ -275,25 +297,34 @@ function title(){
 
 function instruction(){
     background("lilac");
+
     textAlign(LEFT, TOP);
-    textSize(10);
+    textSize(20);
     text("instructions",100,100);
 
+    textAlign(LEFT, LEFT);
+    textSize(20);
+    text("1. move the frog using the mouse",100,200);
+
     textAlign(LEFT, CENTER);
-    textSize(10);
-    text("1. move the frog using the mouse",110,100);
+    textSize(20);
+    text("2.use the left mouse botton to catch the flies",100,250);
 
-    textAlign(LEFT, BOTTOM);
-    textSize(10);
-    text("2.use the left mouse botton to catch the flies",120,100);
+    textAlign(LEFT,CENTER);
+    textSize(20);
+    text("3. if you catch the fly, you get larger", 100,300);
 
-    textAlign(RIGHT,TOP);
-    textSize(10);
-    text("3. if you catch the fly, you get larger", 100,120);
+    textAlign(LEFT,BOTTOM);
+    textSize(20);
+    text("4. if you missed, you'll get smaller",100,350);
 
-    textAlign(RIGHT,BOTTOM);
-    textSize(10);
-    text("4. if you missed, you'll get smaller",100,130);
+    textAlign(LEFT,BOTTOM);
+    textSize(20);
+    text("5. Reach 10 points you won the game", 100, 400);
+
+    textAlign(LEFT,BOTTOM);
+    textSize(20);
+    text("6. Reach -1 points you will lose the game", 100, 450);
 
 }
 function keyPressed(){
@@ -302,9 +333,9 @@ function keyPressed(){
 }
 function mousePressed(){
     if (state ==="title"){
-state="game";
+state="instruction";
 } else if (state==="instruction"){
-    state="instruction";
+    state="game";
 }
 else if (state === "game"){
     if (frog.tongue.state === "idle") {
@@ -312,5 +343,25 @@ else if (state === "game"){
 }
 
 }
+}
+
+function gameOver(){
+    if (score === 10){
+        push();
+        textAlign(CENTER. CENTER);
+        textSize(50);
+        textStyle(BOLD);
+        text(mysecondText,width/2,height/2);
+        pop();
+    } else if (score === -1){
+        push();
+        textAlign(CENTER,CENTER);
+        textSize(50);
+        textStyle(BOLD);
+        text(myText,width/2,height/2);
+        pop();
+
+    }
+    //stop game
 }
 
