@@ -1,24 +1,23 @@
 /**
- * Title of Project
- * Author Name
- * 
- * HOW EMBARRASSING! I HAVE NO DESCRIPTION OF MY PROJECT!
- * PLEASE REMOVE A GRADE FROM MY WORK IF IT'S GRADED!
+ *introducing arrays
  */
 
 "use strict";
+let piArray = [3,1,4,1,5,9,2,6,5,3];
 
-/**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
-*/
-function setup() {
+let emptyArray=[];
 
-}
+let firstDigitOfPi = piArray[4]; //5
 
+//piArray[5] = 8;
+let index = 7;
+let eighthDigitOfPi=piArray[index];//6
 
-/**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
-*/
-function draw() {
+let apple=2;
+let banana=6;
+let carrot=4;
+let nutritionalArray=[apple,banana,carrot];//[2,6,4]
 
-}
+let numberOfDigitsOfPi= piArray.length; //10
+
+let numberOfSnacks = nutritionalArrau.length;//3
