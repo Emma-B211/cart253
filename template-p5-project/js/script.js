@@ -5,30 +5,33 @@
  * A ball that bounces around on the canvas
  */
 
-let ball = undefined; // Will create it with createBall()
+let theBall = undefined; // Will create it with createBall()
+// all the balls
+const balls= [];
+
 
 /**
- * Create the canvas and the ball
+ * Create the canvas
  */
 function setup() {
   // Create the canvas
   createCanvas(400, 400);
   // Create the ball
-  ball = createBall();
+  theBall = createBall();
 }
 
 /**
  * Creates a random ball
  */
-function createBall() {
+function createBall(x,y) {
   // Create a ball object with appropriate properties
   const newBall = {
     // Position and dimensions
-    x: 200,
-    y: 200,
+    x: mouseX ,//200,
+    y:  mouseY, //200,
     size: 20,
     // Colour
-    fill: "#000000",
+    fill: random(0,255),
     // Movement
     velocity: {
       x: random(-5, 5),
@@ -44,15 +47,21 @@ function createBall() {
 function draw() {
   background("#87ceeb");
   
-  moveBall();
-  bounceBall();
-  drawBall();
+for (let ball of balls){
+
+  moveBall(ball);
+  bounceBall(ball);
+  drawBall(ball);
+
+}
+
+
 }
 
 /**
  * Moves the ball according to its velocity
  */
-function moveBall() {
+function moveBall(ball) {
   ball.x += ball.velocity.x;
   ball.y += ball.velocity.y;
 }
@@ -60,7 +69,7 @@ function moveBall() {
 /**
  * Bounces the ball off the walls
  */
-function bounceBall() {
+function bounceBall(ball) {
   // Check if the ball has reached the left or right
   const bounceX = (ball.x > width || ball.x < 0);
   // Check if the ball has reached the top or bottom
@@ -79,10 +88,19 @@ function bounceBall() {
 /**
  * Draw the ball on the canvas
  */
-function drawBall() {
+function drawBall(ball) {
   push();
   noStroke();
   fill(ball.fill);
   ellipse(ball.x, ball.y, ball.size);
   pop();
 }
+
+function mousePressed(ball){
+    if(balls.length < 10){
+       let newBall= createBall(mouseX,mouseY);
+    balls.push(newBall);  
+    }
+   
+}
+
