@@ -109,9 +109,9 @@ function game() {
  */
 function moveFly() {
     // Move the fly
-    fly.x += fly.speed;
+    fly.x += random(-fly.speed, fly.speed);
     //fly.x= random(100);
-    fly.y += fly.speed;
+    fly.y += random(-fly.speed, fly.speed);
     // Handle the fly going off the canvas
     if (fly.x > width) {
         resetFly();
@@ -217,6 +217,8 @@ function checkTongueFlyOverlap() {
         // Bring back the tongue
         frog.tongue.state = "inbound";
     } 
+
+    }
  //   const noteaten = (d > frog.tongue.size/2 + fly.size/2);
 //  if (noteaten){
 //         // decrease score
@@ -228,7 +230,7 @@ function checkTongueFlyOverlap() {
 //         frog.tongue.state = "inbound";
         
 //     }
-}
+
 
 /**
  * Launch the tongue on click (if it's not launched yet)
@@ -281,12 +283,7 @@ function instruction(){
     textSize(10);
     text("4. if you missed, you'll get smaller",100,130);
 
-    if (mousePressed){
-        instruction();
-    }
 }
-
-
 function keyPressed(){
     state="title";
 
@@ -294,6 +291,8 @@ function keyPressed(){
 function mousePressed(){
     if (state ==="title"){
 state="game";
+} else if (state==="instruction"){
+    state="instruction";
 }
 else if (state === "game"){
     if (frog.tongue.state === "idle") {
@@ -302,3 +301,4 @@ else if (state === "game"){
 
 }
 }
+
