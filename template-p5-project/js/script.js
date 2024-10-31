@@ -27,8 +27,8 @@ function createBall(x,y) {
   // Create a ball object with appropriate properties
   const newBall = {
     // Position and dimensions
-    x: mouseX ,//200,
-    y:  mouseY, //200,
+    x: x ,//200,
+    y:  y, //200,
     size: 20,
     // Colour
     fill: random(0,255),

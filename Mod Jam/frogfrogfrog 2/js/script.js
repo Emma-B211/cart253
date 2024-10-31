@@ -60,7 +60,7 @@ const fly = {
     x: 0, // random(0,648);,
     y: 100, //random(0,648);, // Will be random
     size: 10,
-    speed: 3
+    speed: 1
 };
 /***
  * score
@@ -109,13 +109,17 @@ function game() {
  */
 function moveFly() {
     // Move the fly
-    fly.x += random(-fly.speed, fly.speed);
+    fly.x = fly.x+fly.speed+1;
     //fly.x= random(100);
-    fly.y += random(-fly.speed, fly.speed);
+    fly.y =fly.y + fly.speed+1;
     // Handle the fly going off the canvas
     if (fly.x > width) {
+        score -= 1;
+        frog.body.size -= 1;
         resetFly();
     }
+
+
 }
 
 /**
@@ -133,10 +137,9 @@ function drawFly() {
  * Resets the fly to the left with a random y
  */
 function resetFly() {
-    fly.x = random(0,300);
-    fly.y = random(0,300);
+    fly.x = random(0,480);
+    fly.y = random(0,480)
 }
-
 /**
  * Moves the frog to the mouse position on x
  */
@@ -207,16 +210,25 @@ function checkTongueFlyOverlap() {
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size/2 + fly.size/2);
+    const noteaten = (d > frog.tongue.size/2 - fly.size/2);
     if (eaten) {
         // increase the score
         score= score + 1;
         // increase the frog body size
-        frog.body.size = frog.body.size++;
+        frog.body.size = frog.body.size+5;
         // Reset the fly
         resetFly();
         // Bring back the tongue
         frog.tongue.state = "inbound";
-    } 
+    } else if (noteaten){
+        // decrease the score
+        // score -= 1;
+        // decrease the frogs body size
+        //frog.body.size= frog.body.size -5;
+        // reset the fly
+        resetFly();
+    }
+    //frog.tongue.state="inbound";
 
     }
  //   const noteaten = (d > frog.tongue.size/2 + fly.size/2);
