@@ -12,10 +12,10 @@
  * Made with p5
  * https://p5js.org/
  * 
- * fly movement
+ * 1.fly movement
  * fly to fly in different directions on x and y
  * 
- * score
+ * 2.score
  * display score on top right corner
  * 
  * if (frogmissesfly){
@@ -25,11 +25,11 @@
  * score = score + 1
  *  size = size + 5
  * }
- * add a title, instructions and end screen
+ * 3. add a title, instructions and end screen
  * 
- * code tongue bring fly back to the frogs mouth on capture
+ * 4. code tongue bring fly back to the frogs mouth on capture
  * 
- * visual effect when frog catches fly or when it loses fly
+ * 5. visual effect when frog catches fly or when it loses fly
  */
 
 
@@ -57,12 +57,17 @@ const frog = {
 // Our fly
 // Has a position, size, and speed of horizontal movement
 const fly = {
-    x: 0,
-    y: 200, // Will be random
+    x: 0, // random(0,648);,
+    y: 100, //random(0,648);, // Will be random
     size: 10,
     speed: 3
 };
-
+/***
+ * score
+ */
+let score = 0;
+// current state
+let state = "title"
 /**
  * Creates the canvas and initializes the fly
  */
@@ -72,15 +77,30 @@ function setup() {
     // Give the fly its first random position
     resetFly();
 }
+ function draw(){
+    if (state=== "title"){
+        title();
+    } else if (state === "game"){
+        game();
+    }
+ }
 
-function draw() {
+
+function game() {
     background("#87ceeb");
+    
     moveFly();
     drawFly();
+
+    checkTongueFlyOverlap();
+    drawScore();
     moveFrog();
     moveTongue();
     drawFrog();
-    checkTongueFlyOverlap();
+    
+    
+
+    
 }
 
 /**
@@ -90,6 +110,8 @@ function draw() {
 function moveFly() {
     // Move the fly
     fly.x += fly.speed;
+    //fly.x= random(100);
+    fly.y += fly.speed;
     // Handle the fly going off the canvas
     if (fly.x > width) {
         resetFly();
@@ -111,8 +133,8 @@ function drawFly() {
  * Resets the fly to the left with a random y
  */
 function resetFly() {
-    fly.x = 0;
-    fly.y = random(0, 300);
+    fly.x = random(0,300);
+    fly.y = random(0,300);
 }
 
 /**
@@ -174,6 +196,7 @@ function drawFrog() {
     noStroke();
     ellipse(frog.body.x, frog.body.y, frog.body.size);
     pop();
+    
 }
 
 /**
@@ -185,11 +208,26 @@ function checkTongueFlyOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size/2 + fly.size/2);
     if (eaten) {
+        // increase the score
+        score= score + 1;
+        // increase the frog body size
+        frog.body.size = frog.body.size++;
         // Reset the fly
         resetFly();
         // Bring back the tongue
         frog.tongue.state = "inbound";
-    }
+    } 
+ //   const noteaten = (d > frog.tongue.size/2 + fly.size/2);
+//  if (noteaten){
+//         // decrease score
+//         score = score -1;
+//         // reset fly
+//         resetFly();
+
+//         // bring the tongue back
+//         frog.tongue.state = "inbound";
+        
+//     }
 }
 
 /**
@@ -199,4 +237,68 @@ function mousePressed() {
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
     }
+}
+// draws the scoreboard
+function drawScore(){
+push();
+textAlign(RIGHT,TOP);
+textSize(80);
+textStyle(BOLD);
+fill("#800080");
+text(score,width,0);
+pop();
+
+//frog.body.size = map(score,0,10,50,500);
+
+}
+// title screen
+function title(){
+    background("green");
+    textAlign(CENTER, BOTTOM);
+    textSize(88);
+    text("Catch The Fly",300, 300);
+}
+
+function instruction(){
+    background("lilac");
+    textAlign(LEFT, TOP);
+    textSize(10);
+    text("instructions",100,100);
+
+    textAlign(LEFT, CENTER);
+    textSize(10);
+    text("1. move the frog using the mouse",110,100);
+
+    textAlign(LEFT, BOTTOM);
+    textSize(10);
+    text("2.use the left mouse botton to catch the flies",120,100);
+
+    textAlign(RIGHT,TOP);
+    textSize(10);
+    text("3. if you catch the fly, you get larger", 100,120);
+
+    textAlign(RIGHT,BOTTOM);
+    textSize(10);
+    text("4. if you missed, you'll get smaller",100,130);
+
+    if (mousePressed){
+        instruction();
+    }
+}
+
+
+function keyPressed(){
+    state="title";
+
+}
+function mousePressed(){
+    if (state ==="title"){
+state="game";
+}
+else if (state === "game"){
+    if (frog.tongue.state === "idle") {
+   frog.tongue.state = "outbound";
+}
+
+}
 }
