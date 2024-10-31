@@ -29,7 +29,10 @@ let flies = [
         buzziness: 6
     }
 ];
-
+let array = [1, 2, 3, 4, 5];
+array.push(6); // now its [1,2,3,4,5,6]
+array.splice(2, 1);
+//now the array is [1,2,4,5]
 /**
  * Creates the canvas
  */
@@ -68,4 +71,37 @@ function drawFly(fly) {
     fill(0);
     ellipse(fly.x, fly.y, fly.size);
     pop();
+}
+
+function createFly() {
+    //generate the random fly
+    let fly = {
+        x: random(0, width),
+        y: random(0, height),
+        size: random(10, 20),
+        buzziness: random(2, 8)
+    };
+    return fly;
+}
+
+function keyPressed() {
+    let fly = createFly();
+    flies.push(fly);
+}
+
+function mousePressed() {
+    // note we haveto check *every* fly in the array to see if it was clicked
+    for (let fly of flies) {
+        //get the distance between the click and the fly
+        let d = dist(mouseX, mouseY, fly.x, fly.y);
+        //check if the click is inside the fly
+        if (d < fly.size / 2) {
+            //if so get the index of this fly in the array
+            let index = flies.indexOf(fly);
+            //and now use the splice to *remove* the fly at that index
+            //remember we provide the index and the *number of elements*
+            //to remoce. In this case just the one
+            flies.splice(index, 1);
+        }
+    }
 }
