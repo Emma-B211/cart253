@@ -140,65 +140,65 @@ mysecondText="YOU WIN"
     }
 }
 
-function youWin(){
+// function youWin(){
     
-    if (score === 10){
-        push();
-        background("green");
-        noStroke();
-    //fill('black');
-    //square(0,0,800);
-        textAlign(CENTER. CENTER);
-        textSize(50);
-        fill(255);
-        strokeWeight(4);
-        textStyle(BOLD);
-        text(mysecondText,width/2,height/2);
-        square(0,0,800);
-        pop();
-        // if (score===10|millis()>=wait){
-        //     time=millis();
-       // state="title"
+//     if (score === 10){
+//         push();
+//         background("green");
+//         noStroke();
+//     //fill('black');
+//     //square(0,0,800);
+//         textAlign(CENTER. CENTER);
+//         textSize(50);
+//         fill(255);
+//         strokeWeight(4);
+//         textStyle(BOLD);
+//         text(mysecondText,width/2,height/2);
+//         square(0,0,800);
+//         pop();
+//         // if (score===10|millis()>=wait){
+//         //     time=millis();
+//        // state="title"
           
-        //    }
-    } //return score;
-   // stop();
-   //reset();
-}
-function youLose(){
-    if (score === -1){
-        push();
-        background("black");
-     noStroke();
-    //fill('green');
-    // square(0,0,800);
-        textAlign(CENTER,CENTER);
-        textSize(50);
-        fill(255);
-        strokeWeight(4);
-        textStyle(BOLD);
-        text(myText,width/2,height/2);
-        //square(0,0,800);
-        pop();
-    }
-}
-function gameOver(){
-    background('black');
-    textAlign(CENTER, CENTER);
-    textSize(50);
-    textStyle(BOLD);
-    fill(255);
-    text("gameOver",width/2,height/2);
-}
+//         //    }
+//     } //return score;
+//    // stop();
+//    //reset();
+// }
+// function youLose(){
+//     if (score === -1){
+//         push();
+//         background("black");
+//      noStroke();
+//     //fill('green');
+//     // square(0,0,800);
+//         textAlign(CENTER,CENTER);
+//         textSize(50);
+//         fill(255);
+//         strokeWeight(4);
+//         textStyle(BOLD);
+//         text(myText,width/2,height/2);
+//         //square(0,0,800);
+//         pop();
+//     }
+// }
+// function gameOver(){
+//     background('black');
+//     textAlign(CENTER, CENTER);
+//     textSize(50);
+//     textStyle(BOLD);
+//     fill(255);
+//     text("gameOver",width/2,height/2);
+// }
 
-function youWin(){
-    background('yellow');
-    textAlign(CENTER,CENTER);
-    textSize(50);
-    textStyle(BOLD);
-    fill(255);
-    text("You Win",width/2,height/2);
-}
+// function youWin(){
+//     background('yellow');
+//     textAlign(CENTER,CENTER);
+//     textSize(50);
+//     textStyle(BOLD);
+//     fill(255);
+//     text("You Win",width/2,height/2);
+// }
 
 
 function restartGame(){
@@ -283,7 +283,7 @@ function drawFly() {
  */
 function resetFly() {
     fly.x = random(0,480);
-    fly.y = random(0,480);
+    fly.y = random(0,480);  
 }
 /**
  * Moves the frog to the mouse position on x
@@ -381,9 +381,22 @@ function checkTongueFlyOverlap() {
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
+    if (state==="title"){
+        state="instruction";
+    } else if (state==="instruction"){
+        state="game";
+    } else if (state==="game"){
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
+    }    
+    } else if (state==="gameOver"){
+        state==="gameOver";
+    } else if (state==="youWin"){
+        state="youWin";
+    } else if (state==="youLose"){
+        state="youLose";
     }
+    
 }
 // draws the scoreboard
 function drawScore(){
@@ -451,6 +464,9 @@ state="instruction";
 }
 else if (state === "game"){
 state="game";
+if (frog.tongue.state === "idle") {
+    frog.tongue.state = "outbound";
+ }
 } else if (state==="gameOver"){
     state="gameOver";}
     else if (state==="youWin"){
@@ -461,10 +477,18 @@ state="game";
 } else if(state==="youLose"){
     state="youLose";
 }
-    if (frog.tongue.state === "idle") {
-   frog.tongue.state = "outbound";
-}
+//     if (frog.tongue.state === "idle") {
+//    frog.tongue.state = "outbound";
+// }
 
+}
+function scoreChanges(){
+    if (score===10){
+        state="youWin"
+    } else if (state==="youLose"){
+        state==="youLose"
+    }
+    restartGame();
 }
 //}
 
