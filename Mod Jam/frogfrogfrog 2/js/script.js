@@ -39,6 +39,8 @@ let myText;
 let mysecondText;
 let startButton;
 let dragging=false;
+var time;
+var wait=2000;
 //let gamePaused=false;
 //let gameOver=false;
 //let gameStarted=false;
@@ -87,6 +89,7 @@ function setup() {
    
 myText = "GAME OVER"
 mysecondText="YOU WIN"
+//time=millis();
 // button= createButton('main menu','white');
 // button.position()
 
@@ -102,11 +105,16 @@ mysecondText="YOU WIN"
        instruction();
     } else if (state === "game"){
         game();
+    } else if (state==="gameOver"){
+        gameOver();
+    } else if (state==="You Win"){
+        youWin();
     }
 // when score equals to 10, the game will stop playing once it goes to the you win screen
     if (score === 10){
         reset();
         //restart();
+        state="youWin"
     
     }
 // when score equals to -1, the game will stop once the game over screen is shown
@@ -117,15 +125,16 @@ mysecondText="YOU WIN"
         noStroke();
         fill(255);
         //square(250,250,250)
-        text("Main Menu",350,350);
+        text("Game Over",350,350);
         square(250,250,250)
         pop();
-        reset();
+        state="gameOver"
+        //reset();
         // if (state==="game"){
         //     state="title"
         // }
     }
- }
+}
 
 
 function game() {
@@ -140,14 +149,16 @@ function game() {
     moveTongue();
     drawFrog();
     //gameOver();
-    loseScene();
-    winScene();
-    mainMenu();
-    
+    //loseScene();
+    //winScene();
+    //mainMenu();
+    //restartGame();
+   // gameOver();
     // startGame();
     // pauseGame();
-
-    
+youWin();
+loseScene();
+    restartGame();
 }
 
 /**
@@ -273,7 +284,7 @@ function checkTongueFlyOverlap() {
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size/2 + fly.size/2);
-    const noteaten = (d > frog.tongue.size/2 - fly.size/2);
+    //const noteaten = (d > frog.tongue.size/2 - fly.size/2);
     if (eaten) {
         // increase the score
         score= score + 1;
@@ -283,9 +294,9 @@ function checkTongueFlyOverlap() {
         resetFly();
         // Bring back the tongue
         frog.tongue.state = "inbound";
-    } else if (noteaten){
-        // reset the fly
-        //resetFly();
+    // } else if (noteaten){
+    //     // reset the fly
+    //     //resetFly();
     }
     //frog.tongue.state="inbound";
 
@@ -364,12 +375,20 @@ state="instruction";
     state="game";
 }
 else if (state === "game"){
+state="gameOver";
+} else if (state==="gameOver"){
+    state="title";
+// } else if (state==="game"){
+//     state="YouWin";
+// } else if(state==="YouWin"){
+//     state="title";
+// }
     if (frog.tongue.state === "idle") {
    frog.tongue.state = "outbound";
 }
 
 }
-}
+//}
 
 // function gameOver(){
 //     if (score === 10){
@@ -391,7 +410,7 @@ else if (state === "game"){
     //stop game
 //}
 // win screen 
-function winScene(){
+function youWin(){
     
     if (score === 10){
         push();
@@ -407,13 +426,17 @@ function winScene(){
         text(mysecondText,width/2,height/2);
         square(0,0,800);
         pop();
-   state="title";
-    }
+        // if (score===10|millis()>=wait){
+        //     time=millis();
+       // state="title"
+          
+        //    }
+    } //return score;
    // stop();
    //reset();
 }
 // lose scene
-function loseScene(){
+function youLose(){
     
     if (score === -1){
         push();
@@ -430,78 +453,63 @@ function loseScene(){
         //square(0,0,800);
         pop();
         
-        push();
-        noStroke();
-        textAlign(CENTER,BOTTOM);
-        textSize(30);
-        fill(255);
-        textStyle(BOLD);
+        // push();
+        // noStroke();
+        // textAlign(CENTER,BOTTOM);
+        // textSize(30);
+        // fill(255);
+        // textStyle(BOLD);
         //square(250,250,250)
         //text("Main Menu",320,320);
         //square(250,250,250)
         // if (state==="game"){
         //     state="title"
         // }
-       if(score ===10){
-state="title";
-score=0;
-       } else if (score===-1){
-        state="title"
-        score=0;
-       }
+    //    if(score ===-1| millis()>=wait){
+    //     time=millis();
+      //  state="title"
+
+    //    }
     //     let button= createButton('Main Menu');
     // button.position(320,520,520);
     // button.mousePressed(MainMenu);// set the button to call title screen
     // button.hide(); // hide button
-    }
+    } //return score;
   //  stop();
    // reset();
    // gameOver=false;
     //return;
 }
-// function MainMenu(){
-//     let button= createButton('Main Menu');
-//     button.position(320,520,520);
-//     button.mousePressed(MainMenu);// set the button to call title screen
-//     button.hide(); // hide button
-// }
-// function keyPressed(){
-//     if (keyCode===ENTER){
-//         state="title"
 
-//     }
-// }
 
-// function startGame(){
-//     score=0;
-//     gameStarted = true;
-//     gamePaused=false;
-//     if(game0ver===true){
-//         resetFly();
-//         gameOver= false;
-//     }
-   // loop();
-//}
-// function pauseGame(){
-//     gamePause=true;
-// }
+function gameOver(){
+    background('black');
+    textAlign(CENTER, CENTER);
+    textSize(50);
+    textStyle(BOLD);
+    fill(255);
+    text("gameOver",width/2,height/2);
+}
 
-function mainMenu(){
-loseScene();
-    push();
-    textSize(30);
-    textAlign(CENTER);
-    fill(0);
-    text('Main Menu', 520,520);
-pop();
-// show button in game over scene
-// let button=select('button');
-// button.show();
-} 
-
-// function mouseIsPressed(){
-//     if (loseScene === true){
-//         state="titles"
-//     }
-    
+// if(state==="game0ver"){
+//     state="title"
 // }
+function youWin(){
+    background('yellow');
+    textAlign(CENTER,CENTER);
+    textSize(50);
+    textStyle(BOLD);
+    fill(255);
+    text("You Win",width/2,height/2);
+}
+}
+
+function restartGame(){
+    if (score===-1){
+        state="title"
+        score=0;
+    } else if (score===10){
+        state="title"
+        score=0;
+    }
+}
