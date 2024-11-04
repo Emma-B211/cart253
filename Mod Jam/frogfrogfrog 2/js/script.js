@@ -156,9 +156,9 @@ function game() {
    // gameOver();
     // startGame();
     // pauseGame();
-youWin();
-youLose();
-gameOver();
+    youWin();
+    youLose();
+    gameOver();
     restartGame();
 }
 
