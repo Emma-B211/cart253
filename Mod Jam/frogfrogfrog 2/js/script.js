@@ -109,6 +109,10 @@ mysecondText="YOU WIN"
         gameOver();
     } else if (state==="You Win"){
         youWin();
+    } else if (state==="you Lose"){
+        youLose();
+    } else if (state==="restart game"){
+        restartGame();
     }
 // when score equals to 10, the game will stop playing once it goes to the you win screen
     if (score === 10){
@@ -216,7 +220,7 @@ function game() {
     checkTongueFlyOverlap();
     drawScore();
     moveFrog();
-   // moveTongue();
+    moveTongue();
     drawFrog();
     //gameOver();
     //loseScene();
