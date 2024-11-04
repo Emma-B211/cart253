@@ -34,8 +34,14 @@
 
 
 "use strict";
+//mode=0;// initially the game has not started
 let myText;
 let mysecondText;
+let startButton;
+
+//let gamePaused=false;
+//let gameOver=false;
+//let gameStarted=false;
 // Our frog
 const frog = {
     // The frog's body has a position and size
@@ -78,18 +84,48 @@ let state = "title"
  */
 function setup() {
     createCanvas(640, 480);
+    let button= createButton('Main Menu');
+    button.position(320,520,520);
+    button.mousePressed(MainMenu);// set the button to call title screen
+    button.hide(); // hide button
 myText = "GAME OVER"
 mysecondText="YOU WIN"
+// button= createButton('main menu','white');
+// button.position()
+
     // Give the fly its first random position
     resetFly();
 }
  function draw(){
+    
+    // title, instructions and game screen sequence
     if (state=== "title"){
         title();
     } else if (state === "instruction"){
        instruction();
     } else if (state === "game"){
         game();
+    }
+// when score equals to 10, the game will stop playing once it goes to the you win screen
+    if (score === 10){
+        reset();
+        //restart();
+    
+    }
+// when score equals to -1, the game will stop once the game over screen is shown
+    if (score === -1){
+        reset();
+        //restart();
+        push();
+        noStroke();
+        fill(255);
+        //square(250,250,250)
+        text("Main Menu",350,350);
+        square(250,250,250)
+        pop();
+        // if (state==="game"){
+        //     state="title"
+        // }
     }
  }
 
@@ -105,8 +141,13 @@ function game() {
     moveFrog();
     moveTongue();
     drawFrog();
-    gameOver();
+    //gameOver();
+    loseScene();
+    winScene();
+    MainMenu();
     
+    // startGame();
+    // pauseGame();
 
     
 }
@@ -294,7 +335,7 @@ function title(){
     textSize(88);
     text("Catch The Fly",300, 300);
 }
-
+// instruction screen
 function instruction(){
     background("lilac");
 
@@ -331,6 +372,7 @@ function keyPressed(){
     state="title";
 
 }
+// function that would make the player go from the title screen to the instruction screen than the game
 function mousePressed(){
     if (state ==="title"){
 state="instruction";
@@ -345,23 +387,119 @@ else if (state === "game"){
 }
 }
 
-function gameOver(){
+// function gameOver(){
+//     if (score === 10){
+//         push();
+//         textAlign(CENTER. CENTER);
+//         textSize(50);
+//         textStyle(BOLD);
+//         text(mysecondText,width/2,height/2);
+//         pop();
+//     } else if (score === -1){
+//         push();
+//         textAlign(CENTER,CENTER);
+//         textSize(50);
+//         textStyle(BOLD);
+//         text(myText,width/2,height/2);
+//         pop();
+
+//     }
+    //stop game
+//}
+// win screen 
+function winScene(){
+    
     if (score === 10){
         push();
+        background("green");
+        noStroke();
+    //fill('black');
+    //square(0,0,800);
         textAlign(CENTER. CENTER);
         textSize(50);
+        fill(255);
+        strokeWeight(4);
         textStyle(BOLD);
         text(mysecondText,width/2,height/2);
+        square(0,0,800);
         pop();
-    } else if (score === -1){
+        
+    }
+    stop();
+   //reset();
+}
+// lose scene
+function loseScene(){
+    
+    if (score === -1){
         push();
+        background("black");
+     noStroke();
+    //fill('green');
+    // square(0,0,800);
         textAlign(CENTER,CENTER);
         textSize(50);
+        fill(255);
+        strokeWeight(4);
         textStyle(BOLD);
         text(myText,width/2,height/2);
+        //square(0,0,800);
         pop();
-
+        
+        push();
+        noStroke();
+        textAlign(CENTER,BOTTOM);
+        textSize(30);
+        fill(255);
+        textStyle(BOLD);
+        //square(250,250,250)
+        //text("Main Menu",320,320);
+        //square(250,250,250)
+        // if (state==="game"){
+        //     state="title"
+        // }
     }
-    //stop game
+    stop();
+   // reset();
+   // gameOver=false;
+    //return;
 }
+function MainMenu(){
+    
+}
+// function keyPressed(){
+//     if (keyCode===ENTER){
+//         state="title"
 
+//     }
+// }
+
+// function startGame(){
+//     score=0;
+//     gameStarted = true;
+//     gamePaused=false;
+//     if(game0ver===true){
+//         resetFly();
+//         gameOver= false;
+//     }
+   // loop();
+//}
+// function pauseGame(){
+//     gamePause=true;
+// }
+
+function mainMenu(){
+loseScene();
+if(showTitle){
+    push();
+    textSize(30);
+    textAlign(CENTER);
+    fill(0);
+    text('Main Menu', 520,520);
+pop();
+// show button in game over scene
+let button=select('button');
+button.show();
+} 
+
+}
