@@ -136,6 +136,76 @@ mysecondText="YOU WIN"
     }
 }
 
+function youWin(){
+    
+    if (score === 10){
+        push();
+        background("green");
+        noStroke();
+    //fill('black');
+    //square(0,0,800);
+        textAlign(CENTER. CENTER);
+        textSize(50);
+        fill(255);
+        strokeWeight(4);
+        textStyle(BOLD);
+        text(mysecondText,width/2,height/2);
+        square(0,0,800);
+        pop();
+        // if (score===10|millis()>=wait){
+        //     time=millis();
+       // state="title"
+          
+        //    }
+    } //return score;
+   // stop();
+   //reset();
+}
+function youLose(){
+    if (score === -1){
+        push();
+        background("black");
+     noStroke();
+    //fill('green');
+    // square(0,0,800);
+        textAlign(CENTER,CENTER);
+        textSize(50);
+        fill(255);
+        strokeWeight(4);
+        textStyle(BOLD);
+        text(myText,width/2,height/2);
+        //square(0,0,800);
+        pop();
+    }
+}
+function gameOver(){
+    background('black');
+    textAlign(CENTER, CENTER);
+    textSize(50);
+    textStyle(BOLD);
+    fill(255);
+    text("gameOver",width/2,height/2);
+}
+
+function youWin(){
+    background('yellow');
+    textAlign(CENTER,CENTER);
+    textSize(50);
+    textStyle(BOLD);
+    fill(255);
+    text("You Win",width/2,height/2);
+}
+
+
+function restartGame(){
+    if (score===-1){
+        state="title"
+        score=0;
+    } else if (score===10){
+        state="title"
+        score=0;
+    }
+}
 
 function game() {
     background("#87ceeb");
@@ -146,7 +216,7 @@ function game() {
     checkTongueFlyOverlap();
     drawScore();
     moveFrog();
-    moveTongue();
+   // moveTongue();
     drawFrog();
     //gameOver();
     //loseScene();
@@ -156,9 +226,9 @@ function game() {
    // gameOver();
     // startGame();
     // pauseGame();
-    youWin();
-    youLose();
-    gameOver();
+   // youWin();
+   // youLose();
+    //gameOver();
     restartGame();
 }
 
@@ -376,14 +446,17 @@ state="instruction";
     state="game";
 }
 else if (state === "game"){
-state="gameOver";
+state="game";
 } else if (state==="gameOver"){
-    state="title";
-// } else if (state==="game"){
-//     state="YouWin";
-// } else if(state==="YouWin"){
-//     state="title";
-// }
+    state="gameOver";}
+    else if (state==="youWin"){
+        state="youWin";
+    }
+ else if (state==="youWin"){
+    state="YouWin";
+} else if(state==="youLose"){
+    state="youLose";
+}
     if (frog.tongue.state === "idle") {
    frog.tongue.state = "outbound";
 }
@@ -411,49 +484,49 @@ state="gameOver";
     //stop game
 //}
 // win screen 
-function youWin(){
+// function youWin(){
     
-    if (score === 10){
-        push();
-        background("green");
-        noStroke();
-    //fill('black');
-    //square(0,0,800);
-        textAlign(CENTER. CENTER);
-        textSize(50);
-        fill(255);
-        strokeWeight(4);
-        textStyle(BOLD);
-        text(mysecondText,width/2,height/2);
-        square(0,0,800);
-        pop();
-        // if (score===10|millis()>=wait){
-        //     time=millis();
-       // state="title"
+//     if (score === 10){
+//         push();
+//         background("green");
+//         noStroke();
+//     //fill('black');
+//     //square(0,0,800);
+//         textAlign(CENTER. CENTER);
+//         textSize(50);
+//         fill(255);
+//         strokeWeight(4);
+//         textStyle(BOLD);
+//         text(mysecondText,width/2,height/2);
+//         square(0,0,800);
+//         pop();
+//         // if (score===10|millis()>=wait){
+//         //     time=millis();
+//        // state="title"
           
-        //    }
-    } //return score;
-   // stop();
-   //reset();
-}
+//         //    }
+//     } //return score;
+//    // stop();
+//    //reset();
+// }
 // lose scene
-function youLose(){
-    if (score === -1){
-        push();
-        background("black");
-     noStroke();
-    //fill('green');
-    // square(0,0,800);
-        textAlign(CENTER,CENTER);
-        textSize(50);
-        fill(255);
-        strokeWeight(4);
-        textStyle(BOLD);
-        text(myText,width/2,height/2);
-        //square(0,0,800);
-        pop();
-    }
-}
+// function youLose(){
+//     if (score === -1){
+//         push();
+//         background("black");
+//      noStroke();
+//     //fill('green');
+//     // square(0,0,800);
+//         textAlign(CENTER,CENTER);
+//         textSize(50);
+//         fill(255);
+//         strokeWeight(4);
+//         textStyle(BOLD);
+//         text(myText,width/2,height/2);
+//         //square(0,0,800);
+//         pop();
+//     }
+// }
 
 
         // push();
@@ -485,35 +558,36 @@ function youLose(){
 
 
 
-function gameOver(){
-    background('black');
-    textAlign(CENTER, CENTER);
-    textSize(50);
-    textStyle(BOLD);
-    fill(255);
-    text("gameOver",width/2,height/2);
-}
+// function gameOver(){
+//     background('black');
+//     textAlign(CENTER, CENTER);
+//     textSize(50);
+//     textStyle(BOLD);
+//     fill(255);
+//     text("gameOver",width/2,height/2);
+// }
 
 // if(state==="game0ver"){
 //     state="title"
+// // }
+// function youWin(){
+//     background('yellow');
+//     textAlign(CENTER,CENTER);
+//     textSize(50);
+//     textStyle(BOLD);
+//     fill(255);
+//     text("You Win",width/2,height/2);
 // }
-function youWin(){
-    background('yellow');
-    textAlign(CENTER,CENTER);
-    textSize(50);
-    textStyle(BOLD);
-    fill(255);
-    text("You Win",width/2,height/2);
-}
 
 
-function restartGame(){
-    if (score===-1){
-        state="title"
-        score=0;
-    } else if (score===10){
-        state="title"
-        score=0;
-    }
-}
-}
+// function restartGame(){
+//     if (score===-1){
+//         state="title"
+//         score=0;
+//     } else if (score===10){
+//         state="title"
+//         score=0;
+//     }
+// }
+// }
+//}
