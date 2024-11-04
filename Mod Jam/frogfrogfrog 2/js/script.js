@@ -1,6 +1,6 @@
 /**
- * Frogfrogfrog
- * Pippin Barr
+ * Catch The Flies
+ * Emma Beldick
  * 
  * A game of catching flies with your frog-tongue
  * 
