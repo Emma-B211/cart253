@@ -38,7 +38,7 @@
 let myText;
 let mysecondText;
 let startButton;
-
+let dragging=false;
 //let gamePaused=false;
 //let gameOver=false;
 //let gameStarted=false;
@@ -84,10 +84,7 @@ let state = "title"
  */
 function setup() {
     createCanvas(640, 480);
-    let button= createButton('Main Menu');
-    button.position(320,520,520);
-    button.mousePressed(MainMenu);// set the button to call title screen
-    button.hide(); // hide button
+   
 myText = "GAME OVER"
 mysecondText="YOU WIN"
 // button= createButton('main menu','white');
@@ -114,7 +111,7 @@ mysecondText="YOU WIN"
     }
 // when score equals to -1, the game will stop once the game over screen is shown
     if (score === -1){
-        reset();
+        //reset();
         //restart();
         push();
         noStroke();
@@ -123,6 +120,7 @@ mysecondText="YOU WIN"
         text("Main Menu",350,350);
         square(250,250,250)
         pop();
+        reset();
         // if (state==="game"){
         //     state="title"
         // }
@@ -144,7 +142,7 @@ function game() {
     //gameOver();
     loseScene();
     winScene();
-    MainMenu();
+    mainMenu();
     
     // startGame();
     // pauseGame();
@@ -178,7 +176,9 @@ fly.y=constrain(fly.y,0,height);
         resetFly();
     }
 
-
+if (frog.tongue === fly){
+    dragging=true;
+}
 }
 
 /**
@@ -284,28 +284,12 @@ function checkTongueFlyOverlap() {
         // Bring back the tongue
         frog.tongue.state = "inbound";
     } else if (noteaten){
-        // decrease the score
-        // score -= 1;
-        // decrease the frogs body size
-        //frog.body.size= frog.body.size -5;
         // reset the fly
         //resetFly();
     }
     //frog.tongue.state="inbound";
 
     }
- //   const noteaten = (d > frog.tongue.size/2 + fly.size/2);
-//  if (noteaten){
-//         // decrease score
-//         score = score -1;
-//         // reset fly
-//         resetFly();
-
-//         // bring the tongue back
-//         frog.tongue.state = "inbound";
-        
-//     }
-
 
 /**
  * Launch the tongue on click (if it's not launched yet)
@@ -423,9 +407,9 @@ function winScene(){
         text(mysecondText,width/2,height/2);
         square(0,0,800);
         pop();
-        
+   state="title";
     }
-    stop();
+   // stop();
    //reset();
 }
 // lose scene
@@ -458,15 +442,29 @@ function loseScene(){
         // if (state==="game"){
         //     state="title"
         // }
+       if(score ===10){
+state="title";
+score=0;
+       } else if (score===-1){
+        state="title"
+        score=0;
+       }
+    //     let button= createButton('Main Menu');
+    // button.position(320,520,520);
+    // button.mousePressed(MainMenu);// set the button to call title screen
+    // button.hide(); // hide button
     }
-    stop();
+  //  stop();
    // reset();
    // gameOver=false;
     //return;
 }
-function MainMenu(){
-    
-}
+// function MainMenu(){
+//     let button= createButton('Main Menu');
+//     button.position(320,520,520);
+//     button.mousePressed(MainMenu);// set the button to call title screen
+//     button.hide(); // hide button
+// }
 // function keyPressed(){
 //     if (keyCode===ENTER){
 //         state="title"
@@ -490,7 +488,6 @@ function MainMenu(){
 
 function mainMenu(){
 loseScene();
-if(showTitle){
     push();
     textSize(30);
     textAlign(CENTER);
@@ -498,8 +495,13 @@ if(showTitle){
     text('Main Menu', 520,520);
 pop();
 // show button in game over scene
-let button=select('button');
-button.show();
+// let button=select('button');
+// button.show();
 } 
 
-}
+// function mouseIsPressed(){
+//     if (loseScene === true){
+//         state="titles"
+//     }
+    
+// }
