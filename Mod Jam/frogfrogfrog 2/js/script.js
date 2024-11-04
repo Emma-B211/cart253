@@ -437,7 +437,6 @@ function youWin(){
 }
 // lose scene
 function youLose(){
-    
     if (score === -1){
         push();
         background("black");
@@ -452,7 +451,10 @@ function youLose(){
         text(myText,width/2,height/2);
         //square(0,0,800);
         pop();
-        
+    }
+}
+
+
         // push();
         // noStroke();
         // textAlign(CENTER,BOTTOM);
@@ -474,12 +476,12 @@ function youLose(){
     // button.position(320,520,520);
     // button.mousePressed(MainMenu);// set the button to call title screen
     // button.hide(); // hide button
-    } //return score;
+     //return score;
   //  stop();
    // reset();
    // gameOver=false;
     //return;
-}
+
 
 
 function gameOver(){
@@ -502,7 +504,7 @@ function youWin(){
     fill(255);
     text("You Win",width/2,height/2);
 }
-}
+
 
 function restartGame(){
     if (score===-1){
@@ -512,4 +514,5 @@ function restartGame(){
         state="title"
         score=0;
     }
+}
 }
