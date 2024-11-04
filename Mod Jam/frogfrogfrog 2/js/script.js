@@ -157,7 +157,8 @@ function game() {
     // startGame();
     // pauseGame();
 youWin();
-loseScene();
+youLose();
+gameOver();
     restartGame();
 }
 
