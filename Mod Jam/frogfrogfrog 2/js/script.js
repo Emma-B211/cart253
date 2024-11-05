@@ -138,7 +138,12 @@ mysecondText="YOU WIN"
         //     state="title"
         // }
         //reset();
-
+        if (key==='c'){
+            //title();
+            //reset();
+            state="title";
+        }
+        
     } else if (score===10){
         push();
         noStroke;
@@ -147,13 +152,23 @@ mysecondText="YOU WIN"
         pop();
         state="You Win"
         reset();
-    } else if(state==="gameOver"){
-        state="title"
-    } else if (state==="youWin"){
-        state="title"
+    // } else if(state==="gameOver"){
+    //     state="title"
+    // } else if (state==="youWin"){
+    //     state="title"
+    // }
+    if(key==='c'){
+       // title();
+        state="title";
     }
 }
+ } 
 
+//  function keyPressed(){
+//     if (key==='c'){
+//         title();
+//     }
+//  }
 // function youWin(){
     
 //     if (score === 10){
