@@ -41,6 +41,8 @@ let startButton;
 let dragging=false;
 var time;
 var wait=2000;
+//let reset;
+
 //let gamePaused=false;
 //let gameOver=false;
 //let gameStarted=false;
@@ -109,18 +111,16 @@ mysecondText="YOU WIN"
         gameOver();
     } else if (state==="You Win"){
         youWin();
-    } else if (state==="you Lose"){
-        youLose();
-    } else if (state==="restart game"){
-        restartGame();
-    }
+    } else if (state==="gameOver"){
+        title();
+    } 
 // when score equals to 10, the game will stop playing once it goes to the you win screen
-    if (score === 10){
-        reset();
-        //restart();
-        state="youWin"
+    // if (score === 10){
+    //     reset();
+    //     //restart();
+    //     state="youWin"
     
-    }
+    // }
 // when score equals to -1, the game will stop once the game over screen is shown
     if (score === -1){
         //reset();
@@ -129,14 +129,28 @@ mysecondText="YOU WIN"
         noStroke();
         fill(255);
         //square(250,250,250)
-        text("Game Over",350,350);
-        square(250,250,250)
+        //text("Game Over",350,350);
+        //square(250,250,250)
         pop();
         state="gameOver"
         //reset();
         // if (state==="game"){
         //     state="title"
         // }
+        //reset();
+
+    } else if (score===10){
+        push();
+        noStroke;
+        fill(255);
+        //text("You Win", width/2, height/2 )
+        pop();
+        state="You Win"
+        reset();
+    } else if(state==="gameOver"){
+        state="title"
+    } else if (state==="youWin"){
+        state="title"
     }
 }
 
@@ -182,32 +196,34 @@ mysecondText="YOU WIN"
 //         pop();
 //     }
 // }
-// function gameOver(){
-//     background('black');
-//     textAlign(CENTER, CENTER);
-//     textSize(50);
-//     textStyle(BOLD);
-//     fill(255);
-//     text("gameOver",width/2,height/2);
-// }
+function gameOver(){
+    background('black');
+    textAlign(CENTER, CENTER);
+    textSize(50);
+    textStyle(BOLD);
+    fill(255);
+    text("gameOver",width/2,height/2);
+}
 
-// function youWin(){
-//     background('yellow');
-//     textAlign(CENTER,CENTER);
-//     textSize(50);
-//     textStyle(BOLD);
-//     fill(255);
-//     text("You Win",width/2,height/2);
-// }
+function youWin(){
+    background('yellow');
+    textAlign(CENTER,CENTER);
+    textSize(50);
+    textStyle(BOLD);
+    fill(255);
+    text("You Win",width/2,height/2);
+}
 
 
 function restartGame(){
     if (score===-1){
         state="title"
         score=0;
+        reset();
     } else if (score===10){
         state="title"
         score=0;
+        reset();
     }
 }
 
@@ -216,7 +232,7 @@ function game() {
     
     moveFly();
     drawFly();
-
+    restartGame();
     checkTongueFlyOverlap();
     drawScore();
     moveFrog();
@@ -233,7 +249,7 @@ function game() {
    // youWin();
    // youLose();
     //gameOver();
-    restartGame();
+    
 }
 
 /**
@@ -485,7 +501,7 @@ if (frog.tongue.state === "idle") {
 function scoreChanges(){
     if (score===10){
         state="youWin"
-    } else if (state==="youLose"){
+    } else if (score===-1){
         state==="youLose"
     }
     restartGame();
