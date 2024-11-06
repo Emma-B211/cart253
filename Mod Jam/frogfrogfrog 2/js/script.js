@@ -239,24 +239,24 @@ function keyPressed(){
          reset();
      }
 }
-// function restartGame(){
-//     if (score===-1){
-//         state="title"
-//         score=0;
-//         reset();
-//     } else if (score===10){
-//         state="title"
-//         score=0;
-//         reset();
-//     }
-// }
+function restartGame(){
+    if (score===-1){
+        state="title"
+        score=0;
+        reset();
+    } else if (score===10){
+        state="title"
+        score=0;
+        reset();
+    }
+}
 
 function game() {
     background("#87ceeb");
     
     moveFly();
     drawFly();
-    //restartGame();
+    restartGame();
     checkTongueFlyOverlap();
     drawScore();
     moveFrog();
@@ -402,7 +402,7 @@ function checkTongueFlyOverlap() {
     //const noteaten = (d > frog.tongue.size/2 - fly.size/2);
     if (eaten) {
         // increase the score
-        score= score + 1;
+        score+=1;
         // increase the frog body size
         frog.body.size += 10;
         // Reset the fly
@@ -537,132 +537,3 @@ function scoreChanges(){
     }
     restartGame();
 }
-//}
-
-// function gameOver(){
-//     if (score === 10){
-//         push();
-//         textAlign(CENTER. CENTER);
-//         textSize(50);
-//         textStyle(BOLD);
-//         text(mysecondText,width/2,height/2);
-//         pop();
-//     } else if (score === -1){
-//         push();
-//         textAlign(CENTER,CENTER);
-//         textSize(50);
-//         textStyle(BOLD);
-//         text(myText,width/2,height/2);
-//         pop();
-
-//     }
-    //stop game
-//}
-// win screen 
-// function youWin(){
-    
-//     if (score === 10){
-//         push();
-//         background("green");
-//         noStroke();
-//     //fill('black');
-//     //square(0,0,800);
-//         textAlign(CENTER. CENTER);
-//         textSize(50);
-//         fill(255);
-//         strokeWeight(4);
-//         textStyle(BOLD);
-//         text(mysecondText,width/2,height/2);
-//         square(0,0,800);
-//         pop();
-//         // if (score===10|millis()>=wait){
-//         //     time=millis();
-//        // state="title"
-          
-//         //    }
-//     } //return score;
-//    // stop();
-//    //reset();
-// }
-// lose scene
-// function youLose(){
-//     if (score === -1){
-//         push();
-//         background("black");
-//      noStroke();
-//     //fill('green');
-//     // square(0,0,800);
-//         textAlign(CENTER,CENTER);
-//         textSize(50);
-//         fill(255);
-//         strokeWeight(4);
-//         textStyle(BOLD);
-//         text(myText,width/2,height/2);
-//         //square(0,0,800);
-//         pop();
-//     }
-// }
-
-
-        // push();
-        // noStroke();
-        // textAlign(CENTER,BOTTOM);
-        // textSize(30);
-        // fill(255);
-        // textStyle(BOLD);
-        //square(250,250,250)
-        //text("Main Menu",320,320);
-        //square(250,250,250)
-        // if (state==="game"){
-        //     state="title"
-        // }
-    //    if(score ===-1| millis()>=wait){
-    //     time=millis();
-      //  state="title"
-
-    //    }
-    //     let button= createButton('Main Menu');
-    // button.position(320,520,520);
-    // button.mousePressed(MainMenu);// set the button to call title screen
-    // button.hide(); // hide button
-     //return score;
-  //  stop();
-   // reset();
-   // gameOver=false;
-    //return;
-
-
-
-// function gameOver(){
-//     background('black');
-//     textAlign(CENTER, CENTER);
-//     textSize(50);
-//     textStyle(BOLD);
-//     fill(255);
-//     text("gameOver",width/2,height/2);
-// }
-
-// if(state==="game0ver"){
-//     state="title"
-// // }
-// function youWin(){
-//     background('yellow');
-//     textAlign(CENTER,CENTER);
-//     textSize(50);
-//     textStyle(BOLD);
-//     fill(255);
-//     text("You Win",width/2,height/2);
-// }
-
-
-// function restartGame(){
-//     if (score===-1){
-//         state="title"
-//         score=0;
-//     } else if (score===10){
-//         state="title"
-//         score=0;
-//     }
-// }
-// }
-//}
