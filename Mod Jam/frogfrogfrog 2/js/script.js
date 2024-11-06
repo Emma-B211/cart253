@@ -112,9 +112,7 @@ mysecondText="YOU WIN"
     } else if (state==="You Win"){
         youWin();
     } else if (state==="gameOver"){
-        title();
-    } else if (state==="title"){
-        title();
+        gameOver();
     }
 // when score equals to 10, the game will stop playing once it goes to the you win screen
     // if (score === 10){
@@ -140,11 +138,11 @@ mysecondText="YOU WIN"
         //     state="title"
         // }
         //reset();
-        if (key==='c'){
-            //title();
-            //reset();
-            state="title";
-        }
+        // if (key==='c'){
+        //     //title();
+        //     //reset();
+        //     state="title";
+        // }
         
     } else if (score===10){
         push();
@@ -159,11 +157,11 @@ mysecondText="YOU WIN"
     // } else if (state==="youWin"){
     //     state="title"
     // }
-    if(key==='c'){
-       // title();
-        state="title";
-        reset();
-    }
+    // if(key==='c'){
+    //    // title();
+    //     state="title";
+    //     reset();
+    // }
 }
  } 
 
@@ -221,6 +219,7 @@ function gameOver(){
     textStyle(BOLD);
     fill(255);
     text("gameOver",width/2,height/2);
+
 }
 
 function youWin(){
@@ -230,27 +229,34 @@ function youWin(){
     textStyle(BOLD);
     fill(255);
     text("You Win",width/2,height/2);
+
 }
 
-
-function restartGame(){
-    if (score===-1){
-        state="title"
-        score=0;
-        reset();
-    } else if (score===10){
-        state="title"
-        score=0;
-        reset();
-    }
+function keyPressed(){
+    if(key==='c'){
+        title();
+         //state="title";
+         reset();
+     }
 }
+// function restartGame(){
+//     if (score===-1){
+//         state="title"
+//         score=0;
+//         reset();
+//     } else if (score===10){
+//         state="title"
+//         score=0;
+//         reset();
+//     }
+// }
 
 function game() {
     background("#87ceeb");
     
     moveFly();
     drawFly();
-    restartGame();
+    //restartGame();
     checkTongueFlyOverlap();
     drawScore();
     moveFrog();
@@ -454,33 +460,40 @@ function title(){
 }
 // instruction screen
 function instruction(){
-    background("lilac");
+    background("#c8ae2d8");
 
     textAlign(LEFT, TOP);
+    fill(0);
     textSize(20);
     text("instructions",100,100);
 
     textAlign(LEFT, LEFT);
+    fill(0);
     textSize(20);
     text("1. move the frog using the mouse",100,200);
 
     textAlign(LEFT, CENTER);
+    fill(0);
     textSize(20);
     text("2.use the left mouse botton to catch the flies",100,250);
 
     textAlign(LEFT,CENTER);
+    fill(0);
     textSize(20);
     text("3. if you catch the fly, you get larger", 100,300);
 
     textAlign(LEFT,BOTTOM);
+    fill(0);
     textSize(20);
     text("4. if you missed, you'll get smaller",100,350);
 
     textAlign(LEFT,BOTTOM);
+    fill(0);
     textSize(20);
     text("5. Reach 10 points you won the game", 100, 400);
 
     textAlign(LEFT,BOTTOM);
+    fill(0);
     textSize(20);
     text("6. Reach -1 points you will lose the game", 100, 450);
 
