@@ -99,7 +99,7 @@ mysecondText="YOU WIN"
     resetFly();
 }
  function draw(){
-    
+    score=0;
     // title, instructions and game screen sequence
     if (state=== "title"){
         title();
@@ -113,7 +113,9 @@ mysecondText="YOU WIN"
         youWin();
     } else if (state==="gameOver"){
         title();
-    } 
+    } else if (state==="title"){
+        title();
+    }
 // when score equals to 10, the game will stop playing once it goes to the you win screen
     // if (score === 10){
     //     reset();
@@ -160,6 +162,7 @@ mysecondText="YOU WIN"
     if(key==='c'){
        // title();
         state="title";
+        reset();
     }
 }
  } 
