@@ -99,7 +99,7 @@ mysecondText="YOU WIN"
     resetFly();
 }
  function draw(){
-    score=0;
+    //score=0;
     // title, instructions and game screen sequence
     if (state=== "title"){
         title();
