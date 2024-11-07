@@ -468,7 +468,7 @@ function instruction() {
     textAlign(LEFT, BOTTOM);
     fill(0);
     textSize(20);
-    text("5. Reach 10 points you won the game", 100, 400);
+    text("5. Reach 5 points you won the game", 100, 400);
 
     textAlign(LEFT, BOTTOM);
     fill(0);
