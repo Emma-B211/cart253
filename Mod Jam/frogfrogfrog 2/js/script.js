@@ -106,8 +106,8 @@ function setup() {
     resetFly();
 }
 function draw() {
-    col, c, d = mouseX / 3
-    background(col, c, d)
+    // col, c, d = mouseX / 3
+    // background(col, c, d)
     //score=0;
     // title, instructions and game screen sequence
     if (state === "title") {
@@ -473,10 +473,13 @@ function drawScore() {
 }
 // title screen
 function title() {
-    background("green");
+    push();
+    col, c, d = mouseX / 3;
+    background(col, c, d)
     textAlign(CENTER, BOTTOM);
     textSize(88);
     text("Catch The Fly", 300, 300);
+    pop();
 }
 // instruction screen
 function instruction() {
