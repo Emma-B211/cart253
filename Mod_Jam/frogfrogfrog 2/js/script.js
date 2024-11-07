@@ -149,8 +149,7 @@ function gameOver() {
 // displays you win when you win
 function youWin() {
     push();
-    // background colour change when mouse is moving
-
+    // background colour changes when you win
     push();
     colorMode(HSB);
     background(youWinhue, 100, 100);
