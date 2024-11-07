@@ -230,10 +230,10 @@ function gameOver() {
     text("gameOver", width / 2, height / 2);
     pop();
 
-    // if (key === 'c') {
-    //     title();
-    reset();
-    // }
+    if (key === 'c') {
+        title();
+        // reset();
+    }
 }
 
 function youWin() {
@@ -245,10 +245,10 @@ function youWin() {
     textStyle(BOLD);
     fill(255);
     text("You Win", width / 2, height / 2);
-    // if (key === 'c') {
-    //     title();
-    reset();
-    // }
+    if (key === 'c') {
+        title();
+        reset();
+    }
 }
 
 
