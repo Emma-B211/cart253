@@ -38,6 +38,7 @@
 let myText;
 let mysecondText;
 let startButton;
+let youWinhue = 0;
 //let dragging = false;
 //var time;
 //var wait = 2000;
@@ -149,8 +150,12 @@ function gameOver() {
 function youWin() {
     push();
     // background colour change when mouse is moving
-    //col, c, d = mouseX / 3;
-    background("green");
+
+    push();
+    colorMode(HSB);
+    background(youWinhue, 100, 100);
+    pop()
+    youWinhue = (youWinhue + 1) % 360;
     textAlign(CENTER, CENTER);
     textSize(50);
     textStyle(BOLD);
@@ -433,6 +438,7 @@ function title() {
     push();
     // col, c, d = mouseX / 3;
     background("green");
+    fill(0);
     textAlign(CENTER, BOTTOM);
     textSize(88);
     text("Catch The Fly", 300, 300);
