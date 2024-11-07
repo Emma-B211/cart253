@@ -38,7 +38,7 @@
 let myText;
 let mysecondText;
 let startButton;
-let dragging = false;
+//let dragging = false;
 var time;
 var wait = 2000;
 // var col = 100;
