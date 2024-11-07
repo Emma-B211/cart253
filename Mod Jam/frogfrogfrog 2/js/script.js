@@ -145,11 +145,11 @@ function draw() {
         //     state="title"
         // }
         //reset();
-        if (key === 'c') {
-            //title();
-            //reset();
-            state = "title";
-        }
+        // if (key === 'c') {
+        //     //title();
+        //     //reset();
+        //     state = "title";
+        // }
 
     } else if (score === 10) {
         push();
@@ -164,11 +164,11 @@ function draw() {
         // } else if (state==="youWin"){
         //     state="title"
         // }
-        if (key === 'c') {
-            // title();
-            state = "title";
-            reset();
-        }
+        // if (key === 'c') {
+        //     // title();
+        //     state = "title";
+        //     reset();
+        // }
     }
 }
 
@@ -221,8 +221,7 @@ function draw() {
 // }
 function gameOver() {
     push();
-    background(col, c, d);
-    col, c, d = mouseX / 2;
+    background(0);
     textAlign(CENTER, CENTER);
     textSize(50);
     textStyle(BOLD);
@@ -238,8 +237,7 @@ function gameOver() {
 
 function youWin() {
     push();
-    background(color, e, b);
-    color, e, b = mouseX / 2;
+    background("green");
     textAlign(CENTER, CENTER);
     textSize(50);
     textStyle(BOLD);
@@ -247,7 +245,7 @@ function youWin() {
     text("You Win", width / 2, height / 2);
     if (key === 'c') {
         title();
-        reset();
+        //reset();
     }
 }
 
@@ -322,9 +320,9 @@ function moveFly() {
         resetFly();
     }
 
-    if (frog.tongue === fly) {
-        dragging = true;
-    }
+    // if (frog.tongue === fly) {
+    //     dragging = true;
+    // }
 }
 
 /**
