@@ -474,8 +474,8 @@ function drawScore() {
 // title screen
 function title() {
     push();
-    col, c, d = mouseX / 3;
-    background(col, c, d)
+   // col, c, d = mouseX / 3;
+    background("green");
     textAlign(CENTER, BOTTOM);
     textSize(88);
     text("Catch The Fly", 300, 300);
