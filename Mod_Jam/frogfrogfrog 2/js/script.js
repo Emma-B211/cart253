@@ -96,9 +96,8 @@ let state = "title"
  */
 function setup() {
     createCanvas(640, 480);
-
-    myText = "GAME OVER"
-    mysecondText = "YOU WIN"
+    // myText = "GAME OVER"
+    // mysecondText = "YOU WIN"
     //time=millis();
     // button= createButton('main menu','white');
     // button.position()
@@ -107,9 +106,6 @@ function setup() {
     resetFly();
 }
 function draw() {
-    // col, c, d = mouseX / 3
-    // background(col, c, d)
-    //score=0;
     // title, instructions and game screen sequence
     if (state === "title") {
         title();
@@ -134,7 +130,7 @@ function draw() {
 
 }
 
-
+// displays gameover when you lose
 function gameOver() {
     push();
     background(0);
@@ -149,7 +145,7 @@ function gameOver() {
     //   restartGame();
     // }
 }
-
+// displays you win when you win
 function youWin() {
     push();
     // background colour change when mouse is moving
@@ -165,12 +161,14 @@ function youWin() {
     // }
 }
 
-
+// if c is pressed during you win or game over it will bring you back to the title 
+// through the restartgame function.
 function keyPressed() {
     if (key === 'c' && (state === "You Win" || state === "gameOver")) {
         restartGame();
     }
 }
+// code that when game is over and goes back to title it'll reset everything to normal
 function restartGame() {
     score = 0;
     state = "title"
@@ -178,7 +176,7 @@ function restartGame() {
     frog.tongue.state = "idle";
     frog.body.size = 20;
 }
-
+// sets up everything in the game
 function game() {
     background("#87ceeb");
 
@@ -382,7 +380,7 @@ function drawScore() {
     //frog.body.size = map(score,0,10,50,500);
 
 }
-
+// checks if the game is over 
 function checkGameOver() {
     // when score equals to -1, the game will stop once the game over screen is shown
     if (score === -1) {
@@ -510,11 +508,11 @@ function mousePressed() {
     // }
 
 }
-function scoreChanges() {
-    if (score === 10) {
-        state = "youWin"
-    } else if (score === -1) {
-        state === "youLose"
-    }
-    restartGame();
-}
+// function scoreChanges() {
+//     if (score === 10) {
+//         state = "youWin"
+//     } else if (score === -1) {
+//         state === "youLose"
+//     }
+//     restartGame();
+// }
