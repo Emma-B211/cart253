@@ -145,11 +145,11 @@ function draw() {
         //     state="title"
         // }
         //reset();
-        // if (key==='c'){
-        //     //title();
-        //     //reset();
-        //     state="title";
-        // }
+        if (key === 'c') {
+            //title();
+            //reset();
+            state = "title";
+        }
 
     } else if (score === 10) {
         push();
@@ -164,11 +164,11 @@ function draw() {
         // } else if (state==="youWin"){
         //     state="title"
         // }
-        // if(key==='c'){
-        //    // title();
-        //     state="title";
-        //     reset();
-        // }
+        if (key === 'c') {
+            // title();
+            state = "title";
+            reset();
+        }
     }
 }
 
