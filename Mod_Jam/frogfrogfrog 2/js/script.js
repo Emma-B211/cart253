@@ -134,53 +134,7 @@ function draw() {
 
 }
 
-//  function keyPressed(){
-//     if (key==='c'){
-//         title();
-//     }
-//  }
-// function youWin(){
 
-//     if (score === 10){
-//         push();
-//         background("green");
-//         noStroke();
-//     //fill('black');
-//     //square(0,0,800);
-//         textAlign(CENTER. CENTER);
-//         textSize(50);
-//         fill(255);
-//         strokeWeight(4);
-//         textStyle(BOLD);
-//         text(mysecondText,width/2,height/2);
-//         square(0,0,800);
-//         pop();
-//         // if (score===10|millis()>=wait){
-//         //     time=millis();
-//        // state="title"
-
-//         //    }
-//     } //return score;
-//    // stop();
-//    //reset();
-// }
-// function youLose(){
-//     if (score === -1){
-//         push();
-//         background("black");
-//      noStroke();
-//     //fill('green');
-//     // square(0,0,800);
-//         textAlign(CENTER,CENTER);
-//         textSize(50);
-//         fill(255);
-//         strokeWeight(4);
-//         textStyle(BOLD);
-//         text(myText,width/2,height/2);
-//         //square(0,0,800);
-//         pop();
-//     }
-// }
 function gameOver() {
     push();
     background(0);
@@ -198,6 +152,7 @@ function gameOver() {
 
 function youWin() {
     push();
+    // background colour change when mouse is moving
     col, c, d = mouseX / 3;
     background(col, c, d);
     textAlign(CENTER, CENTER);
@@ -221,6 +176,7 @@ function restartGame() {
     state = "title"
     frog.tongue.y = frog.body.y;
     frog.tongue.state = "idle";
+    frog.body.size = 20;
 }
 
 function game() {
