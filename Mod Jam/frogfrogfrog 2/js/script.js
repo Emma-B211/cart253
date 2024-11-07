@@ -232,7 +232,7 @@ function gameOver() {
 
     // if (key === 'c') {
     //     title();
-    //     // reset();
+    reset();
     // }
 }
 
@@ -247,7 +247,7 @@ function youWin() {
     text("You Win", width / 2, height / 2);
     // if (key === 'c') {
     //     title();
-    //     reset();
+    reset();
     // }
 }
 
