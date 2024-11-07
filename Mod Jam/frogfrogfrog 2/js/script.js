@@ -222,7 +222,7 @@ function draw() {
 function gameOver() {
     push();
     background(col, c, d);
-    col, c, d = mouseX / 3;
+    col, c, d = mouseX / 2;
     textAlign(CENTER, CENTER);
     textSize(50);
     textStyle(BOLD);
@@ -239,7 +239,7 @@ function gameOver() {
 function youWin() {
     push();
     background(color, e, b);
-    color, e, b = mouseX / 3;
+    color, e, b = mouseX / 2;
     textAlign(CENTER, CENTER);
     textSize(50);
     textStyle(BOLD);
@@ -247,7 +247,7 @@ function youWin() {
     text("You Win", width / 2, height / 2);
     if (key === 'c') {
         title();
-        //reset();
+        reset();
     }
 }
 
