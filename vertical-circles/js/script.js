@@ -20,17 +20,50 @@ function setup() {
  */
 function draw() {
     background(0);
+let x=width/2;
+let y=0;
+let diameter=50;
+ //while loop
 
+ while (y<=height){
+    ellipse(200, 0, 50);
+    
+    y += 50;
+ }
+ while(y<=height){
+  ellipse(200, 50, 50);  
+ }
+ while (y<=height){
+     ellipse(200, 100, 50);
+     y += 50;
+ }
+ while (y<=height){
+     ellipse(200, 150, 50);
+     y += 50;
+ }
+ while (y<=height){
+    ellipse(200, 200, 50);
+    y += 50;
+ }
+ while (y<=height){
+    ellipse(200, 250, 50);
+    y += 50;
+ }
+ while (y<=height){
+    ellipse(200, 300, 50);
+    y += 50;
+ }
+ while (y<=height){
+     ellipse(200, 350, 50);
+     y += 50;
+ }
+ while (y<=height){
+    ellipse(200, 400, 50); 
+    y += 50;
+ }
+    
     // Draw a series of 50-pixel diameter circles
     // Starting at the top of the canvas
     // And ending at the bottom
-    ellipse(200, 0, 50);
-    ellipse(200, 50, 50);
-    ellipse(200, 100, 50);
-    ellipse(200, 150, 50);
-    ellipse(200, 200, 50);
-    ellipse(200, 250, 50);
-    ellipse(200, 300, 50);
-    ellipse(200, 350, 50);
-    ellipse(200, 400, 50);
+   
 }
