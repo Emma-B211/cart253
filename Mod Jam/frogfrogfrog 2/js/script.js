@@ -41,12 +41,12 @@ let startButton;
 let dragging = false;
 var time;
 var wait = 2000;
-var col = 100;
-var c = 80;
-var d = 100;
-var color = 240;
-var e = 30;
-var b = 120;
+// var col = 100;
+// var c = 80;
+// var d = 100;
+// var color = 240;
+// var e = 30;
+// var b = 120;
 
 //let reset;
 
@@ -82,7 +82,8 @@ const fly = {
         x: 0,
         y: 0,
 
-    }
+    },
+    amICaught: false,
 };
 /***
  * score
@@ -130,48 +131,7 @@ function draw() {
     //     state="youWin"
 
     // }
-    // when score equals to -1, the game will stop once the game over screen is shown
-    if (score === -1) {
-        //reset();
-        //restart();
-        push();
-        noStroke();
-        fill(255);
-        //square(250,250,250)
-        //text("Game Over",350,350);
-        //square(250,250,250)
-        pop();
-        state = "gameOver"
-        // reset();
-        // if (state==="game"){
-        //     state="title"
-        // }
-        //reset();
-        // if (key === 'c') {
-        //     //title();
-        //     //reset();
-        //     state = "title";
-        // }
 
-    } else if (score === 10) {
-        push();
-        noStroke;
-        fill(255);
-        //text("You Win", width/2, height/2 )
-        pop();
-        state = "You Win"
-        reset();
-        // } else if(state==="gameOver"){
-        //     state="title"
-        // } else if (state==="youWin"){
-        //     state="title"
-        // }
-        // if (key === 'c') {
-        //     // title();
-        //     state = "title";
-        //     reset();
-        // }
-    }
 }
 
 //  function keyPressed(){
@@ -231,10 +191,9 @@ function gameOver() {
     text("gameOver", width / 2, height / 2);
     pop();
 
-    if (key === 'c') {
-        title();
-        // reset();
-    }
+    // if (key === 'c') {
+    //   restartGame();
+    // }
 }
 
 function youWin() {
@@ -245,30 +204,22 @@ function youWin() {
     textStyle(BOLD);
     fill(255);
     text("You Win", width / 2, height / 2);
-    if (key === 'c') {
-        title();
-        //reset();
-    }
+    // if (key === 'c') {
+    //   restartGame();
+    // }
 }
 
 
 function keyPressed() {
-    if (key === 'c') {
-        title();
-        //state="title";
-        reset();
+    if (key === 'c' && (state === "You Win" || state === "gameOver")) {
+        restartGame();
     }
 }
 function restartGame() {
-    if (score === -1) {
-        state = "title"
-        score = 0;
-        reset();
-    } else if (score === 10) {
-        state = "title"
-        score = 0;
-        reset();
-    }
+    score = 0;
+    state = "title"
+    frog.tongue.y = frog.body.y;
+    frog.tongue.state = "idle";
 }
 
 function game() {
@@ -276,12 +227,13 @@ function game() {
 
     moveFly();
     drawFly();
-    restartGame();
+    //restartGame();
     checkTongueFlyOverlap();
     drawScore();
     moveFrog();
     moveTongue();
     drawFrog();
+    checkGameOver();
     //gameOver();
     //loseScene();
     //winScene();
@@ -304,29 +256,34 @@ function moveFly() {
     // Move the fly
     //fly change its mind
     const r = random(0, 200);
-    if (r < 20) {
-        fly.velocity.x = random(-4, 4);
-        fly.velocity.y = random(-4, 4);
-    }
-    // keep the fly on the canvas
-    fly.x = constrain(fly.x, 0, width);
-    fly.y = constrain(fly.y, 0, height);
+    if (fly.amICaught === false) {
+        if (r < 20) {
+            fly.velocity.x = random(-4, 4);
+            fly.velocity.y = random(-4, 4);
+        }
+        // keep the fly on the canvas
+        fly.x = constrain(fly.x, 0, width);
+        fly.y = constrain(fly.y, 0, height);
 
-    fly.x = fly.x + fly.velocity.x;
-    //fly.x= random(100);
-    fly.y = fly.y + fly.velocity.y;
-    // Handle the fly going off the canvas
-    if (fly.x > width) {
-        // score -= 1;
-        // frog.body.size -= 1;
-        resetFly();
-    }
+        fly.x = fly.x + fly.velocity.x;
+        //fly.x= random(100);
+        fly.y = fly.y + fly.velocity.y;
+        // Handle the fly going off the canvas
+        if (fly.x > width) {
+            // score -= 1;
+            // frog.body.size -= 1;
+            resetFly();
+        }
 
-    // if (frog.tongue === fly) {
-    //     dragging = true;
-    // }
+        // if (frog.tongue === fly) {
+        //     dragging = true;
+        // }
+    }
+    else {
+        fly.y = frog.tongue.y;
+        fly.x = frog.tongue.x;
+    }
 }
-
 /**
  * Draws the fly as a black circle
  */
@@ -344,6 +301,7 @@ function drawFly() {
 function resetFly() {
     fly.x = random(0, 480);
     fly.y = random(0, 480);
+    fly.amICaught = false;
 }
 /**
  * Moves the frog to the mouse position on x
@@ -376,6 +334,7 @@ function moveTongue() {
         // The tongue stops if it hits the bottom
         if (frog.tongue.y >= height) {
             frog.tongue.state = "idle";
+            resetFly();
         }
     }
     if (frog.tongue.y < 1) {
@@ -420,13 +379,14 @@ function checkTongueFlyOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
     //const noteaten = (d > frog.tongue.size/2 - fly.size/2);
-    if (eaten) {
+    if (eaten && !fly.amICaught) {
         // increase the score
         score += 1;
         // increase the frog body size
         frog.body.size += 10;
         // Reset the fly
-        resetFly();
+        // resetFly();
+        fly.amICaught = true;
         // Bring back the tongue
         frog.tongue.state = "inbound";
         // } else if (noteaten){
@@ -449,12 +409,6 @@ function mousePressed() {
         if (frog.tongue.state === "idle") {
             frog.tongue.state = "outbound";
         }
-    } else if (state === "gameOver") {
-        state === "gameOver";
-    } else if (state === "youWin") {
-        state = "youWin";
-    } else if (state === "youLose") {
-        state = "youLose";
     }
 
 }
@@ -471,10 +425,56 @@ function drawScore() {
     //frog.body.size = map(score,0,10,50,500);
 
 }
+
+function checkGameOver() {
+    // when score equals to -1, the game will stop once the game over screen is shown
+    if (score === -1) {
+        //reset();
+        //restart();
+        push();
+        noStroke();
+        fill(255);
+        //square(250,250,250)
+        //text("Game Over",350,350);
+        //square(250,250,250)
+        pop();
+        state = "gameOver"
+        // reset();
+        // if (state==="game"){
+        //     state="title"
+        // }
+        //reset();
+        // if (key === 'c') {
+        //     //title();
+        //     //reset();
+        //     state = "title";
+        // }
+
+    } else if (score === 10) {
+        push();
+        noStroke;
+        fill(255);
+        //text("You Win", width/2, height/2 )
+        pop();
+        state = "You Win"
+        // reset();
+        // } else if(state==="gameOver"){
+        //     state="title"
+        // } else if (state==="youWin"){
+        //     state="title"
+        // }
+        // if (key === 'c') {
+        //     // title();
+        //     state = "title";
+        //     reset();
+        // }
+    }
+}
+
 // title screen
 function title() {
     push();
-   // col, c, d = mouseX / 3;
+    // col, c, d = mouseX / 3;
     background("green");
     textAlign(CENTER, BOTTOM);
     textSize(88);
@@ -521,10 +521,10 @@ function instruction() {
     text("6. Reach -1 points you will lose the game", 100, 450);
 
 }
-function keyPressed() {
-    state = "title";
+// function keyPressed() {
+//     state = "title";
 
-}
+// }
 // function that would make the player go from the title screen to the instruction screen than the game
 function mousePressed() {
     if (state === "title") {
@@ -543,11 +543,11 @@ function mousePressed() {
     else if (state === "youWin") {
         state = "youWin";
     }
-    else if (state === "youWin") {
-        state = "YouWin";
-    } else if (state === "youLose") {
-        state = "youLose";
-    }
+    // else if (state === "youWin") {
+    //     state = "YouWin";
+    // } else if (state === "youLose") {
+    //     state = "youLose";
+    // }
     //     if (frog.tongue.state === "idle") {
     //    frog.tongue.state = "outbound";
     // }
