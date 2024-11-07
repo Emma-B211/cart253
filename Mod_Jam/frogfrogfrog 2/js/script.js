@@ -405,7 +405,7 @@ function checkGameOver() {
         //     state = "title";
         // }
 
-    } else if (score === 10) {
+    } else if (score === 5) {
         push();
         noStroke;
         fill(255);
