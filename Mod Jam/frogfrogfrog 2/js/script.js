@@ -270,7 +270,9 @@ function restartGame() {
 }
 
 function game() {
-    background("#87ceeb");
+    col, c, d = mouseX / 3;
+    background(col, c, d);
+
 
     moveFly();
     drawFly();
