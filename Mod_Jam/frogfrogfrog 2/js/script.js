@@ -39,14 +39,14 @@ let myText;
 let mysecondText;
 let startButton;
 //let dragging = false;
-var time;
-var wait = 2000;
-// var col = 100;
-// var c = 80;
-// var d = 100;
-// var color = 240;
-// var e = 30;
-// var b = 120;
+//var time;
+//var wait = 2000;
+var col = 100;
+var c = 80;
+var d = 100;
+var color = 240;
+var e = 30;
+var b = 120;
 
 //let reset;
 
@@ -198,7 +198,8 @@ function gameOver() {
 
 function youWin() {
     push();
-    background("green");
+    col, c, d = mouseX / 3;
+    background(col, c, d);
     textAlign(CENTER, CENTER);
     textSize(50);
     textStyle(BOLD);
