@@ -149,8 +149,8 @@ function gameOver() {
 function youWin() {
     push();
     // background colour change when mouse is moving
-    col, c, d = mouseX / 3;
-    background(col, c, d);
+    //col, c, d = mouseX / 3;
+    background("green");
     textAlign(CENTER, CENTER);
     textSize(50);
     textStyle(BOLD);
