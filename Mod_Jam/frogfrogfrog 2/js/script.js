@@ -41,12 +41,12 @@ let startButton;
 //let dragging = false;
 //var time;
 //var wait = 2000;
-var col = 100;
-var c = 80;
-var d = 100;
-var color = 240;
-var e = 30;
-var b = 120;
+// var col = 100;
+// var c = 80;
+// var d = 100;
+// var color = 240;
+// var e = 30;
+// var b = 120;
 
 //let reset;
 
@@ -171,10 +171,10 @@ function keyPressed() {
 // code that when game is over and goes back to title it'll reset everything to normal
 function restartGame() {
     score = 0;
-    state = "title"
+    state = "title";
     frog.tongue.y = frog.body.y;
     frog.tongue.state = "idle";
-    frog.body.size = 20;
+    frog.body.size = 150;
 }
 // sets up everything in the game
 function game() {
@@ -302,6 +302,8 @@ function moveTongue() {
  * Displays the tongue (tip and line connection) and the frog (body)
  */
 function drawFrog() {
+    console.log(frog.body.size);
+
     // Draw the tongue tip
     push();
     fill("#ff0000");
