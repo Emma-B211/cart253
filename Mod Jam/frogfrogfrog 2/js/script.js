@@ -106,6 +106,8 @@ function setup() {
     resetFly();
 }
 function draw() {
+    col, c, d = mouseX / 3
+    background(col, c, d)
     //score=0;
     // title, instructions and game screen sequence
     if (state === "title") {
@@ -270,9 +272,7 @@ function restartGame() {
 }
 
 function game() {
-    col, c, d = mouseX / 3;
-    background(col, c, d);
-
+    background("#87ceeb");
 
     moveFly();
     drawFly();
