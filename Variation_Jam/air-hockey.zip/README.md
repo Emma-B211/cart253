@@ -2,7 +2,7 @@
 
 Emma Beldick
 
-[View this project online](https://emma-b211/cart253/Variation_Jam/air-hockey.zip)
+[View this project online](https://emma-b211/cart253/Variation_Jam/air-hockey.zip/index.html)
 
 ## Description
 
