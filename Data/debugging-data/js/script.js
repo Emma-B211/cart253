@@ -29,7 +29,7 @@ let circle = {
 let stringData = undefined;
 
 // The language setting (en = English, fr = "French")
-let lang = "french";
+let lang = "en";
 
 // Our current state is set to be TITLE so we should
 // display the TITLE when the program runs
@@ -39,7 +39,7 @@ let state = "title";
  * Loads our text data
  */
 function preload() {
-    strings = loadJSON("assets/data/localisation.json");
+    strings = loadJSON("assets/data/localization.json");
 }
 
 /**
@@ -75,10 +75,12 @@ function draw() {
  */
 function title() {
     background("#0000ff");
-
+    // console.log(strings.title[lang]);
+    const title = strings.title[lang];
+    console.log(lang);
     push();
     fill("#ffffff");
-    text(strings.title[language], width / 2, height / 2)
+    text(title, width / 2, height / 2)
     pop();
     // Notice the MAGIC above that we used array notation
     // in order to select a property according to a property
