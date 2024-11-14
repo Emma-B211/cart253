@@ -9,6 +9,42 @@
  */
 
 "use strict";
+// const machineWidth=100;
+// const machineHeight=100;
+
+
+const machines = [{
+    type: "incinerator",
+    x: 0,
+    y: 100,
+    width: 100,
+    height: 100,
+    fill: "#ff4400",
+    draggable: true,
+    functionality: 100
+},
+
+{
+    type: "freezer",
+    x: 150,
+    y: 100,
+    width: 100,
+    height: 100,
+    fill: "#bbbbff",
+    draggable: false,
+    functionality: 87
+},
+
+{
+    type: "crusher",
+    x: 300,
+    y: 100,
+    width: 100,
+    height: 100,
+    fill: "#777777",
+    draggable: false,
+    functionality: 45
+}];
 
 /**
  * Create the canvas
@@ -23,24 +59,39 @@ function setup() {
 function draw() {
     background(0);
 
+    for (let machine of machines) {
+        drawMachine(machine);
+    }
+
+    // drawMachine(incinerator);
+    // drawMachine(freezer);
+    // drawMachine(crusher);
     // Incinerator
-    push();
-    noStroke();
-    fill("#ff4400");
-    rect(0, 100, 100, 100);
-    pop();
+    // push();
+    // noStroke();
+    // fill(incinerator.fill);
+    // rect(incinerator.x, incinerator.y, incinerator.width, incinerator.height);
+    // pop();
 
-    // Freezer
-    push();
-    noStroke();
-    fill("#bbbbff");
-    rect(150, 100, 100, 100);
-    pop();
+    // // Freezer
+    // push();
+    // noStroke();
+    // fill(freezer.fill);
+    // rect(freezer.x, freezer.y, freezer.width, freezer.height);
+    // pop();
 
-    // Crusher
+    // // Crusher
+    // push();
+    // noStroke();
+    // fill(crusher.fill);
+    // rect(crusher.x, crusher.y, crusher.width, crusher.height);
+    // pop();
+}
+
+function drawMachine(machine) {
     push();
     noStroke();
-    fill("#777777");
-    rect(300, 100, 100, 100);
+    fill(machine.fill);
+    rect(machine.x, machine.y, machine.width, machine.height);
     pop();
 }
