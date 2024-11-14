@@ -32,12 +32,15 @@ function preload() {
 */
 function setup() {
     createCanvas(800, 600);
-    if (lang === "fr") {
-        mainText = langData.instructions.fr;
 
-    } else if (lang === "en") {
-        mainText = langData.instructions.en;
-    }
+    mainText = langData.mainScreen.instructions[lang];
+
+    // if (lang === "fr") {
+    //     mainText = langData.mainScreen.instructions.fr;
+
+    // } else if (lang === "en") {
+    //     mainText = langData.mainScreen.instructions.en;
+    // }
 }
 
 /**
