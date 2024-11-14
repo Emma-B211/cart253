@@ -9,11 +9,22 @@
  * air hockey game variation
  * 1. goal area would open and close
  * 2. added foosball sticks to control where the ball/puck would go
- * 3. the ball would change shape after every point(maybe might change)
+ * 3. the ball would change shape after every point(maybe might change) and the
+ * object movement would change/ maybe game would change to another game(unsure if applicable)
  */
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
+//let mouseX = undefined;
+
+let xpos = 400;
+
+let ypos = 400;
+
+
+let dx = 1;
+let dy = 0;
+
 function setup() {
     createCanvas(800, 800);
 }
@@ -53,8 +64,8 @@ function paddle() {
     push();
     noStroke();
     fill(255, 0, 255);
-    rect(340, 640, 100, 30);
-    rect(300, 650, 180, 40);
+    //rect(mouseX, 640, 100, 30);
+    ellipse(mouseX, 650, 80);
     pop();
 }
 
@@ -62,7 +73,10 @@ function puck() {
     push();
     noStroke();
     fill(255, 255, 0);
-    ellipse(400, 400, 50, 50);
+    ellipse(xpos, ypos, 50, 50);
+    if (xpos >= width - 20 || xpos == 20) {
+        dx = -dx
+    }
     pop();
 }
 
@@ -70,8 +84,8 @@ function paddle1() {
     push();
     noStroke();
     fill(255, 0, 255);
-    rect(340, 140, 100, 50);
-    rect(300, 150, 180, 40);
+    //rect(340, 140, 100, 50);
+    ellipse(400, 150, 80);
     pop();
 }
 
@@ -89,4 +103,8 @@ function drawGoal2() {
     fill(255, 230, 320);
     rect(250, 0, 300, 50);
     pop();
+}
+
+function touchMoved() {
+
 }
