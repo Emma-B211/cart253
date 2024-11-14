@@ -1,0 +1,7 @@
+{
+    " description": "contains language options for the car generator",
+    "instructions": {
+        "en": "click to generate a new car",
+        "fr": "Cliquez pour generer une nouvelle voiture"
+    }
+}

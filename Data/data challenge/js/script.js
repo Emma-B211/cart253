@@ -17,20 +17,27 @@ let langData = undefined;
 let lang = "fr";
 
 let mainText = "Click to generate a car name.";
-let secondaryText = "Click to generate a dinosaur";
+//let secondaryText = "Click to generate a dinosaur";
 /**
  * Load the car and dinosaur data
  */
 function preload() {
     carData = loadJSON("assets/data/cars.json");
-    dinosaurData = loadJSON("assets/data/dinosaurs.json")
+    dinosaurData = loadJSON("assets/data/dinosaurs.json");
+    langData = loadJSON("assets/data/lang.json");
 }
 
 /**
  * Create the canvas
 */
 function setup() {
-    createCanvas(600, 400);
+    createCanvas(800, 600);
+    if (lang === "fr") {
+        mainText = langData.instructions.fr;
+
+    } else if (lang === "en") {
+        mainText = langData.instructions.en;
+    }
 }
 
 /**
@@ -50,13 +57,13 @@ function draw() {
     text(mainText, width / 2, height / 2);
     pop();
 
-    push();
-    fill("pink");
-    textAlign(CENTER, CENTER);
-    textSize(32);
-    fill("blue");
-    text(secondaryText, width / 2, height / 3);
-    pop();
+    // push();
+    // fill("pink");
+    // textAlign(CENTER, CENTER);
+    // textSize(32);
+    // fill("blue");
+    // text(secondaryText, width / 2, height / 3);
+    // pop();
 }
 
 /**
@@ -64,10 +71,13 @@ function draw() {
  */
 function mousePressed() {
     // choose a random car
-    // const car = random(car.cars_cars);
-    carData = random(car.cars_cars);
-    // choose a random dinosaurs
-    //  const dino = random(dino.dinosaurs_dinosaurs);
-    dinosaurData = random(dino.dinosaurs_dinosaurs);
+    const car = random(carData.cars);
+    // carData = random(car.cars_cars);
 
+    // choose a random dinosaurs
+    const dinosaurs = random(dinosaurData.dinosaurs);
+    //dinosaurData = random(dinosaurs.dinosaurs_dinosaurs);
+    mainText = car + " " + dinosaurs;
+
+    // mainText = ` I drive a ${car} ${dinosaurs} to work`;
 }
