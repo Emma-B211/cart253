@@ -7,11 +7,15 @@
 "use strict";
 /***
  * air hockey game variation
- * 1. goal area would open and close
+ * 1. goal area would open and close, moves and avoid the ball
  * 2. added foosball sticks to control where the ball/puck would go
- * 3. the ball would change shape after every point(maybe might change) and the
- * object movement would change/ maybe game would change to another game(unsure if applicable)
+ * 3. ball explode or turn invisible or change direction randomly
+ * 4. the ball would change shape after every point and the
+ * object movement would change different levels
+ * computer movement for opponent
+ * 5. arrays to create multiple balls
  */
+
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
