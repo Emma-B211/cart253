@@ -20,7 +20,28 @@
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
 //let mouseX = undefined;
+const paddle = {
+    x: mouseX,
+    y: 650,
+    size: 80
+};
 
+const paddle1 = {
+    x: 400,
+    y: 150,
+    size: 80
+};
+
+const puck = {
+    x: 400,
+    y: 400,
+    width: 50,
+    height: 50,
+    velocity: {
+        x: 0,
+        y: 0,
+    }
+}
 let xpos = 400;
 
 let ypos = 400;
@@ -109,6 +130,11 @@ function drawGoal2() {
     pop();
 }
 
-function touchMoved() {
+function checkPaddleOverlapped() {
 
+    // check distance between puck and padde
+    const d = dist()
+    if (puck === paddle) {
+
+    }
 }
