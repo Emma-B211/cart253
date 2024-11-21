@@ -20,28 +20,28 @@
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
 */
 //let mouseX = undefined;
-const paddle = {
-    x: mouseX,
-    y: 650,
-    size: 80
-};
+// const paddle = {
+//     x: 500,
+//     y: 650,
+//     size: 80
+// };
 
-const paddle1 = {
-    x: 400,
-    y: 150,
-    size: 80
-};
+// const paddle1 = {
+//     x: 400,
+//     y: 150,
+//     size: 80
+// };
 
-const puck = {
-    x: 400,
-    y: 400,
-    width: 50,
-    height: 50,
-    velocity: {
-        x: 0,
-        y: 0,
-    }
-}
+// const puck = {
+//     x: 400,
+//     y: 400,
+//     width: 50,
+//     height: 50,
+//     velocity: {
+//         x: 0,
+//         y: 0,
+//     }
+// }
 let xpos = 400;
 
 let ypos = 400;
@@ -52,6 +52,8 @@ let dy = 0;
 
 function setup() {
     createCanvas(800, 800);
+    background("black");
+    backdrop();
 }
 
 
@@ -98,7 +100,7 @@ function puck() {
     push();
     noStroke();
     fill(255, 255, 0);
-    ellipse(xpos, ypos, 50, 50);
+    ellipse(400, 400, 50, 50);
     if (xpos >= width - 20 || xpos == 20) {
         dx = -dx
     }
@@ -130,11 +132,14 @@ function drawGoal2() {
     pop();
 }
 
-function checkPaddleOverlapped() {
+// function checkPaddleOverlapped() {
 
-    // check distance between puck and padde
-    const d = dist()
-    if (puck === paddle) {
+//     // check distance between puck and padde
+//     const d = dist(puck.x, puck, y, paddle.x, paddle.y);
+//     const d1 = dist(puck.x, puck.y, paddle1.x, paddle1.y);
+//     //check distance between puck and goals
+//     const score = dist();
+//     if (puck === paddle) {
 
-    }
-}
+//     }
+// }
