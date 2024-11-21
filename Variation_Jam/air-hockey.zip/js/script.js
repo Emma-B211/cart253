@@ -16,32 +16,30 @@
  * 5. arrays to create multiple balls
  */
 
-/**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
-*/
-//let mouseX = undefined;
-// const paddle = {
-//     x: 500,
-//     y: 650,
-//     size: 80
-// };
 
-// const paddle1 = {
-//     x: 400,
-//     y: 150,
-//     size: 80
-// };
+let mouseX;
+const Paddle = {
+    x: mouseX,
+    y: 650,
+    size: 80
+};
 
-// const puck = {
-//     x: 400,
-//     y: 400,
-//     width: 50,
-//     height: 50,
-//     velocity: {
-//         x: 0,
-//         y: 0,
-//     }
-// }
+const Paddle1 = {
+    x: 400,
+    y: 150,
+    size: 80
+};
+
+const Puck = {
+    x: 400,
+    y: 400,
+    width: 50,
+    height: 50,
+    velocity: {
+        x: 0,
+        y: 0,
+    }
+}
 let xpos = 400;
 
 let ypos = 400;
@@ -49,6 +47,7 @@ let ypos = 400;
 
 let dx = 1;
 let dy = 0;
+let score = 0;
 
 function setup() {
     createCanvas(800, 800);
@@ -58,14 +57,14 @@ function setup() {
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * 
 */
 function draw() {
     background("black");
     backdrop();
-    paddle();
-    paddle1();
-    puck();
+    drawPaddle();
+    drawPaddle1();
+    drawPuck();
     drawGoal();
     drawGoal2();
 
@@ -87,32 +86,32 @@ function backdrop() {
 
 
 
-function paddle() {
+function drawPaddle() {
     push();
     noStroke();
     fill(255, 0, 255);
     //rect(mouseX, 640, 100, 30);
-    ellipse(mouseX, 650, 80);
+    ellipse(Paddle.x, Paddle.y, Paddle.size);
     pop();
 }
 
-function puck() {
+function drawPuck() {
     push();
     noStroke();
     fill(255, 255, 0);
-    ellipse(400, 400, 50, 50);
+    ellipse(Puck.x, Puck.y, Puck.width, Puck.height);
     if (xpos >= width - 20 || xpos == 20) {
         dx = -dx
     }
     pop();
 }
 
-function paddle1() {
+function drawPaddle1() {
     push();
     noStroke();
     fill(255, 0, 255);
     //rect(340, 140, 100, 50);
-    ellipse(400, 150, 80);
+    ellipse(Paddle1.x, Paddle1.y, Paddle1.size);
     pop();
 }
 
