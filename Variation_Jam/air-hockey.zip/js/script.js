@@ -40,9 +40,9 @@ const Puck = {
         y: 0,
     }
 }
-let xpos = 400;
+// let xpos = 400;
 
-let ypos = 400;
+// let ypos = 400;
 
 
 let dx = 1;
@@ -91,7 +91,7 @@ function drawPaddle() {
     noStroke();
     fill(255, 0, 255);
     //rect(mouseX, 640, 100, 30);
-    ellipse(Paddle.x, Paddle.y, Paddle.size);
+    ellipse(mouseX, Paddle.y, Paddle.size);
     pop();
 }
 
@@ -100,9 +100,9 @@ function drawPuck() {
     noStroke();
     fill(255, 255, 0);
     ellipse(Puck.x, Puck.y, Puck.width, Puck.height);
-    if (xpos >= width - 20 || xpos == 20) {
-        dx = -dx
-    }
+    // if (xpos >= width - 20 || xpos == 20) {
+    //     dx = -dx
+    // }
     pop();
 }
 
@@ -114,7 +114,11 @@ function drawPaddle1() {
     ellipse(Paddle1.x, Paddle1.y, Paddle1.size);
     pop();
 }
-
+function movePuck() {
+    if (Puck.x >= width - 20 || Puck.x == 20) {
+        dx = -dx
+    }
+}
 function drawGoal() {
     push();
     noStroke();
@@ -131,14 +135,14 @@ function drawGoal2() {
     pop();
 }
 
-// function checkPaddleOverlapped() {
+function checkPaddleOverlapped() {
 
-//     // check distance between puck and padde
-//     const d = dist(puck.x, puck, y, paddle.x, paddle.y);
-//     const d1 = dist(puck.x, puck.y, paddle1.x, paddle1.y);
-//     //check distance between puck and goals
-//     const score = dist();
-//     if (puck === paddle) {
+    // check distance between puck and padde
+    const d = dist(puck.x, puck, y, paddle.x, paddle.y);
+    const d1 = dist(puck.x, puck.y, paddle1.x, paddle1.y);
+    //check distance between puck and goals
+    const score = dist();
+    if (puck === paddle) {
 
-//     }
-// }
+    }
+}
