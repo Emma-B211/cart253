@@ -17,56 +17,76 @@
  */
 
 
-let mouseX;
-let mouseY;
-let puck;
-let speedX, speedY;
-let friction=0.995;
-// const Paddle = {
-//     x: mouseX,
-//     y: mouseY,
+// let mouseX;
+// let mouseY;
+// let width;
+// let height;
+
+// let puck;
+// let speedX, speedY;
+// let friction=0.995;
+// // const Paddle = {
+// //     x: mouseX,
+// //     y: mouseY,
+// //     size: 80
+// // };
+
+// const Paddle1 = {
+//     x: 400,
+//     y: 150,
 //     size: 80
 // };
 
-const Paddle1 = {
-    x: 400,
-    y: 150,
-    size: 80
-};
-
-// const puck = {
-//     x: 400,
-//     y: 400,
-//     width: 50,
-//     height: 50,
-//    speedX: (-5,5),
-//    speedY:(-5,5),
+// // const puck = {
+// //     x: 400,
+// //     y: 400,
+// //     width: 50,
+// //     height: 50,
+// //    speedX: (-5,5),
+// //    speedY:(-5,5),
     
-//     amITouch:false
+// //     amITouch:false
+// // }
+// // let xpos = 400;
+
+// // let ypos = 400;
+
+
+// // let dx = 1;
+// // let dy = 0;
+// let paddle;  // Paddle position
+// let paddleWidth = 200;
+// let paddleHeight = 50;
+
+// let ball;
+// let score = 0;
+
+// function setup() {
+//     createCanvas(800, 800);
+//     ball = createVector(width / 2, height / 2); // Ball starts in the center
+//   speedX = random(-5, 5);  // Random initial speed
+//   speedY = random(-5, 5);
+//   paddle = createVector(width / 2, height - 40); // Paddle near the bottom
+//    // resetPuck();
 // }
-// let xpos = 400;
-
-// let ypos = 400;
-
-
-// let dx = 1;
-// let dy = 0;
-let paddle;  // Paddle position
-let paddleWidth = 200;
-let paddleHeight = 50;
 
 let ball;
-let score = 0;
+let height=650;
+let width=100;
+let speedX, speedY;  // Ball velocity components
+let friction = 0.995;  // Friction factor (close to 1 for minimal friction)
+
+let paddle;  // Paddle position
+let paddleWidth = 100;
+let paddleHeight = 50;
 
 function setup() {
-    createCanvas(800, 800);
-    ball = createVector(width / 2, height / 2); // Ball starts in the center
+  createCanvas(800, 800);
+  ball = createVector(width / 2, height / 2); // Ball starts in the center
   speedX = random(-5, 5);  // Random initial speed
   speedY = random(-5, 5);
-  paddle = createVector(width / 2, height - 650); // Paddle near the bottom
-   // resetPuck();
+  paddle = createVector(width / 2, height - 40); // Paddle near the bottom
 }
-
 
 /**
  * 
@@ -74,14 +94,13 @@ function setup() {
 function draw() {
     background("black");
     backdrop();
-    //drawPaddle();
-    drawPaddle1();
-    //movePaddle();
+   
+    //drawPaddle1();
+
     movePuck();
-    
-   // drawPuck();
-    // drawGoal();
-    // drawGoal2();
+    movePaddle();
+    drawGoal();
+    drawGoal2();
 
 }
 // function resetPuck(){
@@ -93,51 +112,6 @@ function draw() {
 //     Paddle.x=mouseX;
 //     Paddle.y=mouseY;
 // }
-function backdrop() {
-    push();
-    noStroke();
-    fill("white");
-    ellipse(400, 400, 250, 250);
-    pop();
-
-    push();
-    noStroke();
-    fill("black");
-    ellipse(400, 400, 200, 200);
-    pop();
-}
-
-
-
-// function drawPaddle() {
-//     push();
-//     noStroke();
-//     fill(255, 0, 255);
-//     //rect(mouseX, 640, 100, 30);
-//     ellipse(mouseX, mouseY, Paddle.size);
-//     pop();
-// }
-
-// function drawPuck() {
-//     push();
-//     noStroke();
-//     fill(255, 255, 0);
-//     ellipse(puck.x, puck.y, puck.width, puck.height);
-//     // if (xpos >= width - 20 || xpos == 20) {
-//     //     dx = -dx
-//     // }
-//     pop();
-// }
-
-function drawPaddle1() {
-    push();
-    noStroke();
-    fill(255, 0, 255);
-    //rect(340, 140, 100, 50);
-    ellipse(Paddle1.x, Paddle1.y, Paddle1.size);
-    pop();
-}
-// to move the puck like in air hockey
 function movePuck() {
     // Update puck position
   ball.x += speedX;
@@ -157,30 +131,43 @@ function movePuck() {
  fill('yellow');
  noStroke();
  ellipse(ball.x, ball.y, 20, 20);
-  // Draw the paddle (follow mouse input)
-  paddle.x = constrain(mouseX, paddleWidth / 2, width - paddleWidth / 2);
-  fill(0, 255, 0);
-  rect(paddle.x - paddleWidth / 2, paddle.y, paddleWidth, paddleHeight);
 
-  // Check for collision with paddle
-  if (ball.y + 10 >= paddle.y && ball.y - 10 <= paddle.y + paddleHeight &&
-      ball.x >= paddle.x - paddleWidth / 2 && ball.x <= paddle.x + paddleWidth / 2) {
-    speedY *= -1;  // Reverse ball direction on collision
-    ball.y = paddle.y - 11;  // Prevent sticking to the paddle
-  }
     //puck.amITouch=true;
 }
+function movePaddle(){
+  // Draw the paddle (follow mouse input)
+  paddle.x = (mouseX, paddleWidth / 2, width - paddleWidth / 2);
+  fill('red');
+  rect(mouseX - paddleWidth / 2, mouseY, paddleWidth, paddleHeight);
 
-// function movePaddle(){
-//     paddle.x= constrain(mouseX,paddleWidth/2, width- paddleWidth/2);
-//     fill(0,255,0);
-//     rect(paddle.x-paddleWidth/2,paddle.y,paddleWidth,paddleHeight);
-    
-//     // check for collision with paddle
-//     if (ball.y + 10 >= paddle.y && ball.y -10<= paddle.y + paddleHeight && ball.x>=paddle.x-paddleWidth/2 && paddle.x+ paddleWidth /2){
-//         speedY *=-1// reverse ball direction
-//         ball.y = paddle.y-11;// prevent sticking to the paddle
-//     }
+  // Check for collision with paddle
+  if (ball.y + 10 >= mouseY && ball.y - 10 <= mouseY + paddleHeight &&
+      ball.x >= paddle.x - paddleWidth / 2 && ball.x <= paddle.x + paddleWidth / 2) {
+    speedY *= -1;  // Reverse ball direction on collision
+    ball.y = mouseY - 11;  // Prevent sticking to the paddle
+}
+}
+function backdrop() {
+    push();
+    noStroke();
+    fill("white");
+    ellipse(400, 400, 250, 250);
+    pop();
+
+    push();
+    noStroke();
+    fill("black");
+    ellipse(400, 400, 200, 200);
+    pop();
+}
+
+// function drawPaddle1() {
+//     push();
+//     noStroke();
+//     fill(255, 0, 255);
+//     //rect(340, 140, 100, 50);
+//     ellipse(Paddle1.x, Paddle1.y, Paddle1.size);
+//     pop();
 // }
 function drawGoal() {
     push();
@@ -198,13 +185,3 @@ function drawGoal2() {
     pop();
 }
 
-// function checkPaddleOverlapped() {
-
-//     // check distance between puck and padde
-//     const d = dist(puck.x, puck, y, Paddle.x, Paddle.y);
-//     // const d = dist(puck.x, puck.y, paddle1.x, paddle1.y);
-//     //check distance between puck and goals
-//     // const touch = dist(d < puck.);
-//     if (puck === paddle) {
-
-//     }
