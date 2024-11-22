@@ -18,9 +18,13 @@
 
 
 let mouseX;
+let mouseY;
+let puck;
+let speedX, speedY;
+let friction=0.995;
 const Paddle = {
     x: mouseX,
-    y: 650,
+    y: mouseY,
     size: 80
 };
 
@@ -30,29 +34,32 @@ const Paddle1 = {
     size: 80
 };
 
-const Puck = {
-    x: 400,
-    y: 400,
-    width: 50,
-    height: 50,
-    velocity: {
-        x: 0,
-        y: 0,
-    }
-}
+// const puck = {
+//     x: 400,
+//     y: 400,
+//     width: 50,
+//     height: 50,
+//    speedX: (-5,5),
+//    speedY:(-5,5),
+    
+//     amITouch:false
+// }
 // let xpos = 400;
 
 // let ypos = 400;
 
 
-let dx = 1;
-let dy = 0;
+// let dx = 1;
+// let dy = 0;
+let ball;
 let score = 0;
 
 function setup() {
     createCanvas(800, 800);
-    background("black");
-    backdrop();
+   ball = createVector(width / 2, height / 2); // Start in the center
+    speedX = random(-5, 5);  // Random initial speed
+   speedY = random(-5, 5);
+   // resetPuck();
 }
 
 
@@ -64,12 +71,21 @@ function draw() {
     backdrop();
     drawPaddle();
     drawPaddle1();
-    drawPuck();
+    movePuck();
+   // drawPuck();
     drawGoal();
     drawGoal2();
 
 }
-
+// function resetPuck(){
+//     drawPuck.x=400;
+//     puck.y=400;
+//     puck.amITouch=false;
+// }
+function movePaddle(){
+    Paddle.x=mouseX;
+    Paddle.y=mouseY;
+}
 function backdrop() {
     push();
     noStroke();
@@ -91,20 +107,20 @@ function drawPaddle() {
     noStroke();
     fill(255, 0, 255);
     //rect(mouseX, 640, 100, 30);
-    ellipse(mouseX, Paddle.y, Paddle.size);
+    ellipse(mouseX, mouseY, Paddle.size);
     pop();
 }
 
-function drawPuck() {
-    push();
-    noStroke();
-    fill(255, 255, 0);
-    ellipse(Puck.x, Puck.y, Puck.width, Puck.height);
-    // if (xpos >= width - 20 || xpos == 20) {
-    //     dx = -dx
-    // }
-    pop();
-}
+// function drawPuck() {
+//     push();
+//     noStroke();
+//     fill(255, 255, 0);
+//     ellipse(puck.x, puck.y, puck.width, puck.height);
+//     // if (xpos >= width - 20 || xpos == 20) {
+//     //     dx = -dx
+//     // }
+//     pop();
+// }
 
 function drawPaddle1() {
     push();
@@ -114,10 +130,27 @@ function drawPaddle1() {
     ellipse(Paddle1.x, Paddle1.y, Paddle1.size);
     pop();
 }
+// to move the puck like in air hockey
 function movePuck() {
-    if (Puck.x >= width - 20 || Puck.x == 20) {
-        dx = -dx
-    }
+    // Update puck position
+  ball.x += speedX;
+  ball.y += speedY;
+
+  // apply firction to gradually slow down the puck
+ speedX *= friction;
+ speedY*= friction;
+ //bounce of the walls
+ if (ball.x<=0 || ball.x>= width){
+    speedX *=-1;// reverse x velocity
+ }
+ if (ball.y<=0|| ball.y>=height){
+    speedY*=-1; // reverse y velocity
+ }
+ // Draw the ball
+ fill(255);
+ noStroke();
+ ellipse(ball.x, ball.y, 20, 20);
+    //puck.amITouch=true;
 }
 function drawGoal() {
     push();
@@ -138,10 +171,10 @@ function drawGoal2() {
 function checkPaddleOverlapped() {
 
     // check distance between puck and padde
-    const d = dist(puck.x, puck, y, paddle.x, paddle.y);
-    const d1 = dist(puck.x, puck.y, paddle1.x, paddle1.y);
+    const d = dist(puck.x, puck, y, Paddle.x, Paddle.y);
+    // const d = dist(puck.x, puck.y, paddle1.x, paddle1.y);
     //check distance between puck and goals
-    const score = dist();
+    // const touch = dist(d < puck.);
     if (puck === paddle) {
 
     }
