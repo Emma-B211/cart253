@@ -71,21 +71,40 @@
 // }
 
 let ball;
-let height=650;
-let width=100;
-let speedX, speedY;  // Ball velocity components
-let friction = 0.995;  // Friction factor (close to 1 for minimal friction)
+let speedX, speedY;
+let friction = 1;
 
-let paddle;  // Paddle position
-let paddleWidth = 100;
-let paddleHeight = 50;
+// User paddle variables
+let userPaddleWidth = 100;
+let userPaddleHeight = 20;
+let userPaddleY;
+
+// AI paddle variables
+let aiPaddleWidth = 100;
+let aiPaddleHeight = 20;
+let aiPaddleX;
+let aiPaddleY = 50;  // Top of the canvas
+
+// goal dimension
+let goalWidth=400;
+
+
+
+// score variable
+let playerScore=0;
+let aiScore=0;
+// Delay after scoring
+let resetTimer=60;
 
 function setup() {
   createCanvas(800, 800);
-  ball = createVector(width / 2, height / 2); // Ball starts in the center
-  speedX = random(-5, 5);  // Random initial speed
-  speedY = random(-5, 5);
-  paddle = createVector(width / 2, height - 40); // Paddle near the bottom
+ball = createVector(width / 2, height / 2);
+  speedX = random(-5, 5);
+  speedY = random(3, 5)*(random()>0.5? 1: -1); // randomize direction
+  
+  mouseY = height - 90;  // User paddle near the bottom
+  aiPaddleX = width / 2;      // Center AI paddle horizontally
+
 }
 
 /**
@@ -99,6 +118,8 @@ function draw() {
 
     movePuck();
     movePaddle();
+    aiPaddle();
+    displayScore();
     drawGoal();
     drawGoal2();
 
@@ -113,39 +134,90 @@ function draw() {
 //     Paddle.y=mouseY;
 // }
 function movePuck() {
-    // Update puck position
+    // Update ball position
   ball.x += speedX;
   ball.y += speedY;
+  
+  // Apply friction
+  speedX *= friction;
+  speedY *= friction;
+  
+  // Bounce off walls
+  if (ball.x <= 0 || ball.x >= width) speedX *= -1;
+  
+  // Bounce off top and bottom (with scoring or game logic, this would be modified)
+  if (ball.y <= 0 || ball.y >= height) speedY *= -1;
 
-  // apply firction to gradually slow down the puck
- speedX *= friction;
- speedY*= friction;
- //bounce of the walls
- if (ball.x<=0 || ball.x>= width){
-    speedX *=-1;// reverse x velocity
- }
- if (ball.y<=0|| ball.y>=height){
-    speedY*=-1; // reverse y velocity
- }
- // Draw the ball
- fill('yellow');
- noStroke();
- ellipse(ball.x, ball.y, 20, 20);
+//check for scoring conditions and goals
+if (ball.y<=0){
+    if (ball.x > (width-goalWidth)/ 2 && ball.x < (width + goalWidth)/2){
+       //ai missed
+    playerScore++;
+    resetBall(); 
+    }
+    
+}
 
+if (ball.y >= height){
+    if (ball.x >(width-goalWidth)/2 && ball.x<(width + goalWidth/2)){
+       // player missed
+    aiScore++;
+resetBall();  
+    }
+   
+}
+    
+    
+
+
+  // Draw the ball
+  fill('yellow');
+  ellipse(ball.x, ball.y, 20, 20);
+  
     //puck.amITouch=true;
 }
-function movePaddle(){
-  // Draw the paddle (follow mouse input)
-  paddle.x = (mouseX, paddleWidth / 2, width - paddleWidth / 2);
-  fill('red');
-  rect(mouseX - paddleWidth / 2, mouseY, paddleWidth, paddleHeight);
+function displayScore(){
+    fill(255);
+    textSize(32);
+    textAlign(CENTER);
+    text(playerScore,width/2,height/2+90);// player score at the bottom
+    text(aiScore,width/2, height/2-50); // ai score at the top
 
-  // Check for collision with paddle
-  if (ball.y + 10 >= mouseY && ball.y - 10 <= mouseY + paddleHeight &&
-      ball.x >= paddle.x - paddleWidth / 2 && ball.x <= paddle.x + paddleWidth / 2) {
-    speedY *= -1;  // Reverse ball direction on collision
-    ball.y = mouseY - 11;  // Prevent sticking to the paddle
 }
+function movePaddle(){
+   // -------- User Paddle --------
+  let userPaddleX = constrain(mouseX, userPaddleWidth / 2, width - userPaddleWidth / 2);
+  fill(0, 255, 0);
+  rect(userPaddleX - userPaddleWidth / 2, mouseY, userPaddleWidth, userPaddleHeight);
+  
+  // User paddle collision
+  if (ball.y + 10 >= mouseY && ball.x >= userPaddleX - userPaddleWidth / 2 &&
+      ball.x <= userPaddleX + userPaddleWidth / 2) {
+    speedY *= -1;
+    ball.y = mouseY - 11;  // Prevent sticking
+  }
+}
+
+function aiPaddle(){
+   
+  // -------- AI Paddle (Computer Player) --------
+  aiPaddleX = lerp(aiPaddleX, ball.x, 0.05); // Smoothly follow the ball with some delay
+  fill(255, 0, 0);
+  rect(aiPaddleX - aiPaddleWidth / 2, aiPaddleY, aiPaddleWidth, aiPaddleHeight);
+  
+  // AI paddle collision
+  if (ball.y - 10 <= aiPaddleY + aiPaddleHeight && ball.x >= aiPaddleX - aiPaddleWidth / 2 &&
+      ball.x <= aiPaddleX + aiPaddleWidth / 2) {
+    speedY *= -1;
+    ball.y = aiPaddleY + aiPaddleHeight + 11;  // Prevent sticking
+  }
+
+}
+
+function resetBall(){
+    ball = createVector(width/2, height/2);
+    speedX=random(-5,5);
+    speedY=random(-5,5);
 }
 function backdrop() {
     push();
@@ -171,17 +243,17 @@ function backdrop() {
 // }
 function drawGoal() {
     push();
-    noStroke();
+    stroke(255);
     fill(255, 230, 320);
-    rect(250, 750, 300, 30);
+    rect((width-goalWidth) / 2 , 0, goalWidth,30);
     pop();
 }
 
 function drawGoal2() {
     push();
-    noStroke();
+    stroke(255);
     fill(255, 230, 320);
-    rect(250, 0, 300, 40);
+    rect((width-goalWidth)/2, height -25, goalWidth,30);
     pop();
 }
 
