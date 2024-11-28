@@ -274,6 +274,6 @@ function resetScore() {
 
 function gameChange() {
   if (score === 10) {
-    goalMoveVariation();
+    gamevariation.js;
   }
 }
