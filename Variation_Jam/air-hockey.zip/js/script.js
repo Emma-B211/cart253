@@ -72,7 +72,7 @@
 
 let ball;
 let speedX, speedY;
-let friction = 1;
+let friction = 1; // change it with velocity for a variation ??
 
 // User paddle variables
 let userPaddleWidth = 100;
