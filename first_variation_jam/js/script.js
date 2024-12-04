@@ -184,7 +184,7 @@ function movePaddle() {
   // -------- User Paddle --------
   //let rod = constrain(mouseX, 20, 85,75);
   userRodX= mouseX;
-   userRodY = mouseY;
+   //userRodY = mouseY;
    stroke(10);
   fill(rod.fill);
   rect(userRodX - rod.w / 2, userRodY, rod.w, rod.h);
@@ -269,12 +269,7 @@ function drawGoal2() {
   pop();
   // ballIsNear: true;
 }
-// function goalMoveVariation() {
-//   if (score === 10) {
-//     goalMove();
 
-//   }
-// }
 
 // function goalMove() {
 //   //check distance from ball to first goal
