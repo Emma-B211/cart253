@@ -141,7 +141,10 @@ function movePuck() {
 
   }
 
-
+  // function moveGoals() {
+  //   goal1.x = constrain(goal1.x + random(-2, 2), goal1.w / 2, width - goal1.w / 2);
+  //   goal2.x = constrain(goal2.x + random(-2, 2), goal2.w / 2, width - goal2.w / 2);
+  // }
 
 
   // Draw the ball

@@ -39,13 +39,17 @@ const ball = {
 };
 
 const rod={
-    x: 30,
-    y: 20,
+    x: 40,
+    y: 50,
     w: 100,
     h:10,
   fill:"blue"
 };
-let numbSquare=4;
+
+// arrays for rods
+let userRods=[];
+let aiRods=[];
+
 // const rodsquare={
 //   x:30,
 //   y:20,
@@ -62,11 +66,18 @@ let friction = 1; // change it with velocity for a variation ??
 let userRodX;
 let userRodY;
 // AI paddle variables
-let aiPaddleWidth = 100;
-let aiPaddleHeight = 20;
-let aiPaddleX;
-let aiPaddleY = 50;  // Top of the canvas
+// let aiPaddleWidth = 100;
+// let aiPaddleHeight = 20;
+let aiRodX;
+// let aiPaddleY = 50;  // Top of the canvas
 
+const aiRod={
+    x:30,
+    y:50,
+    w:100,
+    h:10,
+    fill:"red"
+}
 
 // goal dimension
 let goalWidth = 100;
@@ -88,8 +99,28 @@ function setup() {
   speedY = random(-10, 10) * (random() > 0.5 ? 1 : -1); // randomize direction
   rectMode(CENTER);
   // mouseY = height - 90;  // User paddle near the bottom
-  aiPaddleX = width / 2;      // Center AI paddle horizontally
+  aiRodX = width / 2;      // Center AI paddle horizontally
   userRodY = height - 90;
+
+  for (let i = 0; i < 3; i++) {
+    userRods.push({
+      x: 150 * i + 100, // Adjust spacing
+      y: height - 90,
+      w: 100,
+      h: 10,
+      fill: "blue",
+      offset: 150 * i, // Added offset for user control logic
+    });
+    
+    aiRods.push({ // Corrected the syntax here
+      x: 150 * i + 100,
+      y: 90,
+      w: 100,
+      h: 10,
+      fill: "red",
+    });
+  }
+  
 }
 
 /**
@@ -102,8 +133,10 @@ function draw() {
   //drawPaddle1();
 drawBall();
   movePuck();
-  movePaddle();
-  aiPaddle();
+  moveRods(userRods); //move and draw user rods
+  moveRods(aiRods,true); // move and draw ai rods
+//   movePaddle();
+  //aiPaddle();
   displayScore();
   drawGoal();
   drawGoal2();
@@ -121,40 +154,30 @@ drawBall();
 //     Paddle.y=mouseY;
 // }
 function movePuck() {
-  // Update ball position
   ball.x += speedX;
   ball.y += speedY;
 
-  // Apply friction
-  speedX *= friction;
-  speedY *= friction;
+  // Gradually reduce speed (but not too much)
+  speedX *= 0.995; // Adjust friction values for better gameplay
+  speedY *= 0.995;
 
-  // Bounce off walls
-  if (ball.x <= 0 || ball.x >= width) speedX *= -1;
-
-  // Bounce off top and bottom (with scoring or game logic, this would be modified)
-  if (ball.y <= 0 || ball.y >= height) speedY *= -1;
-
-  //check for scoring conditions and goals
-  if (ball.y <= 0) {
-    if (ball.x > (width - goalWidth) / 2 && ball.x < (width + goalWidth) / 2) {
-      //scores into the goal
-      playerScore +=1;
-      resetBall();
-    }
-
+  // Bounce off side walls
+  if (ball.x <= 0 || ball.x >= width) {
+    speedX *= -1;
   }
 
-  if (ball.y >= height) {
-    // console.log(ball.x);
-    if (ball.x > (width - goalWidth) / 2 && ball.x < (width + goalWidth) / 2) {
-      // player missed
-      // console.log(ball.x);
-      aiScore += 1;
-      resetBall();
-    }
-
+  // Check for scoring
+  if (ball.y <= goal1.y + goal1.h && ball.x > goal1.x - goal1.w / 2 && ball.x < goal1.x + goal1.w / 2) {
+    playerScore++;
+    resetBall();
   }
+
+  if (ball.y >= goal2.y - goal2.h && ball.x > goal2.x - goal2.w / 2 && ball.x < goal2.x + goal2.w / 2) {
+    aiScore++;
+    resetBall();
+  }
+
+
 
 
 
@@ -180,39 +203,71 @@ function displayScore() {
   text(aiScore, width / 2, height / 2 - 50); // ai score at the top
 
 }
-function movePaddle() {
-  // -------- User Paddle --------
-  //let rod = constrain(mouseX, 20, 85,75);
-  userRodX= mouseX;
-   //userRodY = mouseY;
-   stroke(10);
-  fill(rod.fill);
-  rect(userRodX - rod.w / 2, userRodY, rod.w, rod.h);
-
-
-  // User paddle collision
-  if (ball.y  >= rod.y && ball.x  >= rod.x - 100 / 2 &&
-    ball.x  <= rod.x + 100 / 2) {
-    speedY *= -1;
-    ball.y = rod.y - 11;  // Prevent sticking
+function moveRods(rods, isAI = false) {
+    rods.forEach((rod) => {
+      if (isAI) {
+        // AI logic: follow the ball with smoothing
+        rod.x = lerp(rod.x, ball.x, 0.02);
+      } else {
+        // User control: rods follow mouse movement horizontally
+        rod.x = constrain(mouseX + rod.offset, rod.w / 2, width - rod.w / 2); // Uses defined offset
+      }
+      
+      // Draw each rod
+      fill(rod.fill);
+      rect(rod.x, rod.y, rod.w, rod.h);
+      checkCollision(rod); // Pass rod object to checkCollision
+    });
   }
-}
+  
 
-function aiPaddle() {
-
-  // -------- AI Paddle (Computer Player) --------
-  aiPaddleX = lerp(aiPaddleX, ball.x, 0.05); // Smoothly follow the ball with some delay
-  fill(255, 0, 0);
-  rect(aiPaddleX - aiPaddleWidth / 2, aiPaddleY, aiPaddleWidth, aiPaddleHeight);
-
-  // AI paddle collision
-  if (ball.y  <= aiPaddleY + aiPaddleHeight / 2 && ball.x >= aiPaddleX - aiPaddleWidth / 2 &&
-    ball.x <= aiPaddleX + aiPaddleWidth / 2) {
-    speedY *= -1;
-    ball.y = aiPaddleY + aiPaddleHeight + 11;  // Prevent sticking
+function checkCollision(rod) { // Added rod as a parameter
+    if (
+      ball.y + ball.size / 2 >= rod.y - rod.h / 2 &&
+      ball.y - ball.size / 2 <= rod.y + rod.h / 2 && // Corrected division issue (was `h/w`)
+      ball.x >= rod.x - rod.w / 2 &&
+      ball.x <= rod.x + rod.w / 2
+    ) {
+      speedY *= -1; // Reflect the ball
+      ball.y = rod.y + (ball.y > height / 2 ? -rod.h / 2 - ball.size / 2 : rod.h / 2 + ball.size / 2); // Prevent sticking
+    }
   }
-  // -10
-}
+  
+// function movePaddle() {
+//   // -------- User Rod Movement --------
+//   userRodX = constrain(mouseX, rod.w / 2, width - rod.w / 2);
+//   fill(rod.fill);
+//   rect(userRodX, userRodY, rod.w, rod.h); // Centered on mouseX
+
+//   // User paddle collision
+//   if (
+//     ball.y + ball.size / 2 >= userRodY - rod.h / 2 &&
+//     ball.x >= userRodX - rod.w / 2 &&
+//     ball.x <= userRodX + rod.w / 2
+//   ) {
+//     speedY *= -1;
+//     ball.y = userRodY - rod.h / 2 - ball.size / 2; // Prevent sticking
+//   }
+// }
+
+
+// function aiPaddle() {
+//   // AI follows the ball with a delay
+//   aiRodX = lerp(aiRodX, ball.x, 0.05); // Smooth tracking
+//   fill(aiRod.fill);
+//   rect(aiRodX, aiRod.y, aiRod.w, aiRod.h);
+
+//   // AI paddle collision
+//   if (
+//     ball.y - ball.size / 2 <= aiRod.y + aiRod.h / 2 &&
+//     ball.x >= aiRodX - aiRod.w / 2 &&
+//     ball.x <= aiRodX + aiRod.w / 2
+//   ) {
+//     speedY *= -1;
+//     ball.y = aiRod.y + aiRod.h / 2 + ball.size / 2; // Prevent sticking
+//   }
+// }
+
 // check overlap between ball and goal
 // function overlap(ball, goal) {
 //   if (ball.x - ball.size / 2 + goal.)
