@@ -1,20 +1,10 @@
-/**
- * Air Hockey Galore
- * Emma Beldick
- * 
- */
-
 "use strict";
+
 /***
  * air hockey game variation
- * 1. goal area would open and close, moves and avoid the ball
- * 2. added foosball sticks to control where the ball/puck would go
- * 3. ball explode or turn invisible or change direction randomly
- * 4. the ball would change shape after every point and the
- * object movement would change different levels
- * computer movement for opponent
- * 5. arrays to create multiple balls
+ * Emma Beldick
  */
+
 const goal1 = {
   x: 400,
   y: 15,
@@ -22,6 +12,7 @@ const goal1 = {
   h: 30,
   fill: "pink"
 };
+
 const goal2 = {
   x: 400,
   y: 785,
@@ -33,7 +24,7 @@ const goal2 = {
 const ball = {
   x: 10,
   y: 10,
-  w:20,
+  w: 20,
   size: 20,
   fill: "yellow"
 };
@@ -52,14 +43,8 @@ let aiPaddleHeight = 20;
 let aiPaddleX;
 let aiPaddleY = 50;  // Top of the canvas
 
-
 // goal dimension
 let goalWidth = 100;
-
-// const goal = {
-//   ballIsNear: false,
-// }
-
 
 // score variable
 let playerScore = 0;
@@ -72,45 +57,46 @@ function setup() {
   speedX = random(-10, 10);
   speedY = random(-10, 10) * (random() > 0.5 ? 1 : -1); // randomize direction
   rectMode(CENTER);
-  // mouseY = height - 90;  // User paddle near the bottom
   aiPaddleX = width / 2;      // Center AI paddle horizontally
   userPaddleY = height - 90;
 }
 
-/**
- * 
-*/
 function draw() {
   background("black");
   backdrop();
 
-  //drawPaddle1();
-drawBall();
+  drawBall();
   movePuck();
   movePaddle();
   aiPaddle();
   displayScore();
+  moveGoals();
   drawGoal();
   drawGoal2();
-  // resetScore();
-  //goalMove();
-
 }
-// function resetPuck(){
-//     drawPuck.x=400;
-//     puck.y=400;
-//     puck.amITouch=false;
-// }
-// function movePaddle(){
-//     Paddle.x=mouseX;
-//     Paddle.y=mouseY;
-// }
+
+function moveGoals() {
+  // Goal 1 (top): Move randomly and avoid the ball if it's close
+  if (abs(ball.y - goal1.y) < 200) {  // Check if ball is near goal1
+    goal1.x += (ball.x > goal1.x) ? -2 : 2; // Move away from ball
+  } else {
+    goal1.x += random(-2, 2); // Random movement when ball is far
+  }
+  goal1.x = constrain(goal1.x, goal1.w / 2, width - goal1.w / 2); // Keep within canvas
+
+  // Goal 2 (bottom): Similar logic
+  if (abs(ball.y - goal2.y) < 200) {
+    goal2.x += (ball.x > goal2.x) ? -2 : 2;
+  } else {
+    goal2.x += random(-2, 2);
+  }
+  goal2.x = constrain(goal2.x, goal2.w / 2, width - goal2.w / 2);
+}
+
 function movePuck() {
-  // Update ball position
   ball.x += speedX;
   ball.y += speedY;
 
-  // Apply friction
   speedX *= friction;
   speedY *= friction;
 
@@ -120,99 +106,73 @@ function movePuck() {
   // Bounce off top and bottom (with scoring or game logic, this would be modified)
   if (ball.y <= 0 || ball.y >= height) speedY *= -1;
 
-  //check for scoring conditions and goals
+  // Check for scoring conditions and goals
   if (ball.y <= 0) {
-    if (ball.x > (width - goalWidth) / 2 && ball.x < (width + goalWidth) / 2) {
-      //scores into the goal
-      playerScore +=1;
+    if (ball.x > (width - goal1.w) / 2 && ball.x < (width + goal1.w) / 2) {
+      playerScore += 1;
       resetBall();
     }
-
   }
 
   if (ball.y >= height) {
-    // console.log(ball.x);
-    if (ball.x > (width - goalWidth) / 2 && ball.x < (width + goalWidth) / 2) {
-      // player missed
-      // console.log(ball.x);
+    if (ball.x > (width - goal2.w) / 2 && ball.x < (width + goal2.w) / 2) {
       aiScore += 1;
       resetBall();
     }
-
   }
-
-  // function moveGoals() {
-  //   goal1.x = constrain(goal1.x + random(-2, 2), goal1.w / 2, width - goal1.w / 2);
-  //   goal2.x = constrain(goal2.x + random(-2, 2), goal2.w / 2, width - goal2.w / 2);
-  // }
-
-
-  // Draw the ball
-  // fill('yellow');
-  // ellipse(ball.x, ball.y, 20, 20);
-
-  //puck.amITouch=true;
 }
-function drawBall(){
+
+function drawBall() {
   push();
   noStroke();
   fill(ball.fill);
-  ellipse(ball.x,ball.y,ball.w,ball.size);
+  ellipse(ball.x, ball.y, ball.w, ball.size);
   pop();
 }
+
 function displayScore() {
   fill(255);
   textSize(32);
   textAlign(CENTER);
-  text(playerScore, width / 2, height / 2 + 90);// player score at the bottom
+  text(playerScore, width / 2, height / 2 + 90); // player score at the bottom
   text(aiScore, width / 2, height / 2 - 50); // ai score at the top
-
 }
+
 function movePaddle() {
-  // -------- User Paddle --------
   let userPaddleX = constrain(mouseX, userPaddleWidth / 2, width - userPaddleWidth / 2);
-   userPaddleY = mouseY;
+  userPaddleY = mouseY;
   fill(0, 255, 0);
   rect(userPaddleX, userPaddleY, userPaddleWidth, userPaddleHeight);
 
-
   // User paddle collision
-  if (ball.y  >= userPaddleY && ball.x  >= userPaddleX - userPaddleWidth / 2 &&
-    ball.x  <= userPaddleX + userPaddleWidth / 2) {
+  if (ball.y >= userPaddleY && ball.x >= userPaddleX - userPaddleWidth / 2 &&
+    ball.x <= userPaddleX + userPaddleWidth / 2) {
     speedY *= -1;
     ball.y = userPaddleY - 11;  // Prevent sticking
   }
 }
 
 function aiPaddle() {
-
-  // -------- AI Paddle (Computer Player) --------
   aiPaddleX = lerp(aiPaddleX, ball.x, 0.05); // Smoothly follow the ball with some delay
+  aiPaddleX = constrain(aiPaddleX, aiPaddleWidth / 2, width - aiPaddleWidth / 2); // Keep within bounds
   fill(255, 0, 0);
   rect(aiPaddleX - aiPaddleWidth / 2, aiPaddleY, aiPaddleWidth, aiPaddleHeight);
 
   // AI paddle collision
-  if (ball.y  <= aiPaddleY + aiPaddleHeight / 2 && ball.x >= aiPaddleX - aiPaddleWidth / 2 &&
+  if (ball.y <= aiPaddleY + aiPaddleHeight / 2 && ball.x >= aiPaddleX - aiPaddleWidth / 2 &&
     ball.x <= aiPaddleX + aiPaddleWidth / 2) {
     speedY *= -1;
     ball.y = aiPaddleY + aiPaddleHeight + 11;  // Prevent sticking
   }
-  // -10
 }
-// check overlap between ball and goal
-// function overlap(ball, goal) {
-//   if (ball.x - ball.size / 2 + goal.)
 
-// }
-// resets the ball back (will adjust to where it is reset two depending who won)
 function resetBall() {
-  // ball = createVector(width / 2, height / 2);
-  ball.x = width/2;
-  ball.y = height/2;
-  // speedX = random(-10, 10);
-  // speedY = random(-10, 10);
-  // ballIsNear: false;
+  ball.x = width / 2;
+  ball.y = height / 2;
+  speedX = random(-10, 10);
+  speedY = random(-10, 10);
 }
+
 function backdrop() {
   push();
   noStroke();
@@ -224,72 +184,21 @@ function backdrop() {
   noStroke();
   fill("black");
   ellipse(400, 400, 200, 200);
-
   pop();
 }
 
-// function drawPaddle1() {
-//     push();
-//     noStroke();
-//     fill(255, 0, 255);
-//     //rect(340, 140, 100, 50);
-//     ellipse(Paddle1.x, Paddle1.y, Paddle1.size);
-//     pop();
-// }
-
-// draws the goal
 function drawGoal() {
   push();
   stroke(255);
   fill(goal1.fill);
   rect(goal1.x, goal1.y, goal1.w, goal1.h);
   pop();
-  // ballIsNear: true;
 }
-// draws the other goal
+
 function drawGoal2() {
   push();
   stroke(255);
   fill(255, 230, 320);
   rect(goal2.x, goal2.y, goal2.w, goal2.h);
   pop();
-  // ballIsNear: true;
 }
-// function goalMoveVariation() {
-//   if (score === 10) {
-//     goalMove();
-
-//   }
-// }
-
-// function goalMove() {
-//   //check distance from ball to first goal
-//   const d = dist(ball.x, ball.y, drawGoal().x, drawGoal().y);
-//   // check distance from ball to second goal
-//   const d2 = dist(ball.x, ball.y, drawGoal2().x, drawGoal2().y);
-
-//   // check if its an overlap
-//   const goal = (d < drawGoal / 2 + ball.x / 2);
-//   const goal2 = (d2 < drawGoal2 / 2 + ball.x / 2)
-
-//   // code for goal to avoid the ball
-//   if (drawGoal && !goal.ballIsNear) {
-//     rect((wdith + goalWidth) / 2, 0, goalWidth, 30);
-//   }
-//   if (drawGoal2 && !goal.ballIsNear) {
-//     rect((width + goalWidth) / 2, height + 25, goalWidth, 30);
-//   }
-// }
-
-function resetScore() {
-  if (score === 10) {
-    score = 0;
-resetBall();
-  }
-}
-
-// function gameChange() {
-//   if (score === 10) {
-    
-//   }
-// }
