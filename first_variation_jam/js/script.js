@@ -99,17 +99,20 @@ function drawBall() {
 // Adjust movePaddle to pass rodAngle
 function movePaddle() {
     let userRodX = constrain(mouseX, 0, width - rodSpacing);
-    drawRod(userRodX, userRodY, color(0, 255, 0), rodAngle); // Pass rodAngle
+    drawRod(userRodX, userRodY, color(0, 255, 0), rodAngle);
   
-    // Update rotation angle
+    // Limit rod angle rotation
+    rodAngle = constrain(rodAngle, -PI / 4, PI / 4);  // Limit to 45-degree range
+  
     if (keyIsDown(UP_ARROW)) rodAngle -= rotationSpeed;
     if (keyIsDown(DOWN_ARROW)) rodAngle += rotationSpeed;
   
     for (let i = 0; i < numPaddles; i++) {
       let paddleX = userRodX + i * (rodSpacing / (numPaddles - 1));
-      checkCollision(paddleX, userRodY,rodAngle);
+      checkCollision(paddleX, userRodY, rodAngle);
     }
   }
+  
 
 // Updated drawRod function to accept an angle parameter
 function drawRod(x, y, rodColor, angle) {
@@ -134,42 +137,59 @@ function drawRod(x, y, rodColor, angle) {
 // Updated aiPaddle to pass aiRodAngle
 function aiPaddle() {
     let aiRodX = constrain(ball.x - rodSpacing / 2, 0, width - rodSpacing);
-    drawRod(aiRodX, aiRodY, color(255, 0, 0), aiRodAngle); // Pass aiRodAngle
+    drawRod(aiRodX, aiRodY, color(255, 0, 0), aiRodAngle);
   
-    // AI rotation logic: Rotate when the ball is nearby
-    if (abs(ball.y - aiRodY) < 100) {
+    // Adjust AI rotation logic for better responsiveness
+    if (abs(ball.y - aiRodY) < 120) {  // Only rotate if the ball is close
       aiRodAngle += aiRotationSpeed * aiRotationDirection;
     }
   
-
+    // Randomly change direction to simulate unpredictability
+    if (frameCount % 150 === 0) {
+      aiRotationDirection *= -1;
+    }
+  
+    // Ensure collision check for each paddle
     for (let i = 0; i < numPaddles; i++) {
       let paddleX = aiRodX + i * (rodSpacing / (numPaddles - 1));
-      checkCollision(paddleX, aiRodY,aiRodAngle);
+      checkCollision(paddleX, aiRodY, aiRodAngle);
     }
   }
+  
+  
   function checkCollision(paddleX, rodY, rodAngle) {
-    // Translate and rotate ball coordinates to paddle's local space
+    // Calculate ball's relative position to the paddle
     let dx = ball.x - paddleX;
     let dy = ball.y - rodY;
   
-    // Apply reverse rotation to get ball's position relative to paddle orientation
+    // Transform ball's position into paddle's rotated space
     let rotatedX = dx * cos(-rodAngle) - dy * sin(-rodAngle);
     let rotatedY = dx * sin(-rodAngle) + dy * cos(-rodAngle);
   
-    // Check collision in paddle's local space (non-rotated rectangle check)
+    // Check if ball is within paddle bounds
     if (
       rotatedX >= -paddleWidth / 2 &&
       rotatedX <= paddleWidth / 2 &&
       rotatedY >= -paddleHeight / 2 &&
       rotatedY <= paddleHeight / 2
     ) {
-      // Reflect ball with rotation consideration
-      let angleReflect = atan2(speedY, speedX) + rodAngle;
-      speedX = cos(angleReflect) * 5;
-      speedY = sin(angleReflect) * 5;
-      ball.y = rodY + (ball.y > rodY ? paddleHeight / 2 + 1 : -paddleHeight / 2 - 1);
+      // Reflect ball speed considering paddle angle
+      let normalAngle = rodAngle + (ball.y > rodY ? HALF_PI : -HALF_PI);
+      let ballAngle = atan2(speedY, speedX);
+      let reflectAngle = 2 * normalAngle - ballAngle;
+  
+      // Set new ball speed based on reflection angle
+      let ballSpeed = sqrt(speedX ** 2 + speedY ** 2);  // Maintain current speed
+      speedX = cos(reflectAngle) * ballSpeed;
+      speedY = sin(reflectAngle) * ballSpeed;
+  
+      // Move the ball slightly away to avoid multiple collisions
+      ball.y = rodY + (ball.y > rodY ? paddleHeight / 2 + 2 : -paddleHeight / 2 - 2);
     }
   }
+  
+  
+  
 
 function displayScore() {
   fill(255);
