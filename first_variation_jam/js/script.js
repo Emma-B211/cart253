@@ -18,14 +18,14 @@
 const goal1 = {
   x: 400,
   y: 15,
-  w: 100,
+  w: 300,
   h: 30,
   fill: "pink"
 };
 const goal2 = {
   x: 400,
   y: 785,
-  w: 100,
+  w: 300,
   h: 30,
   fill: "pink"
 };
@@ -50,26 +50,16 @@ const rod={
 let userRods=[];
 let aiRods=[];
 
-// const rodsquare={
-//   x:30,
-//   y:20,
-//   w:100,
-//   h:20,
-// }
 let speedX, speedY;
 let friction = 1; // change it with velocity for a variation ??
 
-// User paddle variables
-// let userPaddleWidth = 100;
-// let userPaddleHeight = 20;
-// let userPaddleY;
 let userRodX;
 let userRodY;
-// AI paddle variables
-// let aiPaddleWidth = 100;
-// let aiPaddleHeight = 20;
+
 let aiRodX;
 // let aiPaddleY = 50;  // Top of the canvas
+let goalScored = false;
+let goalAnimationTimer = 0;
 
 const aiRod={
     x:30,
@@ -98,29 +88,10 @@ function setup() {
   speedX = random(-10, 10);
   speedY = random(-10, 10) * (random() > 0.5 ? 1 : -1); // randomize direction
   rectMode(CENTER);
-  // mouseY = height - 90;  // User paddle near the bottom
-//   aiRodX = width / 2;      // Center AI paddle horizontally
-//   userRodY = height - 90;
+ // initialized rods with player
 userRods.push(createRod(height-90,"blue",3));
 aiRods.push(createRod(90,"red",3));
-//   for (let i = 0; i < 3; i++) {
-//     userRods.push({
-// //       x: 150 * i + 100, // Adjust spacing
-// //       y: height - 90,
-// //       w: 100,
-// //       h: 10,
-// //       fill: "blue",
-// //       offset: 150 * i, // Added offset for user control logic
-// //     });
-    
-// //     aiRods.push({ // Corrected the syntax here
-// //       x: 150 * i + 100,
-// //       y: 90,
-// //       w: 100,
-// //       h: 10,
-// //       fill: "red",
-// //     });
-//   }
+resetScore();
   
 }
 
@@ -130,19 +101,20 @@ aiRods.push(createRod(90,"red",3));
 function draw() {
   background("black");
   backdrop();
-
-  //drawPaddle1();
 drawBall();
   movePuck();
 moveAndDrawRod(userRods[0],false); // user rod
 moveAndDrawRod(aiRods[0],true); // ai rods
-//   movePaddle();
-  //aiPaddle();
   displayScore();
   drawGoal();
   drawGoal2();
-  // resetScore();
-  //goalMove();
+ 
+  // decrease animation timer
+  if (goalAnimationTimer >0){
+goalAnimationTimer--;
+  } else {
+    goalScored=false;
+  }
 
 }
 
@@ -175,40 +147,36 @@ function moveAndDrawRod(rod,isAI){
         fill(rod.fill);
         rect(playerX,rod.y,20,50); // player shape
     }
-
+// check collision
+checkCollision(rod);
 }
 
 function movePuck() {
-  ball.x += speedX;
-  ball.y += speedY;
-
-  // Gradually reduce speed (but not too much)
-  speedX *= 0.995; // Adjust friction values for better gameplay
-  speedY *= 0.995;
-
-  // Bounce off side walls
-  if (ball.x <= 0 || ball.x >= width) {
-    speedX *= -1;
+    ball.x += speedX;
+    ball.y += speedY;
+  
+    // Bounce off side walls
+    if (ball.x <= 0 || ball.x >= width) {
+      speedX *= -1;
+    }
+  
+    // Check if the ball scores in goal1
+    if (ball.y <= goal1.y + goal1.h / 2 && ball.x > goal1.x - goal1.w / 2 && ball.x < goal1.x + goal1.w / 2) {
+      aiScore++;
+      goalScored = true;
+      goalAnimationTimer = 30; // Duration of the animation
+      resetBall();
+    }
+    // Check if the ball scores in goal2
+    if (ball.y >= goal2.y - goal2.h / 2 && ball.x > goal2.x - goal2.w / 2 && ball.x < goal2.x + goal2.w / 2) {
+      playerScore++;
+      goalScored = true;
+      goalAnimationTimer = 30;
+      resetBall();
+    }
   }
-
-  // Check for scoring
-  if (ball.y <= goal1.y + goal1.h && ball.x > goal1.x - goal1.w / 2 && ball.x < goal1.x + goal1.w / 2) {
-    playerScore++;
-    resetBall();
-  }
-
-  if (ball.y >= goal2.y - goal2.h && ball.x > goal2.x - goal2.w / 2 && ball.x < goal2.x + goal2.w / 2) {
-    aiScore++;
-    resetBall();
-  }
-
-
-  // Draw the ball
-  // fill('yellow');
-  // ellipse(ball.x, ball.y, 20, 20);
-
-  //puck.amITouch=true;
-}
+  
+  
 function drawBall(){
   push();
   noStroke();
@@ -242,66 +210,44 @@ function moveRods(rods, isAI = false) {
   }
   
 
-function checkCollision(rod) { // Added rod as a parameter
+  function checkCollision(rod) {
     if (
       ball.y + ball.size / 2 >= rod.y - rod.h / 2 &&
-      ball.y - ball.size / 2 <= rod.y + rod.h / 2 && // Corrected division issue (was `h/w`)
+      ball.y - ball.size / 2 <= rod.y + rod.h / 2 &&
       ball.x >= rod.x - rod.w / 2 &&
       ball.x <= rod.x + rod.w / 2
     ) {
-      speedY *= -1; // Reflect the ball
-      ball.y = rod.y + (ball.y > height / 2 ? -rod.h / 2 - ball.size / 2 : rod.h / 2 + ball.size / 2); // Prevent sticking
+      // Calculate impact angle based on position hit on the rod
+      let impactPoint = (ball.x - rod.x) / (rod.w / 2); // Normalized: -1 to 1
+      
+      // Reflect Y velocity and add variation based on impact point
+      speedY *= -1;
+      speedX += impactPoint * 5;  // Adjust 5 to control deflection strength
+  
+      // Ensure ball doesn't stick
+      ball.y = rod.y + (ball.y > height / 2 ? -rod.h / 2 - ball.size / 2 : rod.h / 2 + ball.size / 2);
+  
+      // Add slight increase in speed after hit for more dynamic movement
+      let speedMultiplier = 1.05;
+      speedX *= speedMultiplier;
+      speedY *= speedMultiplier;
     }
   }
   
-// function movePaddle() {
-//   // -------- User Rod Movement --------
-//   userRodX = constrain(mouseX, rod.w / 2, width - rod.w / 2);
-//   fill(rod.fill);
-//   rect(userRodX, userRodY, rod.w, rod.h); // Centered on mouseX
-
-//   // User paddle collision
-//   if (
-//     ball.y + ball.size / 2 >= userRodY - rod.h / 2 &&
-//     ball.x >= userRodX - rod.w / 2 &&
-//     ball.x <= userRodX + rod.w / 2
-//   ) {
-//     speedY *= -1;
-//     ball.y = userRodY - rod.h / 2 - ball.size / 2; // Prevent sticking
-//   }
-// }
+  
+  
 
 
-// function aiPaddle() {
-//   // AI follows the ball with a delay
-//   aiRodX = lerp(aiRodX, ball.x, 0.05); // Smooth tracking
-//   fill(aiRod.fill);
-//   rect(aiRodX, aiRod.y, aiRod.w, aiRod.h);
 
-//   // AI paddle collision
-//   if (
-//     ball.y - ball.size / 2 <= aiRod.y + aiRod.h / 2 &&
-//     ball.x >= aiRodX - aiRod.w / 2 &&
-//     ball.x <= aiRodX + aiRod.w / 2
-//   ) {
-//     speedY *= -1;
-//     ball.y = aiRod.y + aiRod.h / 2 + ball.size / 2; // Prevent sticking
-//   }
-// }
-
-// check overlap between ball and goal
-// function overlap(ball, goal) {
-//   if (ball.x - ball.size / 2 + goal.)
-
-// }
 // resets the ball back (will adjust to where it is reset two depending who won)
 function resetBall() {
   // ball = createVector(width / 2, height / 2);
   ball.x = width/2;
   ball.y = height/2;
-  // speedX = random(-10, 10);
-  // speedY = random(-10, 10);
-  // ballIsNear: false;
+  //reset speeds after scoring
+  speedX= random(-5,5);//lower values for realistic start speed
+  speedY= random(-5,5);
+ 
 }
 function backdrop() {
   push();
@@ -318,63 +264,30 @@ function backdrop() {
   pop();
 }
 
-// function drawPaddle1() {
-//     push();
-//     noStroke();
-//     fill(255, 0, 255);
-//     //rect(340, 140, 100, 50);
-//     ellipse(Paddle1.x, Paddle1.y, Paddle1.size);
-//     pop();
-// }
-
 // draws the goal
 function drawGoal() {
-  push();
-  stroke(255);
-  fill(goal1.fill);
-  rect(goal1.x, goal1.y, goal1.w, goal1.h);
-  pop();
+    push();
+    stroke(255);
+    fill(goalScored && goalAnimationTimer > 0 ? color(random(255), random(255), random(255)) : goal1.fill);
+    rect(goal1.x, goal1.y, goal1.w, goal1.h);
+    pop();
   // ballIsNear: true;
 }
 // draws the other goal
 function drawGoal2() {
-  push();
-  stroke(255);
-  fill(255, 230, 320);
-  rect(goal2.x, goal2.y, goal2.w, goal2.h);
-  pop();
+    push();
+    stroke(255);
+    fill(goalScored && goalAnimationTimer > 0 ? color(random(255), random(255), random(255)) : goal2.fill);
+    rect(goal2.x, goal2.y, goal2.w, goal2.h);
+    pop();
   // ballIsNear: true;
 }
 
-
-// function goalMove() {
-//   //check distance from ball to first goal
-//   const d = dist(ball.x, ball.y, drawGoal().x, drawGoal().y);
-//   // check distance from ball to second goal
-//   const d2 = dist(ball.x, ball.y, drawGoal2().x, drawGoal2().y);
-
-//   // check if its an overlap
-//   const goal = (d < drawGoal / 2 + ball.x / 2);
-//   const goal2 = (d2 < drawGoal2 / 2 + ball.x / 2)
-
-//   // code for goal to avoid the ball
-//   if (drawGoal && !goal.ballIsNear) {
-//     rect((wdith + goalWidth) / 2, 0, goalWidth, 30);
-//   }
-//   if (drawGoal2 && !goal.ballIsNear) {
-//     rect((width + goalWidth) / 2, height + 25, goalWidth, 30);
-//   }
-// }
-
 function resetScore() {
-  if (score === 10) {
-    score = 0;
-resetBall();
+  if (playerScore >= 10 || aiScore >= 10) {
+    playerScore = 0;
+    aiScore=0;
+    resetBall();//reset the ball when score reaches 10
+
   }
 }
-
-// function gameChange() {
-//   if (score === 10) {
-    
-//   }
-// }
