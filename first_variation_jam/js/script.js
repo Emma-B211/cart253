@@ -38,13 +38,20 @@ const ball = {
   fill: "yellow"
 };
 
-const rod1={
+const rod={
     x: 30,
     y: 20,
-    x2: 85,
-    y2:75,
+    w: 100,
+    h:10,
+  fill:"blue"
 };
-
+let numbSquare=4;
+// const rodsquare={
+//   x:30,
+//   y:20,
+//   w:100,
+//   h:20,
+// }
 let speedX, speedY;
 let friction = 1; // change it with velocity for a variation ??
 
@@ -52,7 +59,8 @@ let friction = 1; // change it with velocity for a variation ??
 // let userPaddleWidth = 100;
 // let userPaddleHeight = 20;
 // let userPaddleY;
-rod1.y;
+let userRodX;
+let userRodY;
 // AI paddle variables
 let aiPaddleWidth = 100;
 let aiPaddleHeight = 20;
@@ -81,7 +89,7 @@ function setup() {
   rectMode(CENTER);
   // mouseY = height - 90;  // User paddle near the bottom
   aiPaddleX = width / 2;      // Center AI paddle horizontally
-  rod1.y = height - 90;
+  userRodY = height - 90;
 }
 
 /**
@@ -174,18 +182,19 @@ function displayScore() {
 }
 function movePaddle() {
   // -------- User Paddle --------
-  let rod1 = constrain(mouseX, 100, 800 - 100 / 2);
-   rod1.y = mouseY;
-  fill(0, 255, 0);
-  strokeWeight(5);
-  line(rod1.x, rod1.y, rod1.x2, rod1.y2);
+  //let rod = constrain(mouseX, 20, 85,75);
+  userRodX= mouseX;
+   userRodY = mouseY;
+   stroke(10);
+  fill(rod.fill);
+  rect(userRodX - rod.w / 2, userRodY, rod.w, rod.h);
 
 
   // User paddle collision
-  if (ball.y  >= rod1.y && ball.x  >= rod1.x - 100 / 2 &&
-    ball.x  <= rod1.x + 100 / 2) {
+  if (ball.y  >= rod.y && ball.x  >= rod.x - 100 / 2 &&
+    ball.x  <= rod.x + 100 / 2) {
     speedY *= -1;
-    ball.y = rod1.y - 11;  // Prevent sticking
+    ball.y = rod.y - 11;  // Prevent sticking
   }
 }
 
@@ -194,7 +203,7 @@ function aiPaddle() {
   // -------- AI Paddle (Computer Player) --------
   aiPaddleX = lerp(aiPaddleX, ball.x, 0.05); // Smoothly follow the ball with some delay
   fill(255, 0, 0);
-  line(aiPaddleX - aiPaddleWidth / 2, aiPaddleY, aiPaddleWidth, aiPaddleHeight);
+  rect(aiPaddleX - aiPaddleWidth / 2, aiPaddleY, aiPaddleWidth, aiPaddleHeight);
 
   // AI paddle collision
   if (ball.y  <= aiPaddleY + aiPaddleHeight / 2 && ball.x >= aiPaddleX - aiPaddleWidth / 2 &&
