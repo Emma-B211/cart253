@@ -99,27 +99,28 @@ function setup() {
   speedY = random(-10, 10) * (random() > 0.5 ? 1 : -1); // randomize direction
   rectMode(CENTER);
   // mouseY = height - 90;  // User paddle near the bottom
-  aiRodX = width / 2;      // Center AI paddle horizontally
-  userRodY = height - 90;
-
-  for (let i = 0; i < 3; i++) {
-    userRods.push({
-      x: 150 * i + 100, // Adjust spacing
-      y: height - 90,
-      w: 100,
-      h: 10,
-      fill: "blue",
-      offset: 150 * i, // Added offset for user control logic
-    });
+//   aiRodX = width / 2;      // Center AI paddle horizontally
+//   userRodY = height - 90;
+userRods.push(createRod(height-90,"blue",3));
+aiRods.push(createRod(90,"red",3));
+//   for (let i = 0; i < 3; i++) {
+//     userRods.push({
+// //       x: 150 * i + 100, // Adjust spacing
+// //       y: height - 90,
+// //       w: 100,
+// //       h: 10,
+// //       fill: "blue",
+// //       offset: 150 * i, // Added offset for user control logic
+// //     });
     
-    aiRods.push({ // Corrected the syntax here
-      x: 150 * i + 100,
-      y: 90,
-      w: 100,
-      h: 10,
-      fill: "red",
-    });
-  }
+// //     aiRods.push({ // Corrected the syntax here
+// //       x: 150 * i + 100,
+// //       y: 90,
+// //       w: 100,
+// //       h: 10,
+// //       fill: "red",
+// //     });
+//   }
   
 }
 
@@ -133,8 +134,8 @@ function draw() {
   //drawPaddle1();
 drawBall();
   movePuck();
-  moveRods(userRods); //move and draw user rods
-  moveRods(aiRods,true); // move and draw ai rods
+moveAndDrawRod(userRods[0],false); // user rod
+moveAndDrawRod(aiRods[0],true); // ai rods
 //   movePaddle();
   //aiPaddle();
   displayScore();
@@ -144,15 +145,39 @@ drawBall();
   //goalMove();
 
 }
-// function resetPuck(){
-//     drawPuck.x=400;
-//     puck.y=400;
-//     puck.amITouch=false;
-// }
-// function movePaddle(){
-//     Paddle.x=mouseX;
-//     Paddle.y=mouseY;
-// }
+
+function createRod(y,fillColor,playerCount){
+    return{
+        x:width/2, // centered initially
+        y:y,
+        w:300, // total rod length
+        h:10,
+        fill:fillColor,
+        playerCount: playerCount, // number of players on the rod
+        offsetX:0, // for movement
+    }
+}
+function moveAndDrawRod(rod,isAI){
+    if (isAI){
+        rod.x=lerp(rod.x,ball.x,0.02);// ai follows the ball
+    } else {
+        rod.x=constrain(mouseX,rod.w/2,width-rod.w/2);// user control
+
+    }
+    // draw rod
+    stroke(255);
+    strokeWeight(4);
+    line(rod.x-rod.w/2,rod.y,rod.x+rod.w/2,rod.y);
+
+    // draw players on the rod
+    for (let i =0; i < rod.playerCount;i++){
+        let playerX = rod.x-rod.w/2 + (rod.w/(rod.playerCount-1))*i;
+        fill(rod.fill);
+        rect(playerX,rod.y,20,50); // player shape
+    }
+
+}
+
 function movePuck() {
   ball.x += speedX;
   ball.y += speedY;
@@ -176,10 +201,6 @@ function movePuck() {
     aiScore++;
     resetBall();
   }
-
-
-
-
 
 
   // Draw the ball
