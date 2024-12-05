@@ -52,6 +52,8 @@ let aiScore = 0;
 // Delay after scoring
 let resetTimer = 60;
 
+let gameState='start';
+
 function setup() {
   createCanvas(800, 800);
   speedX = random(-10, 10);
@@ -62,7 +64,10 @@ function setup() {
 }
 
 function draw() {
-  background("black");
+  if(gameState==='start'){
+    displayStartScreen();
+  } else if (gameState==='play'){
+     background("black");
   backdrop();
 
   drawBall();
@@ -73,8 +78,48 @@ function draw() {
   moveGoals();
   drawGoal();
   drawGoal2();
+
+  // check for game over condition
+  if(playScore>=10|| aiScore>=10){
+    gameState='gameOver';
+  } else if (gameState==='gameOver'){
+    displayGameOverScreen();
+  }
+  }
+ 
+}
+// display starting screen
+function displayStartScreen(){
+  background(0);
+  fill(255);
+  textSize(50);
+  textAlign(CENTER,CENTER);
+  text("Air Hockey",width/2,height/2-50);
+  textSize(30);
+  text("Click to Start",width/2,height/2 +50);
+}
+//display game over screen
+function displayGameOverScreen(){
+  background(0);
+  textSize(50);
+  textAlign(CENTER,CENTER);
+  text("Game Over", width/2,height/2-50);
+  text(`${playerScore >= 10? "Player Wins!": "AI Wins!"}`,width/2,height/2);
+  textSize(30);
+  text("Click to Restart",width/2,height/2+80);
 }
 
+function mousePressed(){
+  if (gameState==='start'|| gameState==='gameOver'){
+    resetGame();
+    gameState='play'; // switch to play state
+  }
+}
+function resetGame(){
+  playerScore=0;
+  aiScore=0;
+  resetBall();
+}
 function moveGoals() {
   // Goal 1 (top): Move randomly and avoid the ball if it's close
   if (abs(ball.y - goal1.y) < 200) {  // Check if ball is near goal1
