@@ -83,9 +83,11 @@ let aiScore = 0;
 // Delay after scoring
 let resetTimer = 60;
 
-let gameState='start' // possible value: 'start','play','ganeOver'
 
 
+let gameState = 'start'; // Possible values: 'start', 'play', 'gameOver'
+
+// Main draw loop based on game state
 function setup() {
   createCanvas(800, 800);
   speedX = random(-10, 10);
@@ -97,78 +99,71 @@ aiRods.push(createRod(90,"red",3));
 resetScore();
   
 }
-
-/**
- * main draw loop based on game state
-*/
 function draw() {
-  if (gameState==='start'){
+  if (gameState === 'start') {
     displayStartScreen();
-  } else if (gameState==='play'){
+  } else if (gameState === 'play') {
     background("black");
     backdrop();
-  drawBall();
+    
+    drawBall();
     movePuck();
-  moveAndDrawRod(userRods[0],false); // user rod
-  moveAndDrawRod(aiRods[0],true); // ai rods
+    
+    moveAndDrawRod(userRods[0], false); // User rod
+    moveAndDrawRod(aiRods[0], true);    // AI rod
+    
     displayScore();
     drawGoal();
     drawGoal2();
-   
-    // game over condition
-    if (playScore >= 10 || aiScore>= 10){
-      gameState='game0ver';
-    } else if(gameState==='gameOver'){
-      displayGameOverScreen();
+    
+    // Game over condition
+    if (playerScore >= 10 || aiScore >= 10) {
+      gameState = 'gameOver';
     }
-
-
-    // decrease animation timer
-    if (goalAnimationTimer >0){
-  goalAnimationTimer--;
-    } else {
-      goalScored=false;
-    }
+  } else if (gameState === 'gameOver') {
+    displayGameOverScreen();
   }
-
-
 }
-//display start screen
-function displayStartScreen(){
+
+// Display the start screen
+function displayStartScreen() {
   background(0);
   fill(255);
   textSize(50);
-  textAlign(CENTER,CENTER);
-  text("Air Hockey turn Foosball",width/2,height/2-50);
+  textAlign(CENTER, CENTER);
+  text("Air Hockey Galore", width / 2, height / 2 - 50);
   textSize(30);
-  text("Click to Start",width/2,height/2+50);
+  text("Click to Start", width / 2, height / 2 + 50);
 }
 
-//display game over screen
-function displayGameOverScreen(){
+// Display the game over screen
+function displayGameOverScreen() {
   background(0);
   fill(255);
   textSize(50);
-  textAlign(CENTER,CENTER);
-  text("Game Over", width/2,height/2-50);
-  text(`${playerScore>=10? "Player Wins!" : "AI Wins"}`, width/2, height/2);
+  textAlign(CENTER, CENTER);
+  text("Game Over", width / 2, height / 2 - 50);
+  text(`${playerScore >= 10 ? "Player Wins!" : "AI Wins!"}`, width / 2, height / 2);
   textSize(30);
-  text("Click to Restart", width/2,height/2,+80);
+  text("Click to Restart", width / 2, height / 2 + 80);
 }
 
-//handle mouse click or restart game
-function mousePressed(){
-  if(gameState==='start'|| gameState==='gameOver'){
+// Handle mouse clicks to start or restart the game
+function mousePressed() {
+  if (gameState === 'start' || gameState === 'gameOver') {
     resetGame();
-    gameState='play';
+    gameState = 'play';
   }
 }
-// reset game state and score
-function resetGame(){
-  playerScore=0;
-  aiScore=0;
-  resetBall();
+
+// Reset game state and scores
+function resetGame() {
+  playerScore = 0;
+  aiScore = 0;
+  resetBall();    // Reset the ball position
+
 }
+
 function createRod(y,fillColor,playerCount){
     return{
         x:width/2, // centered initially
@@ -205,7 +200,7 @@ checkCollision(rod);
 function movePuck() {
     ball.x += speedX;
     ball.y += speedY;
-  
+  console.log(`Ball Position: (${ball.x}, ${ball.y}) Speed: (${speedX}, ${speedY})`);
     // Bounce off side walls
     if (ball.x <= 0 || ball.x >= width) {
       speedX *= -1;
@@ -260,30 +255,24 @@ function moveRods(rods, isAI = false) {
     });
   }
   
+// Limit ball speed after collision
+function checkCollision(rod) {
+  if (
+    ball.y + ball.size / 2 >= rod.y - rod.h / 2 &&
+    ball.y - ball.size / 2 <= rod.y + rod.h / 2 &&
+    ball.x >= rod.x - rod.w / 2 &&
+    ball.x <= rod.x + rod.w / 2
+  ) {
+    speedY *= -1;
+    speedX += (ball.x - rod.x) / (rod.w / 2) * 5;
 
-  function checkCollision(rod) {
-    if (
-      ball.y + ball.size / 2 >= rod.y - rod.h / 2 &&
-      ball.y - ball.size / 2 <= rod.y + rod.h / 2 &&
-      ball.x >= rod.x - rod.w / 2 &&
-      ball.x <= rod.x + rod.w / 2
-    ) {
-      // Calculate impact angle based on position hit on the rod
-      let impactPoint = (ball.x - rod.x) / (rod.w / 2); // Normalized: -1 to 1
-      
-      // Reflect Y velocity and add variation based on impact point
-      speedY *= -1;
-      speedX += impactPoint * 5;  // Adjust 5 to control deflection strength
-  
-      // Ensure ball doesn't stick
-      ball.y = rod.y + (ball.y > height / 2 ? -rod.h / 2 - ball.size / 2 : rod.h / 2 + ball.size / 2);
-  
-      // Add slight increase in speed after hit for more dynamic movement
-      let speedMultiplier = 1.05;
-      speedX *= speedMultiplier;
-      speedY *= speedMultiplier;
-    }
+    // Clamp speeds to prevent excessive speed
+    speedX = constrain(speedX, -15, 15);
+    speedY = constrain(speedY, -15, 15);
+
+    ball.y = rod.y + (ball.y > height / 2 ? -rod.h / 2 - ball.size / 2 : rod.h / 2 + ball.size / 2);
   }
+}
   
   
   
@@ -315,30 +304,37 @@ function backdrop() {
   pop();
 }
 
-// draws the goal
 function drawGoal() {
-    push();
-    stroke(255);
-    fill(goalScored && goalAnimationTimer > 0 ? color(random(255), random(255), random(255)) : goal1.fill);
-    rect(goal1.x, goal1.y, goal1.w, goal1.h);
-    pop();
-  // ballIsNear: true;
+  push();
+  stroke(255);
+  if (goalScored && goalAnimationTimer > 0) {
+    fill(color(random(255), random(255), random(255))); // Rainbow effect
+  } else {
+    fill(goal1.fill);
+  }
+  rect(goal1.x, goal1.y, goal1.w, goal1.h);
+  pop();
 }
 // draws the other goal
 function drawGoal2() {
-    push();
-    stroke(255);
-    fill(goalScored && goalAnimationTimer > 0 ? color(random(255), random(255), random(255)) : goal2.fill);
-    rect(goal2.x, goal2.y, goal2.w, goal2.h);
-    pop();
-  // ballIsNear: true;
+  push();
+  stroke(255);
+  if (goalScored && goalAnimationTimer > 1) {
+    fill(color(random(255), random(255), random(255))); // Rainbow effect
+  } else {
+    fill(goal2.fill);
+  }
+  rect(goal2.x, goal2.y, goal2.w, goal2.h);
+  pop();
 }
 
-// function resetScore() {
-//   if (playerScore >= 10 || aiScore >= 10) {
-//     playerScore = 0;
-//     aiScore=0;
-//     resetBall();//reset the ball when score reaches 10
+function resetScore() {
+  if (playerScore >= 10 || aiScore >= 10) {
+    playerScore = 0;
+    aiScore=0;
+    resetBall();//reset the ball when score reaches 10
 
-//   }
-// }
+  }
+}
+
+
