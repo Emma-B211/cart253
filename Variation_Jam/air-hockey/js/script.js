@@ -80,7 +80,7 @@ function draw() {
   drawGoal2();
 
   // check for game over condition
-  if(playScore>=10|| aiScore>=10){
+  if(playerScore>=5|| aiScore>=5){
     gameState='gameOver';
   } else if (gameState==='gameOver'){
     displayGameOverScreen();
@@ -104,7 +104,7 @@ function displayGameOverScreen(){
   textSize(50);
   textAlign(CENTER,CENTER);
   text("Game Over", width/2,height/2-50);
-  text(`${playerScore >= 10? "Player Wins!": "AI Wins!"}`,width/2,height/2);
+  text(`${playerScore >= 5? "Player Wins!": "AI Wins!"}`,width/2,height/2);
   textSize(30);
   text("Click to Restart",width/2,height/2+80);
 }
@@ -122,7 +122,7 @@ function resetGame(){
 }
 function moveGoals() {
   // Goal 1 (top): Move randomly and avoid the ball if it's close
-  if (abs(ball.y - goal1.y) < 200) {  // Check if ball is near goal1
+  if (abs(ball.y - goal1.y) < 100) {  // Check if ball is near goal1
     goal1.x += (ball.x > goal1.x) ? -2 : 2; // Move away from ball
   } else {
     goal1.x += random(-2, 2); // Random movement when ball is far
@@ -130,7 +130,7 @@ function moveGoals() {
   goal1.x = constrain(goal1.x, goal1.w / 2, width - goal1.w / 2); // Keep within canvas
 
   // Goal 2 (bottom): Similar logic
-  if (abs(ball.y - goal2.y) < 200) {
+  if (abs(ball.y - goal2.y) < 100) {
     goal2.x += (ball.x > goal2.x) ? -2 : 2;
   } else {
     goal2.x += random(-2, 2);
