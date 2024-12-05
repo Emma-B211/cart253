@@ -18,14 +18,14 @@
 const goal1 = {
   x: 400,
   y: 15,
-  w: 300,
+  w: 200,
   h: 30,
   fill: "pink"
 };
 const goal2 = {
   x: 400,
   y: 785,
-  w: 300,
+  w: 200,
   h: 30,
   fill: "pink"
 };
@@ -70,7 +70,7 @@ const aiRod={
 }
 
 // goal dimension
-let goalWidth = 100;
+let goalWidth = 200;
 
 // const goal = {
 //   ballIsNear: false,
@@ -83,7 +83,7 @@ let aiScore = 0;
 // Delay after scoring
 let resetTimer = 10;
 
-
+let directionChangeTimer=300; // change direction every 300 frames (might lower)
 
 let gameState = 'start'; // Possible values: 'start', 'play', 'gameOver'
 
@@ -193,30 +193,83 @@ function moveAndDrawRod(rod, isAI) {
   checkCollision(rod);
 }
 
+function changeBallDirection(){
+  speedX=random(-7,7); // random horizontal speed
+  speedY=random(-7,7); // random vertical speed
+  // ensure speeds are not too slow to keep game dynamic
+  if (abs(speedX)< 2) speedX = speedX > 0 ? 2: -2;
+  if (abs(speedY)< 2) speedY= speedY > 0 ? 2: -2;
+
+}
+
 function movePuck() {
-    ball.x += speedX;
-    ball.y += speedY;
-  console.log(`Ball Position: (${ball.x}, ${ball.y}) Speed: (${speedX}, ${speedY})`);
-    // Bounce off side walls
-    if (ball.x <= 0 || ball.x >= width) {
-      speedX *= -1;
-    }
-  
-    // Check if the ball scores in goal1
-    if (ball.y <= goal1.y + goal1.h / 2 && ball.x > goal1.x - goal1.w / 2 && ball.x < goal1.x + goal1.w / 2) {
-      aiScore++;
-      goalScored = true;
-      goalAnimationTimer = 10; // Duration of the animation
-      resetBall();
-    }
-    // Check if the ball scores in goal2
-    if (ball.y >= goal2.y - goal2.h / 2 && ball.x > goal2.x - goal2.w / 2 && ball.x < goal2.x + goal2.w / 2) {
-      playerScore++;
-      goalScored = true;
-      goalAnimationTimer = 10;
-      resetBall();
-    }
+  ball.x += speedX;
+  ball.y += speedY;
+
+  // Countdown timer for random direction change
+  directionChangeTimer--;
+  if (directionChangeTimer <= 0) {
+    changeBallDirection();
+    directionChangeTimer = floor(random(200, 400)); // Reset timer randomly
   }
+
+//   // Bounce off side walls (left and right edges of canvas)
+//   if (ball.x <= 0 || ball.x >= width) {
+//     speedX *= -1;
+//   }
+
+//   // Bounce off walls next to goal1 (top goal)
+//   if (
+//     ball.y - ball.size / 2 <= goal1.y + goal1.h / 2 &&   // Near top goal
+//     (ball.x <= goal1.x - goal1.w / 2 || ball.x >= goal1.x + goal1.w / 2)  // Outside goal width
+//   ) {
+//     speedX *= -1;  // Bounce horizontally
+//   }
+
+//   // Bounce off walls next to goal2 (bottom goal)
+//   if (
+//     ball.y + ball.size / 2 >= goal2.y - goal2.h / 2 &&   // Near bottom goal
+//     (ball.x <= goal2.x - goal2.w / 2 || ball.x >= goal2.x + goal2.w / 2)  // Outside goal width
+//   ) {
+//     speedX *= -1;  // Bounce horizontally
+//   }
+
+//   // Bounce off the vertical goal edges (top and bottom edges of goals)
+//   if (
+//     (ball.y - ball.size / 2 <= 0 && ball.x > goal1.x - goal1.w / 2 && ball.x < goal1.x + goal1.w / 2) ||  // Top edge of goal1
+//     (ball.y + ball.size / 2 >= height && ball.x > goal2.x - goal2.w / 2 && ball.x < goal2.x + goal2.w / 2)  // Bottom edge of goal2
+//   ) {
+//     speedY *= -1;  // Bounce vertically
+//   }
+  // Bounce off walls
+  if (ball.x <= 0 || ball.x >= width) speedX *= -1;
+
+  // Bounce off top and bottom (with scoring or game logic, this would be modified)
+  if (ball.y <= 0 || ball.y >= height) speedY *= -1;
+
+  // Top goal scoring logic
+  if (
+    ball.y - ball.size / 2 <= goal1.y + goal1.h / 2 && 
+    ball.x > goal1.x - goal1.w / 2 && ball.x < goal1.x + goal1.w / 2
+  ) {
+    aiScore++;
+    goalScored = true;
+    goalAnimationTimer = 10;
+    resetBall();
+  }
+
+  // Bottom goal scoring logic
+  if (
+    ball.y + ball.size / 2 >= goal2.y - goal2.h / 2 && 
+    ball.x > goal2.x - goal2.w / 2 && ball.x < goal2.x + goal2.w / 2
+  ) {
+    playerScore++;
+    goalScored = true;
+    goalAnimationTimer = 10;
+    resetBall();
+  }
+}
+
   
   
 function drawBall(){
