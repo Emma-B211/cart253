@@ -6,7 +6,8 @@ Emma Beldick
 
 ## Description
 
-Going back to the old time air hockey or table hockey but with a twist! use the mouse to control the paddle and try to win against the ai before you. 
+Going back to the old time air hockey or table hockey but with a twist! use the mouse to control the paddle and try to win against the ai before you. Be on the look out for the ball, it is acting weird.
+Controls: use your mouse to  move the foosball rod.
 
 ## Credits
 

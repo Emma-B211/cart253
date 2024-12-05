@@ -131,7 +131,7 @@ function displayStartScreen() {
   fill(255);
   textSize(50);
   textAlign(CENTER, CENTER);
-  text("Air Hockey Galore", width / 2, height / 2 - 50);
+  text("Air Hockey turn Foosball", width / 2, height / 2 - 50);
   textSize(30);
   text("Click to Start", width / 2, height / 2 + 50);
 }
