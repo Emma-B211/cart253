@@ -53,6 +53,9 @@ let aiScore = 0;
 // Delay after scoring
 let resetTimer = 60;
 
+let gameState="start"; // possible values: 'start','play','gameOver'
+
+
 // new variable for game state
 let gameOver=false;
 
@@ -70,31 +73,42 @@ function setup() {
 }
 
 function draw() {
-
-if (gameOver){
-    displayGameOver();
-} else {
-   background("black");
-  backdrop(); 
-
-  for (let ball of balls){
-    moveBall(ball);
-    drawBall(ball);
+    if (gameState === 'start') {
+      displayStartScreen();
+    } else if (gameState === 'play') {
+      background("black");
+      backdrop();
+  
+      for (let ball of balls) {
+        moveBall(ball);
+        drawBall(ball);
+      }
+      movePaddle();
+      aiPaddle();
+      displayScore();
+      drawGoal();
+      drawGoal2();
+  
+      // Check for game-over condition
+      if (playerScore >= 10 || aiScore >= 10) {
+        gameState = 'gameOver';
+      }
+    } else if (gameState === 'gameOver') {
+      displayGameOver();
+    }
   }
-  movePaddle();
-  aiPaddle();
-  displayScore();
-  //moveGoals();
-  drawGoal();
-  drawGoal2();
+  //display start screen
+function displayStartScreen(){
+    background(0);
+    fill(255);
+    textSize(50);
+    textAlign(CENTER,CENTER);
+    text("Air Hockey with Too Much Balls",width/2,height/2-50);
 
-// check for game-over condition
-if (playerScore>=10|| aiScore >= 10){
-    gameOver=true;
-}
-}
-}
-
+    textSize(30);
+    text("Click to Start",width/2,height/2+20);
+}  
+//display game over screen
 function displayGameOver(){
     background(0);
     fill(255);
@@ -107,17 +121,21 @@ function displayGameOver(){
     text("Click to Replay",width /2, height /2 +80);
 }
 
-function mousePressed(){
-    //restart the game if its over
-    if (gameOver){
-gameOver=false;
-playerScore=0;
-aiScore=0;
-balls=[]; //clear existing balls
-addNewBall(); // add the initial ball again
+function mousePressed() {
+    // Start or restart the game based on the state
+    if (gameState === 'start' || gameState === 'gameOver') {
+      resetGame();
+      gameState = 'play';
     }
-    
-}
+  }
+  
+    // reset game state
+    function resetGame(){
+        playerScore=0;
+        aiScore=0;
+        balls=[]; // Clear existing balls
+        addNewBall(); // add the initial ball again
+    }
 
   
   
