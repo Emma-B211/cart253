@@ -53,6 +53,10 @@ let aiScore = 0;
 // Delay after scoring
 let resetTimer = 60;
 
+// new variable for game state
+let gameOver=false;
+
+
 function setup() {
   createCanvas(800, 800);
 //   speedX = random(-10, 10);
@@ -66,12 +70,13 @@ function setup() {
 }
 
 function draw() {
-  background("black");
-  backdrop();
 
-  //drawBall();
-  //movePuck();
-  // update and draw all balls
+if (gameOver){
+    displayGameOver();
+} else {
+   background("black");
+  backdrop(); 
+
   for (let ball of balls){
     moveBall(ball);
     drawBall(ball);
@@ -83,8 +88,43 @@ function draw() {
   drawGoal();
   drawGoal2();
 
-  
+// check for game-over condition
+if (playerScore>=10|| aiScore >= 10){
+    gameOver=true;
 }
+}
+}
+
+function displayGameOver(){
+    background(0);
+    fill(255);
+    textSize(50);
+    textAlign(CENTER,CENTER);
+    text("Game Over",width/2,height/2-50);
+    text(`${playerScore>=10?"player": "AI"}Wins!`,width/2,height/2);
+
+    textSize(30);
+    text("Click to Replay",width /2, height /2 +80);
+}
+
+function mousePressed(){
+    //restart the game if its over
+    if (gameOver){
+gameOver=false;
+playerScore=0;
+aiScore=0;
+balls=[]; //clear existing balls
+addNewBall(); // add the initial ball again
+    }
+    
+}
+
+  
+  
+  //drawBall();
+  //movePuck();
+  // update and draw all balls
+  
 function addNewBall(){
     balls.push({
         x: width/2,
