@@ -6,7 +6,7 @@ Emma Beldick
 
 ## Description
 
-Going back to the old time air hockey or table hockey but with a twist! use the mouse to control the paddle and try to win against the ai before you. 
+Going back to the old time air hockey or table hockey but with a twist! use the mouse to control the paddle and try to win against the ai before you. However, can you handle the amount of balls that will be duplicated?
 
 ## Credits
 
