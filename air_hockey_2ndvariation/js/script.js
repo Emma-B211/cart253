@@ -83,6 +83,9 @@ let aiScore = 0;
 // Delay after scoring
 let resetTimer = 60;
 
+let gameState='start' // possible value: 'start','play','ganeOver'
+
+
 function setup() {
   createCanvas(800, 800);
   speedX = random(-10, 10);
@@ -96,28 +99,76 @@ resetScore();
 }
 
 /**
- * 
+ * main draw loop based on game state
 */
 function draw() {
-  background("black");
-  backdrop();
-drawBall();
-  movePuck();
-moveAndDrawRod(userRods[0],false); // user rod
-moveAndDrawRod(aiRods[0],true); // ai rods
-  displayScore();
-  drawGoal();
-  drawGoal2();
- 
-  // decrease animation timer
-  if (goalAnimationTimer >0){
-goalAnimationTimer--;
-  } else {
-    goalScored=false;
+  if (gameState==='start'){
+    displayStartScreen();
+  } else if (gameState==='play'){
+    background("black");
+    backdrop();
+  drawBall();
+    movePuck();
+  moveAndDrawRod(userRods[0],false); // user rod
+  moveAndDrawRod(aiRods[0],true); // ai rods
+    displayScore();
+    drawGoal();
+    drawGoal2();
+   
+    // game over condition
+    if (playScore >= 10 || aiScore>= 10){
+      gameState='game0ver';
+    } else if(gameState==='gameOver'){
+      displayGameOverScreen();
+    }
+
+
+    // decrease animation timer
+    if (goalAnimationTimer >0){
+  goalAnimationTimer--;
+    } else {
+      goalScored=false;
+    }
   }
 
+
+}
+//display start screen
+function displayStartScreen(){
+  background(0);
+  fill(255);
+  textSize(50);
+  textAlign(CENTER,CENTER);
+  text("Air Hockey turn Foosball",width/2,height/2-50);
+  textSize(30);
+  text("Click to Start",width/2,height/2+50);
 }
 
+//display game over screen
+function displayGameOverScreen(){
+  background(0);
+  fill(255);
+  textSize(50);
+  textAlign(CENTER,CENTER);
+  text("Game Over", width/2,height/2-50);
+  text(`${playerScore>=10? "Player Wins!" : "AI Wins"}`, width/2, height/2);
+  textSize(30);
+  text("Click to Restart", width/2,height/2,+80);
+}
+
+//handle mouse click or restart game
+function mousePressed(){
+  if(gameState==='start'|| gameState==='gameOver'){
+    resetGame();
+    gameState='play';
+  }
+}
+// reset game state and score
+function resetGame(){
+  playerScore=0;
+  aiScore=0;
+  resetBall();
+}
 function createRod(y,fillColor,playerCount){
     return{
         x:width/2, // centered initially
@@ -283,11 +334,11 @@ function drawGoal2() {
   // ballIsNear: true;
 }
 
-function resetScore() {
-  if (playerScore >= 10 || aiScore >= 10) {
-    playerScore = 0;
-    aiScore=0;
-    resetBall();//reset the ball when score reaches 10
+// function resetScore() {
+//   if (playerScore >= 10 || aiScore >= 10) {
+//     playerScore = 0;
+//     aiScore=0;
+//     resetBall();//reset the ball when score reaches 10
 
-  }
-}
+//   }
+// }
