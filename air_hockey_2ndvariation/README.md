@@ -16,3 +16,5 @@ use of Pippin Barr's course material
 This project uses [p5.js](https://p5js.org).
 
 ## Attribution
+
+Used the p5js reference library.
