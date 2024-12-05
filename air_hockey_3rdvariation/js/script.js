@@ -20,13 +20,14 @@ const goal2 = {
   h: 30,
   fill: "pink"
 };
+let balls=[]
 
 const ball = {
   x: 10,
   y: 10,
   w: 20,
   size: 20,
-  fill: "yellow"
+  fill: (255,0,0)
 };
 
 let speedX, speedY;
@@ -54,81 +55,88 @@ let resetTimer = 60;
 
 function setup() {
   createCanvas(800, 800);
-  speedX = random(-10, 10);
-  speedY = random(-10, 10) * (random() > 0.5 ? 1 : -1); // randomize direction
+//   speedX = random(-10, 10);
+//   speedY = random(-10, 10) * (random() > 0.5 ? 1 : -1); // randomize direction
   rectMode(CENTER);
   aiPaddleX = width / 2;      // Center AI paddle horizontally
   userPaddleY = height - 90;
+
+  // initialize with one ball
+  addNewBall();
 }
 
 function draw() {
   background("black");
   backdrop();
 
-  drawBall();
-  movePuck();
+  //drawBall();
+  //movePuck();
+  // update and draw all balls
+  for (let ball of balls){
+    moveBall(ball);
+    drawBall(ball);
+  }
   movePaddle();
   aiPaddle();
   displayScore();
   //moveGoals();
   drawGoal();
   drawGoal2();
+
+  
+}
+function addNewBall(){
+    balls.push({
+        x: width/2,
+        y:height/2,
+        w:20,
+        size:20,
+        fill:"yellow",
+        speedX: random(-10,10),
+        speedY:random(-10,10)*(random()>0.5 ? 1 : -1),
+    });
 }
 
-// function moveGoals() {
-//   // Goal 1 (top): Move randomly and avoid the ball if it's close
-//   if (abs(ball.y - goal1.y) < 200) {  // Check if ball is near goal1
-//     goal1.x += (ball.x > goal1.x) ? -2 : 2; // Move away from ball
-//   } else {
-//     goal1.x += random(-2, 2); // Random movement when ball is far
-//   }
-//   goal1.x = constrain(goal1.x, goal1.w / 2, width - goal1.w / 2); // Keep within canvas
-
-//   // Goal 2 (bottom): Similar logic
-//   if (abs(ball.y - goal2.y) < 200) {
-//     goal2.x += (ball.x > goal2.x) ? -2 : 2;
-//   } else {
-//     goal2.x += random(-2, 2);
-//   }
-//   goal2.x = constrain(goal2.x, goal2.w / 2, width - goal2.w / 2);
-// }
-
-function movePuck() {
-  ball.x += speedX;
-  ball.y += speedY;
-
-  speedX *= friction;
-  speedY *= friction;
-
-  // Bounce off walls
-  if (ball.x <= 0 || ball.x >= width) speedX *= -1;
-
-  // Bounce off top and bottom (with scoring or game logic, this would be modified)
-  if (ball.y <= 0 || ball.y >= height) speedY *= -1;
-
-  // Check for scoring conditions and goals
-  if (ball.y <= 0) {
-    if (ball.x > (width - goal1.w) / 2 && ball.x < (width + goal1.w) / 2) {
-      playerScore += 1;
-      resetBall();
+// Update ball position and handle collisions
+function moveBall(ball) {
+    ball.x += ball.speedX;
+    ball.y += ball.speedY;
+  
+    // Bounce off walls
+    if (ball.x <= 0 || ball.x >= width) ball.speedX *= -1;
+  
+    // Check scoring conditions
+    if (ball.y <= 0 && ball.x > (width - goal1.w) / 2 && ball.x < (width + goal1.w) / 2) {
+      playerScore++;
+      resetBalls();
+    } else if (ball.y >= height && ball.x > (width - goal2.w) / 2 && ball.x < (width + goal2.w) / 2) {
+      aiScore++;
+      resetBalls();
     }
+  
+    // Bounce off top and bottom if not scoring
+    if (ball.y <= 0 || ball.y >= height) ball.speedY *= -1;
+  }
+  //draw each ball
+// Draw each ball
+function drawBall(ball) {
+    push();
+    noStroke();
+    fill(ball.fill);
+    ellipse(ball.x, ball.y, ball.w, ball.size);
+    pop();
   }
 
-  if (ball.y >= height) {
-    if (ball.x > (width - goal2.w) / 2 && ball.x < (width + goal2.w) / 2) {
-      aiScore += 1;
-      resetBall();
+  function resetBalls() {
+    // Reset all balls' positions and add a new one
+    for (let ball of balls) {
+      ball.x = width / 2;
+      ball.y = height / 2;
+      ball.speedX = random(-10, 10);
+      ball.speedY = random(-10, 10);
     }
+    addNewBall();  // Add an additional ball
   }
-}
-
-function drawBall() {
-  push();
-  noStroke();
-  fill(ball.fill);
-  ellipse(ball.x, ball.y, ball.w, ball.size);
-  pop();
-}
 
 function displayScore() {
   fill(255);
@@ -139,39 +147,38 @@ function displayScore() {
 }
 
 function movePaddle() {
-  let userPaddleX = constrain(mouseX, userPaddleWidth / 2, width - userPaddleWidth / 2);
-  userPaddleY = mouseY;
-  fill(0, 255, 0);
-  rect(userPaddleX, userPaddleY, userPaddleWidth, userPaddleHeight);
-
-  // User paddle collision
-  if (ball.y >= userPaddleY && ball.x >= userPaddleX - userPaddleWidth / 2 &&
-    ball.x <= userPaddleX + userPaddleWidth / 2) {
-    speedY *= -1;
-    ball.y = userPaddleY - 11;  // Prevent sticking
+    let userPaddleX = constrain(mouseX, userPaddleWidth / 2, width - userPaddleWidth / 2);
+    userPaddleY = mouseY;
+    fill(0, 255, 0);
+    rect(userPaddleX, userPaddleY, userPaddleWidth, userPaddleHeight);
+  
+    // Paddle collision for all balls
+    for (let ball of balls) {
+      if (ball.y >= userPaddleY && ball.x >= userPaddleX - userPaddleWidth / 2 &&
+        ball.x <= userPaddleX + userPaddleWidth / 2) {
+        ball.speedY *= -1;
+        ball.y = userPaddleY - 11;  // Prevent sticking
+      }
+    }
   }
-}
 
-function aiPaddle() {
-  aiPaddleX = lerp(aiPaddleX, ball.x, 0.05); // Smoothly follow the ball with some delay
-  aiPaddleX = constrain(aiPaddleX, aiPaddleWidth / 2, width - aiPaddleWidth / 2); // Keep within bounds
-  fill(255, 0, 0);
-  rect(aiPaddleX - aiPaddleWidth / 2, aiPaddleY, aiPaddleWidth, aiPaddleHeight);
-
-  // AI paddle collision
-  if (ball.y <= aiPaddleY + aiPaddleHeight / 2 && ball.x >= aiPaddleX - aiPaddleWidth / 2 &&
-    ball.x <= aiPaddleX + aiPaddleWidth / 2) {
-    speedY *= -1;
-    ball.y = aiPaddleY + aiPaddleHeight + 11;  // Prevent sticking
+  function aiPaddle() {
+    for (let ball of balls) {
+      aiPaddleX = lerp(aiPaddleX, ball.x, 0.05); // Smoothly follow the ball with some delay
+    }
+    aiPaddleX = constrain(aiPaddleX, aiPaddleWidth / 2, width - aiPaddleWidth / 2); // Keep within bounds
+    fill(255, 0, 0);
+    rect(aiPaddleX, aiPaddleY, aiPaddleWidth, aiPaddleHeight);
+  
+    // AI paddle collision for all balls
+    for (let ball of balls) {
+      if (ball.y <= aiPaddleY + aiPaddleHeight / 2 && ball.x >= aiPaddleX - aiPaddleWidth / 2 &&
+        ball.x <= aiPaddleX + aiPaddleWidth / 2) {
+        ball.speedY *= -1;
+        ball.y = aiPaddleY + aiPaddleHeight + 11;  // Prevent sticking
+      }
+    }
   }
-}
-
-function resetBall() {
-  ball.x = width / 2;
-  ball.y = height / 2;
-  speedX = random(-10, 10);
-  speedY = random(-10, 10);
-}
 
 function backdrop() {
   push();
