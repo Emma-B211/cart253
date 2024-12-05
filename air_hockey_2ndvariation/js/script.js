@@ -81,7 +81,7 @@ let goalWidth = 100;
 let playerScore = 0;
 let aiScore = 0;
 // Delay after scoring
-let resetTimer = 60;
+let resetTimer = 10;
 
 
 
@@ -118,8 +118,8 @@ function draw() {
     
     // Game over condition
     if (playerScore >= 10 || aiScore >= 10) {
-      gameState = 'gameOver';
-    }
+      gameState = 'gameOver';  // Fix the typo
+  }
   } else if (gameState === 'gameOver') {
     displayGameOverScreen();
   }
@@ -175,26 +175,22 @@ function createRod(y,fillColor,playerCount){
         offsetX:0, // for movement
     }
 }
-function moveAndDrawRod(rod,isAI){
-    if (isAI){
-        rod.x=lerp(rod.x,ball.x,0.02);// ai follows the ball
-    } else {
-        rod.x=constrain(mouseX,rod.w/2,width-rod.w/2);// user control
-
-    }
-    // draw rod
-    stroke(255);
-    strokeWeight(4);
-    line(rod.x-rod.w/2,rod.y,rod.x+rod.w/2,rod.y);
-
-    // draw players on the rod
-    for (let i =0; i < rod.playerCount;i++){
-        let playerX = rod.x-rod.w/2 + (rod.w/(rod.playerCount-1))*i;
-        fill(rod.fill);
-        rect(playerX,rod.y,20,50); // player shape
-    }
-// check collision
-checkCollision(rod);
+function moveAndDrawRod(rod, isAI) {
+  if (isAI) {
+    rod.x = lerp(rod.x, ball.x, 0.05); // Faster AI response
+  } else {
+    rod.x = constrain(mouseX, rod.w / 2, width - rod.w / 2); // User control
+  }
+  // Draw rod and players
+  stroke(255);
+  strokeWeight(4);
+  line(rod.x - rod.w / 2, rod.y, rod.x + rod.w / 2, rod.y);
+  for (let i = 0; i < rod.playerCount; i++) {
+    let playerX = rod.x - rod.w / 2 + (rod.w / (rod.playerCount - 1)) * i;
+    fill(rod.fill);
+    rect(playerX, rod.y, 20, 50); // Player shape
+  }
+  checkCollision(rod);
 }
 
 function movePuck() {
@@ -210,14 +206,14 @@ function movePuck() {
     if (ball.y <= goal1.y + goal1.h / 2 && ball.x > goal1.x - goal1.w / 2 && ball.x < goal1.x + goal1.w / 2) {
       aiScore++;
       goalScored = true;
-      goalAnimationTimer = 30; // Duration of the animation
+      goalAnimationTimer = 10; // Duration of the animation
       resetBall();
     }
     // Check if the ball scores in goal2
     if (ball.y >= goal2.y - goal2.h / 2 && ball.x > goal2.x - goal2.w / 2 && ball.x < goal2.x + goal2.w / 2) {
       playerScore++;
       goalScored = true;
-      goalAnimationTimer = 30;
+      goalAnimationTimer = 10;
       resetBall();
     }
   }
@@ -255,39 +251,33 @@ function moveRods(rods, isAI = false) {
     });
   }
   
-// Limit ball speed after collision
-function checkCollision(rod) {
-  if (
-    ball.y + ball.size / 2 >= rod.y - rod.h / 2 &&
-    ball.y - ball.size / 2 <= rod.y + rod.h / 2 &&
-    ball.x >= rod.x - rod.w / 2 &&
-    ball.x <= rod.x + rod.w / 2
-  ) {
-    speedY *= -1;
-    speedX += (ball.x - rod.x) / (rod.w / 2) * 5;
+  function checkCollision(rod) {
+    if (
+        ball.y + ball.size / 2 >= rod.y - rod.h / 2 &&
+        ball.y - ball.size / 2 <= rod.y + rod.h / 2 &&
+        ball.x >= rod.x - rod.w / 2 &&
+        ball.x <= rod.x + rod.w / 2
+    ) {
+        let impactPoint = (ball.x - rod.x) / (rod.w / 2);
+        speedY *= -1;
+        speedX += impactPoint * 5;
 
-    // Clamp speeds to prevent excessive speed
-    speedX = constrain(speedX, -15, 15);
-    speedY = constrain(speedY, -15, 15);
+        // Clamp speeds to avoid uncontrollable motion
+        speedX = constrain(speedX, -12, 12);
+        speedY = constrain(speedY, -12, 12);
 
-    ball.y = rod.y + (ball.y > height / 2 ? -rod.h / 2 - ball.size / 2 : rod.h / 2 + ball.size / 2);
-  }
-}
+        // Prevent ball from sticking
+        ball.y = rod.y + (ball.y > height / 2 ? -rod.h / 2 - ball.size / 2 : rod.h / 2 + ball.size / 2);
+    }
+}  
   
-  
-  
 
-
-
-// resets the ball back (will adjust to where it is reset two depending who won)
 function resetBall() {
-  // ball = createVector(width / 2, height / 2);
-  ball.x = width/2;
-  ball.y = height/2;
-  //reset speeds after scoring
-  speedX= random(-5,5);//lower values for realistic start speed
-  speedY= random(-5,5);
- 
+  ball.x = width / 2;
+  ball.y = height / 2;
+  // Ensure non-zero speeds
+  speedX = random(-5, 5);
+  speedY = random([-5, 5]); // Choose from -5 or 5 to avoid zero
 }
 function backdrop() {
   push();
@@ -309,8 +299,10 @@ function drawGoal() {
   stroke(255);
   if (goalScored && goalAnimationTimer > 0) {
     fill(color(random(255), random(255), random(255))); // Rainbow effect
+    goalAnimationTimer--;
   } else {
     fill(goal1.fill);
+    goalScored = false;  // Reset flag after animation
   }
   rect(goal1.x, goal1.y, goal1.w, goal1.h);
   pop();
@@ -319,22 +311,21 @@ function drawGoal() {
 function drawGoal2() {
   push();
   stroke(255);
-  if (goalScored && goalAnimationTimer > 1) {
+  if (goalScored && goalAnimationTimer > 0) {
     fill(color(random(255), random(255), random(255))); // Rainbow effect
+    goalAnimationTimer--;
   } else {
     fill(goal2.fill);
+    goalScored = false;  // Reset flag after animation
   }
   rect(goal2.x, goal2.y, goal2.w, goal2.h);
   pop();
 }
 
 function resetScore() {
-  if (playerScore >= 10 || aiScore >= 10) {
-    playerScore = 0;
-    aiScore=0;
-    resetBall();//reset the ball when score reaches 10
-
-  }
+  playerScore = 0;
+  aiScore = 0;
+  resetBall();
 }
 
 
